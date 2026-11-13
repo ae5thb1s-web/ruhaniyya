@@ -75,6 +75,24 @@ nav.main a:hover{color:var(--primary);background:var(--surface-2)}
 .hijri-strip{margin-left:auto;white-space:nowrap;font-size:.86rem;color:var(--muted);padding:.4em 0}
 .hijri-strip b{color:var(--accent)}
 
+/* ---------- intro ---------- */
+.intro{padding-block:44px 8px}
+.intro-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:40px;align-items:center}
+.intro h1{font-size:clamp(2rem,4.4vw,3.2rem);line-height:1.12}
+.intro h1 .saw{font-family:var(--f-ar);color:inherit;text-shadow:none;font-size:.75em;font-weight:400}
+.intro h1 span:not(.saw){color:var(--primary);text-shadow:0 0 24px var(--glow)}
+.intro .lead{margin-top:14px;font-size:1.12rem}
+.ayah{margin-top:20px;border-left:3px solid var(--accent);padding:4px 0 4px 16px;display:grid;gap:4px}
+.ayah .ar{font-size:1.5rem;color:var(--primary);direction:rtl;text-align:left;unicode-bidi:plaintext}
+.ayah small{color:var(--muted)}
+.pillars{display:grid;gap:12px}
+.pillar{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;text-decoration:none;color:var(--fg)}
+.pillar:hover{border-color:var(--primary);box-shadow:0 0 18px var(--glow)}
+.pillar .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);color:var(--primary);font-family:var(--f-ar);font-size:1.25rem}
+.pillar b{font-family:var(--f-display);font-size:1.08rem;display:block}
+.pillar span{color:var(--muted);font-size:.93rem}
+@media (max-width:1320px){.hijri-strip{display:none}}
+@media (max-width:820px){.intro-grid{grid-template-columns:1fr;gap:24px}}
 /* ---------- showcase ---------- */
 .showcase{padding-block:28px 12px}
 .show-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
@@ -239,6 +257,7 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
   </div>
   <nav class="main" aria-label="Hauptmenü">
     <div class="wrap">
+      <a href="#ueber">Über Ruhaniyya</a>
       <a href="#kleidung">Kleidung</a>
       <a href="#knowledge">Islamic Knowledge</a>
       <a href="#islamisch">Islamische Accessoires</a>
@@ -252,13 +271,32 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
 </header>
 
 <main id="start">
+  <section class="intro" id="ueber">
+    <div class="wrap intro-grid">
+      <div>
+        <p class="eyebrow">Was ist Ruhaniyya?</p>
+        <h1>Nach der Sunna des Propheten <span class="ar saw">ﷺ</span> leben, <span>auch in dieser Zeit.</span></h1>
+        <p class="lead">Ruhaniyya (روحانية, Spiritualität) möchte dich auf diesem Weg begleiten. Wir geben dir Wissen und die wichtigen Quellen an die Hand, erinnern dich an die Sunnah-Tage und zeigen dir, was du für ein Leben nach der Sunna brauchst. Denn im Alltag vergisst man schnell, sei es ein Fastentag, ein Bittgebet oder die passende Kleidung.</p>
+        <div class="ayah">
+          <span class="ar">وَذَكِّرْ فَإِنَّ الذِّكْرَىٰ تَنفَعُ الْمُؤْمِنِينَ</span>
+          <small>„Und ermahne, denn die Ermahnung nützt den Gläubigen.“ (Qur'an 51:55)</small>
+        </div>
+      </div>
+      <div class="pillars">
+        <a class="pillar" href="#quellen"><span class="ico">عِلم</span><div><b>Wissen &amp; Quellen</b><span>Qur'an, Hadith und Bücher, die dich Schritt für Schritt leiten.</span></div></a>
+        <a class="pillar" href="#fasten"><span class="ico">سُنّة</span><div><b>Die Sunna im Alltag</b><span>Mondkalender und Erinnerungen an Montag, Donnerstag, die weißen Tage und mehr.</span></div></a>
+        <a class="pillar" href="#kleidung"><span class="ico">ذِكر</span><div><b>Was du brauchst</b><span>Kleidung aus Baumwolle und Leinen und Accessoires, an die man oft nicht denkt.</span></div></a>
+      </div>
+    </div>
+  </section>
+
   <div class="showcase">
     <div class="wrap show-grid">
       <div class="slide" id="slide" aria-live="polite">
         <div class="art" id="slideArt" aria-hidden="true"></div>
         <div class="txt">
           <span class="tag" id="slideTag"></span>
-          <h1 id="slideTitle"></h1>
+          <h2 id="slideTitle" style="font-size:clamp(1.8rem,4vw,2.6rem)"></h2>
           <p id="slideText"></p>
           <div class="row"><a class="btn" id="slideBtn" href="#" target="_blank" rel="nofollow sponsored noopener">Bei Amazon ansehen ↗</a></div>
         </div>
