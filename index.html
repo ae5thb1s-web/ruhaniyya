@@ -99,6 +99,14 @@ nav.main a:hover{color:var(--primary);background:var(--surface-2)}
 @media (max-width:1320px){.hijri-strip{display:none}}
 @media (max-width:820px){.intro-grid{grid-template-columns:1fr;gap:24px}}
 /* ---------- views, calendar, prayer times ---------- */
+nav.sub{border-top:1px solid var(--line);background:var(--surface-2)}
+nav.sub .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:6px}
+nav.sub a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:600;font-size:.9rem;padding:.35em .8em;border-radius:999px}
+nav.sub a.on{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14px var(--glow)}
+.two-cols{grid-template-columns:1fr 1fr!important}
+@media (max-width:760px){.two-cols{grid-template-columns:1fr!important}}
+.knames.big{padding:0;gap:8px}
+.knames.big .chip{font-size:.95rem;padding:.45em .9em}
 nav.main a.on{color:var(--primary);background:var(--surface-2)}
 .col.solo ul{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:6px;padding:12px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
@@ -273,7 +281,7 @@ footer b{color:var(--primary);font-family:var(--f-display)}
 .amz:hover{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14px var(--glow)}
 .disclosure{font-size:.82rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:10px 14px}
 @media (max-width:700px){.zone{grid-template-columns:1fr;gap:10px}.zlabel{position:static}}
-@media (max-width:980px){.cols{grid-template-columns:1fr 1fr}.cols .col:first-child{grid-column:1/-1}}
+@media (max-width:980px){.cols{grid-template-columns:1fr 1fr}}
 @media (max-width:820px){
   .show-grid,.two{grid-template-columns:1fr}
   .side-ads{grid-template-columns:1fr 1fr}
@@ -292,7 +300,7 @@ footer b{color:var(--primary);font-family:var(--f-display)}
   .fastlist li .pill{grid-column:2;justify-self:start}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-html{scroll-padding-top:130px}
+html{scroll-padding-top:170px}
 </style>
 </head>
 <body>
@@ -311,15 +319,18 @@ html{scroll-padding-top:130px}
   </div>
   <nav class="main" aria-label="Hauptmenü">
     <div class="wrap">
-      <a href="#start" data-nav="start">Start</a>
-      <a href="#kalender" data-nav="start">Kalender</a>
-      <a href="#gebetszeiten" data-nav="start">Gebetszeiten</a>
-      <a href="#kleidung" data-nav="kleidung">Kleidung</a>
-      <a href="#knowledge" data-nav="knowledge">Islamic Knowledge</a>
-      <a href="#islamisch" data-nav="islamisch">Islamische Accessoires</a>
-      <a href="#praktisch" data-nav="praktisch">Praktische Accessoires</a>
-      <a href="#quellen" data-nav="quellen">Quellen</a>
+      <a href="#start" data-grp="start">Home</a>
+      <a href="#quellen" data-grp="quellen">Wissensquellen</a>
+      <a href="#shop" data-grp="shop">Shop</a>
       <span class="hijri-strip" id="hijriStrip"></span>
+    </div>
+  </nav>
+  <nav class="sub" id="subnav" aria-label="Shop-Bereiche" hidden>
+    <div class="wrap">
+      <a href="#kleidung-frauen">Kleidung Frauen</a>
+      <a href="#kleidung-maenner">Kleidung Männer</a>
+      <a href="#accessoires">Accessoires</a>
+      <a href="#buecher">Bücher &amp; E-Books</a>
     </div>
   </nav>
 </header>
@@ -338,9 +349,9 @@ html{scroll-padding-top:130px}
         </div>
       </div>
       <div class="pillars">
-        <a class="pillar" href="#knowledge"><span class="ico">عِلم</span><div><b>Wissen &amp; Quellen</b><span>Qur'an, Hadith und Bücher, die dich Schritt für Schritt leiten.</span></div></a>
+        <a class="pillar" href="#quellen"><span class="ico">عِلم</span><div><b>Wissen &amp; Quellen</b><span>Qur'an, Hadith und Bücher, die dich Schritt für Schritt leiten.</span></div></a>
         <a class="pillar" href="#kalender"><span class="ico">سُنّة</span><div><b>Die Sunna im Alltag</b><span>Mondkalender und Erinnerungen an Montag, Donnerstag, die weißen Tage und mehr.</span></div></a>
-        <a class="pillar" href="#kleidung"><span class="ico">ذِكر</span><div><b>Was uns physisch stärkt</b><span>Kleidung aus Baumwolle und Leinen, Accessoires und Helfer, an die man oft nicht denkt.</span></div></a>
+        <a class="pillar" href="#shop"><span class="ico">ذِكر</span><div><b>Was uns physisch stärkt</b><span>Kleidung aus Baumwolle und Leinen, Accessoires und Helfer, an die man oft nicht denkt.</span></div></a>
       </div>
     </div>
   </section>
@@ -454,17 +465,48 @@ html{scroll-padding-top:130px}
     <div class="wrap">
       <div class="head"><p class="eyebrow">Entdecken</p><h2>Was suchst du heute?</h2></div>
       <div class="tiles">
-        <a class="tile" href="#kleidung"><span class="ar">لِباس</span><b>Kleidung</b><span>Von Kopf bis Fuß, nur Baumwolle und Leinen</span></a>
-        <a class="tile" href="#knowledge"><span class="ar">العِلْم</span><b>Islamic Knowledge</b><span>Bücher und die Namen Allahs</span></a>
-        <a class="tile" href="#islamisch"><span class="ar">الزِّينَة</span><b>Islamische Accessoires</b><span>Für Gebet und Dhikr</span></a>
-        <a class="tile" href="#praktisch"><span class="ar">التَّيْسِير</span><b>Praktische Accessoires</b><span>Helfer für den Alltag</span></a>
-        <a class="tile" href="#quellen"><span class="ar">المَصادِر</span><b>Quellen</b><span>Qur'an, Hadith, Tafsir, Dalāʾil</span></a>
+        <a class="tile" href="#quellen"><span class="ar">المَصادِر</span><b>Wissensquellen</b><span>Qur'an, Hadith, Tafsir, Dalāʾil, Namen Allahs</span></a>
+        <a class="tile" href="#kleidung-frauen"><span class="ar">لِباس</span><b>Kleidung Frauen</b><span>Von Kopf bis Fuß</span></a>
+        <a class="tile" href="#kleidung-maenner"><span class="ar">لِباس</span><b>Kleidung Männer</b><span>Von Kopf bis Fuß</span></a>
+        <a class="tile" href="#accessoires"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Islamisch und praktisch</span></a>
+        <a class="tile" href="#buecher"><span class="ar">الكُتُب</span><b>Bücher &amp; E-Books</b><span>Wissen zum Lesen und Mitnehmen</span></a>
       </div>
     </div>
   </section>
   </div>
 
-  <div class="view" data-view id="kleidung" hidden>
+  <div class="view" data-view id="quellen" hidden>
+<section style="padding-top:36px">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Wissensquellen</p>
+        <h2>Wissen aus erster Hand</h2>
+        <p class="lead">Die Grundlagen sind der Qur'an und die Sunna. Diese Werke und Seiten sind gute, frei zugängliche Einstiege.</p>
+      </div>
+      <div class="sources" id="sources"></div>
+    </div>
+  </section>
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Die schönsten Namen Allahs</p><h2>Asmāʾ al-Ḥusnā</h2><p class="lead">„Allah gehören die schönsten Namen, so ruft Ihn damit an.“ (Qur'an 7:180)</p></div>
+        <div class="knames big" id="kNames"></div>
+        <p style="margin-top:20px"><a class="btn ghost" href="#buecher">Passende Bücher &amp; E-Books im Shop →</a></p>
+      </div>
+    </section>
+  </div>
+
+  <div class="view" data-view id="shop" hidden>
+    <section style="padding-top:28px;padding-bottom:0">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Shop</p><h2>Was uns physisch stärkt</h2><p class="lead">Ausgewählte Produkte, die dir das Leben nach der Sunnah erleichtern. Alle Links führen zu Amazon.</p></div>
+        <div class="tiles">
+          <a class="tile" href="#kleidung-frauen"><span class="ar">لِباس</span><b>Kleidung Frauen</b><span>Hijab, Abaya, Khimar, nur Baumwolle und Leinen</span></a>
+          <a class="tile" href="#kleidung-maenner"><span class="ar">لِباس</span><b>Kleidung Männer</b><span>Kufi, Qamis, Sirwal, nur Baumwolle und Leinen</span></a>
+          <a class="tile" href="#accessoires"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Für Gebet, Dhikr und den Alltag</span></a>
+          <a class="tile" href="#buecher"><span class="ar">الكُتُب</span><b>Bücher &amp; E-Books</b><span>Qur'an, Hadith, Sira, Dalāʾil al-Khayrāt</span></a>
+        </div>
+      </div>
+    </section>
   <div class="showcase">
     <div class="wrap show-grid">
       <div class="slide" id="slide" aria-live="polite">
@@ -478,17 +520,19 @@ html{scroll-padding-top:130px}
         <div class="dots" id="dots" role="group" aria-label="Angebot wählen"></div>
       </div>
       <div class="side-ads">
-        <a class="ad" href="#kleidung"><b>Kleidung von Kopf bis Fuß</b><span>Nur Baumwolle und Leinen, für Männer und Frauen.</span><em>Zur Kleidung →</em></a>
+        <a class="ad" href="#kleidung-frauen"><b>Kleidung von Kopf bis Fuß</b><span>Nur Baumwolle und Leinen, für Männer und Frauen.</span><em>Zur Kleidung →</em></a>
         <a class="ad" href="#praktisch" hidden><b>Für unterwegs</b><span>Qibla-Kompass, Reise-Gebetsteppich und Wudu-Flasche: alles, was in die Tasche passt.</span><em>Praktische Accessoires →</em></a>
         <a class="ad green" href="#fasten"><b id="adFastTitle">Nächster Fastentag</b><span id="adFastText">Wird berechnet …</span><em>Erinnerung einrichten →</em></a>
       </div>
     </div>
   </div>
+  </div>
 
+  <div class="view" data-view id="kleidung" hidden>
   <section style="padding-top:28px">
     <div class="wrap">
       <div class="head">
-        <p class="eyebrow">Kleidung</p>
+        <p class="eyebrow">Shop · Kleidung</p>
         <h2>Von Kopf bis Fuß</h2>
         <p class="lead">Schlichte islamische Kleidung, ausschließlich aus Baumwolle oder Leinen: atmungsaktiv, natürlich und angenehm im Gebet.</p>
         <div class="mat-note">
@@ -504,56 +548,42 @@ html{scroll-padding-top:130px}
   </section>
   </div>
 
-  <div class="view" data-view id="knowledge" hidden>
-    <section style="padding-top:36px">
+  <div class="view" data-view id="accessoires" hidden>
+    <section style="padding-top:28px">
       <div class="wrap">
-        <article class="col solo">
-          <div class="col-head"><span class="ar">العِلْم</span><h2>Islamic Knowledge</h2><p class="note">Bücher, die das Herz und den Verstand nähren.</p></div>
-          <ul id="colKnowledge"></ul>
-          <div class="col-sub">Die schönsten Namen Allahs</div>
-          <div class="knames" id="kNames"></div>
-          <div class="col-foot"><a href="#quellen">Zu den Quellen →</a></div>
-        </article>
+        <div class="head"><p class="eyebrow">Shop · Accessoires</p><h2>Accessoires</h2></div>
+        <div class="cols two-cols">
+          <article class="col" id="islamisch">
+            <div class="col-head"><span class="ar">الزِّينَة</span><h2>Islamische Accessoires</h2><p class="note">Für Gebet, Dhikr und schlichte Kleidung.</p></div>
+            <ul id="colIslamic"></ul>
+          </article>
+          <article class="col" id="praktisch">
+            <div class="col-head"><span class="ar">التَّيْسِير</span><h2>Praktische Accessoires</h2><p class="note">Kleine Helfer, die den Alltag als Muslim leichter machen.</p></div>
+            <ul id="colPractical"></ul>
+          </article>
+        </div>
         <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
       </div>
     </section>
   </div>
 
-  <div class="view" data-view id="islamisch" hidden>
-    <section style="padding-top:36px">
+  <div class="view" data-view id="buecher" hidden>
+    <section style="padding-top:28px">
       <div class="wrap">
-        <article class="col solo">
-          <div class="col-head"><span class="ar">الزِّينَة</span><h2>Islamische Accessoires</h2><p class="note">Für Gebet, Dhikr und schlichte Kleidung.</p></div>
-          <ul id="colIslamic"></ul>
-        </article>
+        <div class="head"><p class="eyebrow">Shop · Bücher</p><h2>Bücher &amp; E-Books</h2><p class="lead">Wissen, das das Herz und den Verstand nährt, als gedrucktes Buch oder als E-Book für Kindle.</p></div>
+        <div class="cols two-cols">
+          <article class="col" id="knowledge">
+            <div class="col-head"><span class="ar">الكُتُب</span><h2>Bücher</h2><p class="note">Gedruckte Ausgaben</p></div>
+            <ul id="colKnowledge"></ul>
+          </article>
+          <article class="col" id="ebooks">
+            <div class="col-head"><span class="ar">كِتاب رَقْمِي</span><h2>E-Books</h2><p class="note">Sofort lesbar auf Kindle, Handy oder Tablet</p></div>
+            <ul id="colEbooks"></ul>
+          </article>
+        </div>
         <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
       </div>
     </section>
-  </div>
-
-  <div class="view" data-view id="praktisch" hidden>
-    <section style="padding-top:36px">
-      <div class="wrap">
-        <article class="col solo">
-          <div class="col-head"><span class="ar">التَّيْسِير</span><h2>Praktische Accessoires</h2><p class="note">Kleine Helfer, die den Alltag als Muslim leichter machen.</p></div>
-          <ul id="colPractical"></ul>
-        </article>
-        <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
-      </div>
-    </section>
-  </div>
-
-  <div class="view" data-view id="quellen" hidden>
-  <section style="padding-top:36px">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Wichtige Quellen</p>
-        <h2>Wissen aus erster Hand</h2>
-        <p class="lead">Die Grundlagen sind der Qur'an und die Sunna. Diese Werke und Seiten sind gute, frei zugängliche Einstiege.</p>
-      </div>
-      <div class="sources" id="sources"></div>
-    </div>
-  </section>
   </div>
 </main>
 
@@ -748,6 +778,11 @@ const P=[
  {id:4,c:"knowledge",n:"Der versiegelte Nektar",d:"Prophetenbiografie von al-Mubarakpuri",q:"Der versiegelte Nektar",ar:"الرحيق",bg:"#2E0A52"},
  {id:5,c:"knowledge",n:"Die 40 Hadithe",d:"Imam an-Nawawi, mit Erläuterungen",q:"40 Hadithe Nawawi deutsch",ar:"الأربعين",bg:"#6A24B3"},
  {id:18,c:"knowledge",n:"Dalāʾil al-Khayrāt",d:"Segenswünsche auf den Propheten ﷺ, Imam al-Dschazūlī",q:"Dalail al-Khayrat",ar:"دلائل",bg:"#3B0764"},
+ {id:30,c:"ebook",n:"Der edle Qur'an (Kindle)",d:"Deutsche Übersetzung als E-Book",q:"Koran deutsch Kindle eBook",ar:"القرآن",bg:"#3B0D66"},
+ {id:31,c:"ebook",n:"Riyad as-Salihin (Kindle)",d:"Hadith-Sammlung von Imam an-Nawawi",q:"Riyad as-Salihin Kindle",ar:"رياض",bg:"#4A1580"},
+ {id:32,c:"ebook",n:"Prophetenbiografie (Kindle)",d:"Das Leben des Propheten ﷺ",q:"Prophet Muhammad Biografie Kindle eBook deutsch",ar:"السيرة",bg:"#5B1E99"},
+ {id:33,c:"ebook",n:"Dalāʾil al-Khayrāt (Kindle)",d:"Segenswünsche auf den Propheten ﷺ",q:"Dalail al-Khayrat Kindle",ar:"دلائل",bg:"#2E0A52"},
+ {id:34,c:"ebook",n:"Bittgebete im Alltag (Kindle)",d:"Duʿa aus Qur'an und Sunna",q:"Bittgebete Islam Kindle eBook",ar:"دعاء",bg:"#6A24B3"},
  {id:6,c:"islamic",n:"Misbaha aus Olivenholz",d:"33 Perlen für Tasbih",q:"Misbaha Olivenholz 33",ar:"مسبحة",bg:"#065F46"},
  {id:7,c:"islamic",n:"Gebetsteppich aus Baumwolle",d:"Gepolstert, mit Mihrab-Muster",q:"Gebetsteppich Baumwolle",ar:"سجادة",bg:"#4C1D95"},
  {id:8,c:"islamic",n:"Attar „Oud & Rose“",d:"Alkoholfreies Parfümöl",q:"Attar Oud alkoholfrei",ar:"عطر",bg:"#7C2D92"},
@@ -768,6 +803,7 @@ const itemHTML=x=>`<li class="item" id="p${x.id}"><div class="thumb" style="back
 $("#colKnowledge").innerHTML=P.filter(x=>x.c==="knowledge").map(itemHTML).join("");
 $("#colIslamic").innerHTML=P.filter(x=>x.c==="islamic").map(itemHTML).join("");
 $("#colPractical").innerHTML=P.filter(x=>x.c==="practical").map(itemHTML).join("");
+$("#colEbooks").innerHTML=P.filter(x=>x.c==="ebook").map(itemHTML).join("");
 
 /* showcase */
 let si=0,sTimer=null;
@@ -798,7 +834,7 @@ const SRC=[["Qur'an","Quran.com","Der Qur'an mit Rezitation, Wort-für-Wort-Anal
 $("#sources").innerHTML=SRC.map(s=>`<article class="src"><span class="kind">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p>${s[3].includes("amazon.")?`<a href="${s[3]}" ${AMZ_ATTR}>Bei Amazon ansehen ↗</a>`:`<a href="${s[3]}" target="_blank" rel="noopener">Öffnen ↗</a>`}</article>`).join("");
 
 /* ---------- search ---------- */
-const COL={knowledge:"Islamic Knowledge",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
+const COL={knowledge:"Bücher",ebook:"E-Books",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
 const ZN=Object.fromEntries(ZONES.map(z=>[z[0],z[1]]));
 const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c],k:(x.n+" "+x.d+" "+COL[x.c]).toLowerCase(),h:"#p"+x.id})),
   ...C.map(c=>({t:c[2]+" ("+c[4]+")",s:"Kleidung · "+(c[0]==="m"?"Männer":"Frauen")+" · "+ZN[c[1]],k:(c.join(" ")+(c[0]==="m"?" männer herren":" frauen damen")+" kleidung").toLowerCase(),h:"#kleidung",g:c[0]})),
@@ -906,17 +942,25 @@ showDay(today);
 
 /* ---------- views (router) ---------- */
 const VIEWS=[...document.querySelectorAll("[data-view]")];
+const SHOP=["shop","kleidung","accessoires","buecher"];
 function route(){
-  const h=decodeURIComponent(location.hash.slice(1))||"start";
+  let h=decodeURIComponent(location.hash.slice(1))||"start";
+  if(h==="kleidung-frauen"||h==="kleidung-maenner"){gender=h.endsWith("frauen")?"f":"m";store.set("rh_gender",gender);renderZones();h="kleidung"}
+  else if(h==="knowledge")h="buecher";
   let el=document.getElementById(h),v=el&&el.closest("[data-view]");
   if(!v){v=VIEWS[0];el=null}
   const changed=v.hidden;
   VIEWS.forEach(x=>x.hidden=x!==v);
-  document.querySelectorAll("nav.main a[data-nav]").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+h||(a.dataset.nav===v.id&&a.getAttribute("href")==="#"+v.id&&h===v.id)));
+  const grp=SHOP.includes(v.id)?"shop":v.id;
+  document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
+  $("#subnav").hidden=grp!=="shop";
+  const subKey=v.id==="kleidung"?(gender==="f"?"kleidung-frauen":"kleidung-maenner"):v.id;
+  document.querySelectorAll("#subnav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+subKey));
   if(el&&el!==v)requestAnimationFrame(()=>el.scrollIntoView({block:"start"}));
   else if(changed||el===v)window.scrollTo(0,0);
 }
 addEventListener("hashchange",route);route();
+document.querySelectorAll("[data-g]").forEach(b=>b.addEventListener("click",()=>route()));
 })();
 </script>
 </body>
