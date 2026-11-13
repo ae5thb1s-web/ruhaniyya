@@ -351,12 +351,19 @@ html{scroll-padding-top:170px}
   <nav class="main" aria-label="Hauptmenü">
     <div class="wrap">
       <a href="#start" data-grp="start">Home</a>
-      <a href="#gebetszeiten" data-grp="gebetszeiten"><span class="l">Gebetszeiten</span><span class="s">Gebet</span></a>
+      <a href="#gebetszeiten" data-grp="gebet"><span class="l">Gebet &amp; Fasten</span><span class="s">Gebet</span></a>
       <a href="#quellen" data-grp="quellen"><span class="l">Wissensquellen</span><span class="s">Wissen</span></a>
       <a href="#shop" data-grp="shop">Shop</a>
       <a href="#geschenke" data-grp="geschenke">Geschenke</a>
       <a href="#spenden" data-grp="spenden" class="nav-donate"><span aria-hidden="true">♥</span> Spenden</a>
       <span class="hijri-strip" id="hijriStrip"></span>
+    </div>
+  </nav>
+  <nav class="sub" id="subgebet" aria-label="Gebet, Fasten, Sadaqa" hidden>
+    <div class="wrap">
+      <a href="#gebetszeiten">Gebetszeiten</a>
+      <a href="#fasten">Fastenzeiten</a>
+      <a href="#sadaqa">Ṣadaqa</a>
     </div>
   </nav>
   <nav class="sub" id="subwissen" aria-label="Wissensbereiche" hidden>
@@ -587,6 +594,27 @@ html{scroll-padding-top:170px}
       <div class="cols two-cols" style="margin-top:22px"><article class="col"><div class="col-head"><span class="ar">طَيِّبات</span><h2>Gute Produkte</h2><p class="note">Naturbelassen, aus Qur'an und Sunnah bekannt</p></div><ul id="colFood"></ul></article></div>
       <p class="disclosure" style="margin-top:16px">Diese Seite dient der allgemeinen Bildung und ersetzt keinen ärztlichen Rat. Bei Krankheit, Schwangerschaft oder Medikamenten sprich vor einer Ernährungsumstellung mit deiner Ärztin oder deinem Arzt. Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen.</p>
     </div></section>
+  </div>
+
+  <div class="view" data-view id="sadaqa" hidden>
+    <section style="padding-top:28px">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Gebet · Ṣadaqa</p><h2>Ṣadaqa kannst du immer geben</h2><p class="lead">Für die Ṣadaqa gibt es keine feste Zeit und keinen Mindestbetrag. Jeden Tag, zu jeder Stunde, und nicht nur mit Geld.</p></div>
+        <p class="gift-hadith"><span class="ar">كُلُّ مَعْرُوفٍ صَدَقَةٌ</span>„Jede gute Tat ist Ṣadaqa.“ (al-Buchārī 6021)</p>
+        <div class="cols two-cols">
+          <article class="col"><div class="col-head"><span class="ar">كُلَّ يَوْم</span><h2>Ṣadaqa im Alltag</h2><p class="note">Kleine Taten, die zählen</p></div><ul class="plain" id="sadaqaList"></ul></article>
+          <article class="col"><div class="col-head"><span class="ar">اليَوْم</span><h2>Heute schon gegeben?</h2><p class="note">Hake ab, was du heute getan hast. Das bleibt nur auf deinem Gerät.</p></div>
+            <div style="padding:16px 18px;display:grid;gap:12px">
+              <div class="gfilter" id="sadaqaDone" style="margin:0"></div>
+              <b id="sadaqaStreak"></b>
+              <a class="btn" href="#spenden">♥ Jetzt mit Geld oder Krypto spenden</a>
+              <small style="color:var(--muted)">„Schützt euch vor dem Feuer, und sei es mit einer halben Dattel.“ (al-Buchārī 1417)</small>
+            </div>
+          </article>
+        </div>
+        <div class="head" style="margin-top:30px"><h2>Ṣadaqa Dschāriya: Gutes, das bleibt</h2><p class="lead">„Wenn der Mensch stirbt, endet sein Werk außer in drei Dingen: einer fortwährenden Ṣadaqa, nützlichem Wissen oder einem frommen Kind, das für ihn bittet.“ (Muslim 1631) Zum Beispiel ein Brunnen, ein Qur'an für die Moschee oder Wissen, das du weitergibst.</p></div>
+      </div>
+    </section>
   </div>
 
   <div class="view" data-view id="spenden" hidden>
@@ -1103,6 +1131,18 @@ if(DONATE_URL){$("#donateBtn").href=DONATE_URL}else{$("#donateBtn").setAttribute
 $("#cryptoList").innerHTML=CRYPTO.map((c,i)=>`<div class="crypto"><b>${c[0]} (${c[1]}) <small style="color:var(--muted);font-weight:400">· ${c[2]}</small></b>${c[3]?`<code>${c[3]}</code><button type="button" data-copy="${i}">Adresse kopieren</button>`:`<small style="color:var(--muted)">Adresse folgt in Kürze.</small>`}</div>`).join("");
 document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{const a=CRYPTO[b.dataset.copy][3];try{await navigator.clipboard.writeText(a);b.textContent="Kopiert ✓"}catch(e){const r=document.createRange();r.selectNodeContents(b.previousElementSibling);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);b.textContent="Markiert, bitte kopieren"}setTimeout(()=>b.textContent="Adresse kopieren",2500)}));
 
+/* ---------- sadaqa ---------- */
+const SADAQA=[["Ein Lächeln","„Dein Lächeln für deinen Bruder ist Ṣadaqa.“ (at-Tirmidhī 1956)"],["Ein gutes Wort","„Das gute Wort ist Ṣadaqa.“ (al-Buchārī 2989)"],["Hindernisse aus dem Weg räumen","„Etwas Schädliches vom Weg zu entfernen ist Ṣadaqa.“ (al-Buchārī 2989)"],["Dhikr","„Jedes Subḥānallāh ist Ṣadaqa, jedes Alḥamdulillāh ist Ṣadaqa.“ (Muslim 720)"],["Wasser geben","Einem Menschen oder Tier zu trinken geben gehört zu den besten Taten."],["Etwas Geld, auch wenig","Eine halbe Dattel, ein Euro: Allah lässt die Ṣadaqa wachsen (Qur'an 2:276)."],["Am Freitag","Viele geben am Freitag besonders gern, aber jeder Tag ist gut."]];
+$("#sadaqaList").innerHTML=SADAQA.map(r=>`<li><b>${r[0]}</b><small>${r[1]}</small></li>`).join("");
+const SQ=["Lächeln","Gutes Wort","Dhikr","Geholfen","Gespendet"];
+const todayKey=()=>{const d=new Date();return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()};
+function renderSadaqa(){const log=store.get("rh_sadaqa",{}),t=log[todayKey()]||[];
+  $("#sadaqaDone").innerHTML=SQ.map(x=>`<button type="button" data-sq="${x}" aria-pressed="${t.includes(x)}">${t.includes(x)?"✓ ":""}${x}</button>`).join("");
+  let n=0;for(let d=new Date();;d.setDate(d.getDate()-1)){const k=d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();if((log[k]||[]).length)n++;else if(n||k!==todayKey())break}
+  $("#sadaqaStreak").textContent=n?`${n} ${n===1?"Tag":"Tage"} in Folge mit Ṣadaqa. Mā shāʾ Allāh!`:"Fang heute an, schon ein Lächeln zählt.";
+  document.querySelectorAll("[data-sq]").forEach(b=>b.addEventListener("click",()=>{const log=store.get("rh_sadaqa",{}),k=todayKey(),a=log[k]||[];const i=a.indexOf(b.dataset.sq);i<0?a.push(b.dataset.sq):a.splice(i,1);log[k]=a;store.set("rh_sadaqa",log);renderSadaqa()}))}
+renderSadaqa();
+
 /* ---------- gifts ---------- */
 const OCC=[["eid","عيد","Ramadan & Eid","Zum Fastenbrechen und zum Fest"],["hochzeit","زواج","Hochzeit","Für das junge Ehepaar"],["baby","مولود","Geburt & Aqiqa","Für Eltern und Neugeborene"],["hajj","حج","Hajj & Umrah","Zum Abschied oder zur Rückkehr"],["neu","شهادة","Neu im Islam","Für jemanden, der den Weg gerade beginnt"],["alltag","هدية","Einfach so","Kleine Aufmerksamkeiten"]];
 const G=[
@@ -1147,7 +1187,8 @@ const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c],k:(x.n+" "+x.d+" "+COL[x.c]).toLower
   {t:"Fastentage & Erinnerungen",s:"Bereich",k:"fasten fastentage sunnah montag donnerstag ramadan ashura arafa erinnerung",h:"#fasten"},
   ...G.map(g=>({t:g.n,s:"Geschenk · "+OCC.find(o=>o[0]===g.o)[2],k:(g.n+" "+g.d+" geschenk geschenkidee "+OCC.find(o=>o[0]===g.o)[2]).toLowerCase(),h:"#"+g.id})),
   {t:"Geschenkideen",s:"Bereich",k:"geschenk geschenke geschenkidee idee schenken eid hochzeit geburt baby hajj umrah",h:"#geschenke"},
-  {t:"Mondkalender",s:"Bereich",k:"mond mondkalender hijri monat vollmond neumond",h:"#mond"}];
+  {t:"Mondkalender",s:"Bereich",k:"mond mondkalender hijri monat vollmond neumond",h:"#kalender"},
+  {t:"Ṣadaqa",s:"Gebet · Ṣadaqa",k:"sadaqa sadaka spende spenden almosen gutes tun lächeln",h:"#sadaqa"}];
 const q=$("#q"),res=$("#results");
 q.addEventListener("input",()=>{const v=q.value.trim().toLowerCase();if(!v){res.hidden=true;return}
   const hits=INDEX.filter(i=>v.split(/\s+/).every(w=>i.k.includes(w))).slice(0,8);
@@ -1261,9 +1302,13 @@ function route(){
   if(!v){v=VIEWS[0];el=null}
   const changed=v.hidden;
   VIEWS.forEach(x=>x.hidden=x!==v);
-  const grp=h==="gebetszeiten"?"gebetszeiten":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
+  const GEBET={gebetszeiten:["gebetszeiten"],fasten:["kalender","fasten"],kalender:["kalender","fasten"]};
+  const gPart=GEBET[h];
+  ["ueber","gebetszeiten","kalender","fasten","entdecken"].forEach(id=>document.getElementById(id).hidden=!!gPart&&!gPart.includes(id));
+  const grp=(gPart||v.id==="sadaqa")?"gebet":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
   document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
-  $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";
+  $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";$("#subgebet").hidden=grp!=="gebet";
+  document.querySelectorAll("#subgebet a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+(h==="kalender"?"fasten":gPart?h:v.id)));
   document.querySelectorAll("#subwissen a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+v.id));
   const gk=gender==="f"?"frauen":"maenner";
   const subKey=["kleidung","schmuck","frauen","maenner"].includes(v.id)?gk:v.id;
@@ -1272,7 +1317,8 @@ function route(){
   document.querySelectorAll("[data-gtabs]").forEach(n=>n.innerHTML=`<a href="#kleidung-${gk}"${v.id==="kleidung"?' class="on"':""}>Kleidung</a><a href="#schmuck-${gk}"${v.id==="schmuck"?' class="on"':""}>Schmuck</a>`);
   document.querySelectorAll("#subnav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+subKey));
   document.querySelectorAll("nav.sub a.on").forEach(a=>{const w=a.parentNode;w.scrollLeft=a.offsetLeft-(w.clientWidth-a.offsetWidth)/2});
-  if(el&&el!==v)requestAnimationFrame(()=>el.scrollIntoView({block:"start"}));
+  if(gPart)window.scrollTo(0,0);
+  else if(el&&el!==v)requestAnimationFrame(()=>el.scrollIntoView({block:"start"}));
   else if(changed||el===v)window.scrollTo(0,0);
 }
 addEventListener("hashchange",route);route();
