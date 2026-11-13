@@ -98,6 +98,56 @@ nav.main a:hover{color:var(--primary);background:var(--surface-2)}
 .pillar span{color:var(--muted);font-size:.93rem}
 @media (max-width:1320px){.hijri-strip{display:none}}
 @media (max-width:820px){.intro-grid{grid-template-columns:1fr;gap:24px}}
+/* ---------- views, calendar, prayer times ---------- */
+nav.main a.on{color:var(--primary);background:var(--surface-2)}
+.col.solo ul{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:6px;padding:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.tile{display:grid;gap:6px;align-content:start;padding:20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:var(--fg)}
+.tile:hover{border-color:var(--primary);box-shadow:0 0 18px var(--glow)}
+.tile .ar{color:var(--primary);font-size:1.4rem}
+.tile b{font-family:var(--f-display);font-size:1.1rem}
+.tile span:last-child{color:var(--muted);font-size:.9rem}
+.cal-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cal-title{display:grid;text-align:center}
+.cal-title b{font-family:var(--f-display);font-size:1.25rem;font-weight:600}
+.cal-title small{color:var(--night-muted)}
+.cal-nav,.cal-today{background:#ffffff12;border:1px solid #ffffff22;color:var(--night-fg);border-radius:999px;width:38px;height:38px;font-size:1.3rem;cursor:pointer}
+.cal-today{width:auto;height:auto;padding:.35em 1em;font:700 .85rem var(--f-body);margin-left:auto}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal-grid .wd{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--night-muted);text-align:center;padding:4px 0}
+.day{position:relative;background:#ffffff08;border:1px solid #ffffff12;border-radius:10px;padding:5px 5px 6px;display:grid;gap:1px;justify-items:center;cursor:pointer;color:var(--night-fg);font:inherit;min-height:74px}
+.day:hover{border-color:#C98BFF88}
+.day.out{opacity:.35}
+.day.today{border-color:#C98BFF;box-shadow:0 0 12px #B65CFF55}
+.day.sel{background:#B65CFF33;border-color:#C98BFF}
+.day .g{font-weight:700;font-variant-numeric:tabular-nums}
+.day .h{font-size:.68rem;color:var(--night-muted);line-height:1.1;text-align:center}
+.day .h.m1{color:#E4C8FF;font-weight:700;text-decoration:underline}
+.day .z{font-size:.8rem;color:#E4C8FF;line-height:1}
+.day svg{width:16px;height:16px}
+.fd{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.day .fd{position:absolute;top:6px;right:5px;margin:0}
+.fd.fard{background:#C98BFF}.fd.sunnah{background:#E4C8FF}.fd.special{background:#34D399}.fd.no{background:#F87171}
+.cal-legend{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:.82rem;color:var(--night-muted)}
+.facts{margin:0;display:grid;gap:8px}
+.facts div{display:grid;grid-template-columns:130px 1fr;gap:10px;border-top:1px solid #ffffff14;padding-top:8px}
+.facts dt{color:var(--night-muted);font-size:.88rem}
+.facts dd{margin:0;font-weight:600}
+.facts dd small{display:block;font-weight:400;color:var(--night-muted)}
+.months-box summary{cursor:pointer;color:var(--night-hi);font-weight:700}
+.months-box .months{margin-top:10px}
+.pt-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pt-top select{flex:1;min-width:160px;padding:.5em .8em;border-radius:999px;background:#ffffff12;color:var(--night-fg);border:1px solid #ffffff2a;font:1rem var(--f-body)}
+.pt-top select option{color:#111}
+.pt-date{color:var(--night-muted);font-size:.92rem}
+.ptimes{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.ptimes li{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:#ffffff08;border:1px solid #ffffff12}
+.ptimes li b{font-weight:700}
+.ptimes li small{color:var(--night-muted);margin-left:6px}
+.ptimes li time{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.15rem}
+.ptimes li.next{border-color:#C98BFF;background:#B65CFF26;box-shadow:0 0 14px #B65CFF44}
+.pt-count{font-family:var(--f-display);font-size:2rem;color:#E4C8FF;margin:0}
+@media (max-width:640px){.day{min-height:60px;padding:4px 2px}.day .z{display:none}.facts div{grid-template-columns:110px 1fr}}
 /* ---------- showcase ---------- */
 .showcase{padding-block:28px 12px}
 .show-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px}
@@ -242,7 +292,7 @@ footer b{color:var(--primary);font-family:var(--f-display)}
   .fastlist li .pill{grid-column:2;justify-self:start}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-html{scroll-behavior:smooth;scroll-padding-top:130px}
+html{scroll-padding-top:130px}
 </style>
 </head>
 <body>
@@ -261,20 +311,21 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
   </div>
   <nav class="main" aria-label="Hauptmenü">
     <div class="wrap">
-      <a href="#ueber">Über Ruhaniyya</a>
-      <a href="#kleidung">Kleidung</a>
-      <a href="#knowledge">Islamic Knowledge</a>
-      <a href="#islamisch">Islamische Accessoires</a>
-      <a href="#praktisch">Praktische Accessoires</a>
-      <a href="#quellen">Quellen</a>
-      <a href="#mond">Mondkalender</a>
-      <a href="#fasten">Fastentage</a>
+      <a href="#start" data-nav="start">Start</a>
+      <a href="#kalender" data-nav="start">Kalender</a>
+      <a href="#gebetszeiten" data-nav="start">Gebetszeiten</a>
+      <a href="#kleidung" data-nav="kleidung">Kleidung</a>
+      <a href="#knowledge" data-nav="knowledge">Islamic Knowledge</a>
+      <a href="#islamisch" data-nav="islamisch">Islamische Accessoires</a>
+      <a href="#praktisch" data-nav="praktisch">Praktische Accessoires</a>
+      <a href="#quellen" data-nav="quellen">Quellen</a>
       <span class="hijri-strip" id="hijriStrip"></span>
     </div>
   </nav>
 </header>
 
-<main id="start">
+<main>
+  <div class="view" data-view id="start">
   <section class="intro" id="ueber">
     <div class="wrap intro-grid">
       <div>
@@ -287,110 +338,78 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
         </div>
       </div>
       <div class="pillars">
-        <a class="pillar" href="#quellen"><span class="ico">عِلم</span><div><b>Wissen &amp; Quellen</b><span>Qur'an, Hadith und Bücher, die dich Schritt für Schritt leiten.</span></div></a>
-        <a class="pillar" href="#fasten"><span class="ico">سُنّة</span><div><b>Die Sunna im Alltag</b><span>Mondkalender und Erinnerungen an Montag, Donnerstag, die weißen Tage und mehr.</span></div></a>
+        <a class="pillar" href="#knowledge"><span class="ico">عِلم</span><div><b>Wissen &amp; Quellen</b><span>Qur'an, Hadith und Bücher, die dich Schritt für Schritt leiten.</span></div></a>
+        <a class="pillar" href="#kalender"><span class="ico">سُنّة</span><div><b>Die Sunna im Alltag</b><span>Mondkalender und Erinnerungen an Montag, Donnerstag, die weißen Tage und mehr.</span></div></a>
         <a class="pillar" href="#kleidung"><span class="ico">ذِكر</span><div><b>Was uns physisch stärkt</b><span>Kleidung aus Baumwolle und Leinen, Accessoires und Helfer, an die man oft nicht denkt.</span></div></a>
       </div>
     </div>
   </section>
 
-  <div class="showcase">
-    <div class="wrap show-grid">
-      <div class="slide" id="slide" aria-live="polite">
-        <div class="art" id="slideArt" aria-hidden="true"></div>
-        <div class="txt">
-          <span class="tag" id="slideTag"></span>
-          <h2 id="slideTitle" style="font-size:clamp(1.8rem,4vw,2.6rem)"></h2>
-          <p id="slideText"></p>
-          <div class="row"><a class="btn" id="slideBtn" href="#" target="_blank" rel="nofollow sponsored noopener">Bei Amazon ansehen ↗</a></div>
-        </div>
-        <div class="dots" id="dots" role="group" aria-label="Angebot wählen"></div>
-      </div>
-      <div class="side-ads">
-        <a class="ad" href="#kleidung"><b>Kleidung von Kopf bis Fuß</b><span>Nur Baumwolle und Leinen, für Männer und Frauen.</span><em>Zur Kleidung →</em></a>
-        <a class="ad" href="#praktisch" hidden><b>Für unterwegs</b><span>Qibla-Kompass, Reise-Gebetsteppich und Wudu-Flasche: alles, was in die Tasche passt.</span><em>Praktische Accessoires →</em></a>
-        <a class="ad green" href="#fasten"><b id="adFastTitle">Nächster Fastentag</b><span id="adFastText">Wird berechnet …</span><em>Erinnerung einrichten →</em></a>
-      </div>
-    </div>
-  </div>
-
-  <section id="kleidung" style="padding-top:36px">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Kleidung</p>
-        <h2>Von Kopf bis Fuß</h2>
-        <p class="lead">Schlichte islamische Kleidung, ausschließlich aus Baumwolle oder Leinen: atmungsaktiv, natürlich und angenehm im Gebet.</p>
-        <div class="mat-note">
-          <div class="gender" role="group" aria-label="Für wen">
-            <button type="button" data-g="m" aria-pressed="true">Männer</button>
-            <button type="button" data-g="f" aria-pressed="false">Frauen</button>
-          </div>
-          <span class="mat">Baumwolle</span><span class="mat">Leinen</span>
-        </div>
-      </div>
-      <div class="zones" id="zones"></div>
-    </div>
-  </section>
-
-  <section id="produkte" style="padding-top:20px">
-    <div class="wrap">
-      <div class="cols">
-        <article class="col" id="knowledge">
-          <div class="col-head"><span class="ar">العِلْم</span><h2>Islamic Knowledge</h2><p class="note">Bücher, die das Herz und den Verstand nähren.</p></div>
-          <ul id="colKnowledge"></ul>
-          <div class="col-sub">Die schönsten Namen Allahs</div>
-          <div class="knames" id="kNames"></div>
-          <div class="col-foot"><a href="#quellen">Zu den Quellen →</a></div>
-        </article>
-        <article class="col" id="islamisch">
-          <div class="col-head"><span class="ar">الزِّينَة</span><h2>Islamische Accessoires</h2><p class="note">Für Gebet, Dhikr und schlichte Kleidung.</p></div>
-          <ul id="colIslamic"></ul>
-        </article>
-        <article class="col" id="praktisch">
-          <div class="col-head"><span class="ar">التَّيْسِير</span><h2>Praktische Accessoires</h2><p class="note">Kleine Helfer, die den Alltag als Muslim leichter machen.</p></div>
-          <ul id="colPractical"></ul>
-        </article>
-      </div>
-      <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
-    </div>
-  </section>
-
-  <section id="quellen" style="padding-top:20px">
-    <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Wichtige Quellen</p>
-        <h2>Wissen aus erster Hand</h2>
-        <p class="lead">Die Grundlagen sind der Qur'an und die Sunna. Diese Werke und Seiten sind gute, frei zugängliche Einstiege.</p>
-      </div>
-      <div class="sources" id="sources"></div>
-    </div>
-  </section>
-
   <div class="night">
-    <section id="mond">
+    <section id="kalender">
       <div class="wrap">
         <div class="head">
-          <p class="eyebrow">Mondkalender</p>
-          <h2>Der Mond als Zeitmesser</h2>
-          <p class="lead">Die islamischen Monate richten sich nach dem Mond. „Sie fragen dich nach den Neumonden. Sag: Sie sind Zeitbestimmungen für die Menschen und für die Pilgerfahrt.“ (Qur'an 2:189)</p>
+          <p class="eyebrow">Kalender</p>
+          <h2>Mond, Fasten und Himmel</h2>
+          <p class="lead">Jeder Tag mit Hijri-Datum, Mondphase, Fastentag und dem Tierkreiszeichen, in dem Mond und Sonne stehen. Tippe auf einen Tag für Details.</p>
         </div>
         <div class="two">
-          <div class="panel">
-            <div class="moon">
-              <svg id="bigMoon" width="150" height="150" viewBox="0 0 100 100" role="img" aria-label="Aktuelle Mondphase"></svg>
-              <div class="info">
-                <small class="note" id="gregToday">–</small>
-                <h3 id="hijriToday" style="font-size:1.5rem">–</h3>
-                <div class="ar" id="hijriTodayAr" style="font-size:1.3rem;color:var(--night-hi)"></div>
-                <p id="moonName" style="font-weight:700;margin-top:6px">–</p>
-                <p id="moonAge" class="note">–</p>
-                <p id="moonNext" class="note">–</p>
-              </div>
+          <div class="panel cal">
+            <div class="cal-top">
+              <button class="cal-nav" type="button" id="calPrev" aria-label="Vorheriger Monat">‹</button>
+              <div class="cal-title"><b id="calTitle"></b><small id="calHijri"></small></div>
+              <button class="cal-nav" type="button" id="calNext" aria-label="Nächster Monat">›</button>
+            </div>
+            <div class="cal-grid" id="calGrid" role="grid"></div>
+            <div class="cal-legend">
+              <span><i class="fd fard"></i>Ramadan</span><span><i class="fd sunnah"></i>Sunnah</span><span><i class="fd special"></i>Besonders</span><span><i class="fd no"></i>Kein Fasten</span>
+              <button class="cal-today" type="button" id="calToday">Heute</button>
             </div>
           </div>
           <div class="panel">
-            <h3>Die zwölf Monate</h3>
-            <ol class="months" id="months"></ol>
+            <div class="moon">
+              <svg id="bigMoon" width="120" height="120" viewBox="0 0 100 100" role="img" aria-label="Mondphase"></svg>
+              <div class="info">
+                <small class="note" id="gregToday">–</small>
+                <h3 id="hijriToday" style="font-size:1.35rem">–</h3>
+                <div class="ar" id="hijriTodayAr" style="font-size:1.25rem;color:var(--night-hi)"></div>
+              </div>
+            </div>
+            <dl class="facts">
+              <div><dt>Mondphase</dt><dd><span id="moonName">–</span><small id="moonAge"></small></dd></div>
+              <div><dt>Mond im Zeichen</dt><dd id="moonSign">–</dd></div>
+              <div><dt>Sonne im Zeichen</dt><dd id="sunSign">–</dd></div>
+              <div><dt>Fasten</dt><dd id="dayFast">–</dd></div>
+            </dl>
+            <p id="moonNext" class="note">–</p>
+            <p class="note">Tierkreis hier als astronomische Position am Himmel (tropischer Tierkreis), ohne Deutung.</p>
+            <details class="months-box"><summary>Die zwölf islamischen Monate</summary><ol class="months" id="months"></ol></details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gebetszeiten" style="padding-top:8px">
+      <div class="wrap">
+        <div class="head">
+          <p class="eyebrow">Gebetszeiten</p>
+          <h2>Gebetszeiten nach DITIB</h2>
+        </div>
+        <div class="two">
+          <div class="panel">
+            <div class="pt-top">
+              <label for="ptCity" class="note">Ort</label>
+              <select id="ptCity"></select>
+              <button class="btn ghost" type="button" id="ptLocate">Mein Standort</button>
+            </div>
+            <p class="pt-date" id="ptDate"></p>
+            <ul class="ptimes" id="ptList"></ul>
+          </div>
+          <div class="panel">
+            <h3 id="ptNextTitle">Nächstes Gebet</h3>
+            <p class="pt-count" id="ptCount">–</p>
+            <p class="note">Berechnet nach der Methode der türkischen Religionsbehörde Diyanet, die auch DITIB verwendet (Fadschr 18°, Ischa 17°, mit Diyanet-Zuschlägen). Die offiziellen DITIB-Zeiten können um wenige Minuten abweichen. Im Zweifel gilt der Kalender deiner Moschee.</p>
+            <p class="status" id="ptStatus" role="status"></p>
           </div>
         </div>
       </div>
@@ -429,6 +448,112 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
         </div>
       </div>
     </section>
+  </div>
+
+  <section id="entdecken">
+    <div class="wrap">
+      <div class="head"><p class="eyebrow">Entdecken</p><h2>Was suchst du heute?</h2></div>
+      <div class="tiles">
+        <a class="tile" href="#kleidung"><span class="ar">لِباس</span><b>Kleidung</b><span>Von Kopf bis Fuß, nur Baumwolle und Leinen</span></a>
+        <a class="tile" href="#knowledge"><span class="ar">العِلْم</span><b>Islamic Knowledge</b><span>Bücher und die Namen Allahs</span></a>
+        <a class="tile" href="#islamisch"><span class="ar">الزِّينَة</span><b>Islamische Accessoires</b><span>Für Gebet und Dhikr</span></a>
+        <a class="tile" href="#praktisch"><span class="ar">التَّيْسِير</span><b>Praktische Accessoires</b><span>Helfer für den Alltag</span></a>
+        <a class="tile" href="#quellen"><span class="ar">المَصادِر</span><b>Quellen</b><span>Qur'an, Hadith, Tafsir, Dalāʾil</span></a>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <div class="view" data-view id="kleidung" hidden>
+  <div class="showcase">
+    <div class="wrap show-grid">
+      <div class="slide" id="slide" aria-live="polite">
+        <div class="art" id="slideArt" aria-hidden="true"></div>
+        <div class="txt">
+          <span class="tag" id="slideTag"></span>
+          <h2 id="slideTitle" style="font-size:clamp(1.8rem,4vw,2.6rem)"></h2>
+          <p id="slideText"></p>
+          <div class="row"><a class="btn" id="slideBtn" href="#" target="_blank" rel="nofollow sponsored noopener">Bei Amazon ansehen ↗</a></div>
+        </div>
+        <div class="dots" id="dots" role="group" aria-label="Angebot wählen"></div>
+      </div>
+      <div class="side-ads">
+        <a class="ad" href="#kleidung"><b>Kleidung von Kopf bis Fuß</b><span>Nur Baumwolle und Leinen, für Männer und Frauen.</span><em>Zur Kleidung →</em></a>
+        <a class="ad" href="#praktisch" hidden><b>Für unterwegs</b><span>Qibla-Kompass, Reise-Gebetsteppich und Wudu-Flasche: alles, was in die Tasche passt.</span><em>Praktische Accessoires →</em></a>
+        <a class="ad green" href="#fasten"><b id="adFastTitle">Nächster Fastentag</b><span id="adFastText">Wird berechnet …</span><em>Erinnerung einrichten →</em></a>
+      </div>
+    </div>
+  </div>
+
+  <section style="padding-top:28px">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Kleidung</p>
+        <h2>Von Kopf bis Fuß</h2>
+        <p class="lead">Schlichte islamische Kleidung, ausschließlich aus Baumwolle oder Leinen: atmungsaktiv, natürlich und angenehm im Gebet.</p>
+        <div class="mat-note">
+          <div class="gender" role="group" aria-label="Für wen">
+            <button type="button" data-g="m" aria-pressed="true">Männer</button>
+            <button type="button" data-g="f" aria-pressed="false">Frauen</button>
+          </div>
+          <span class="mat">Baumwolle</span><span class="mat">Leinen</span>
+        </div>
+      </div>
+      <div class="zones" id="zones"></div>
+    </div>
+  </section>
+  </div>
+
+  <div class="view" data-view id="knowledge" hidden>
+    <section style="padding-top:36px">
+      <div class="wrap">
+        <article class="col solo">
+          <div class="col-head"><span class="ar">العِلْم</span><h2>Islamic Knowledge</h2><p class="note">Bücher, die das Herz und den Verstand nähren.</p></div>
+          <ul id="colKnowledge"></ul>
+          <div class="col-sub">Die schönsten Namen Allahs</div>
+          <div class="knames" id="kNames"></div>
+          <div class="col-foot"><a href="#quellen">Zu den Quellen →</a></div>
+        </article>
+        <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="view" data-view id="islamisch" hidden>
+    <section style="padding-top:36px">
+      <div class="wrap">
+        <article class="col solo">
+          <div class="col-head"><span class="ar">الزِّينَة</span><h2>Islamische Accessoires</h2><p class="note">Für Gebet, Dhikr und schlichte Kleidung.</p></div>
+          <ul id="colIslamic"></ul>
+        </article>
+        <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="view" data-view id="praktisch" hidden>
+    <section style="padding-top:36px">
+      <div class="wrap">
+        <article class="col solo">
+          <div class="col-head"><span class="ar">التَّيْسِير</span><h2>Praktische Accessoires</h2><p class="note">Kleine Helfer, die den Alltag als Muslim leichter machen.</p></div>
+          <ul id="colPractical"></ul>
+        </article>
+        <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="view" data-view id="quellen" hidden>
+  <section style="padding-top:36px">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Wichtige Quellen</p>
+        <h2>Wissen aus erster Hand</h2>
+        <p class="lead">Die Grundlagen sind der Qur'an und die Sunna. Diese Werke und Seiten sind gute, frei zugängliche Einstiege.</p>
+      </div>
+      <div class="sources" id="sources"></div>
+    </div>
+  </section>
   </div>
 </main>
 
@@ -687,6 +812,111 @@ q.addEventListener("input",()=>{const v=q.value.trim().toLowerCase();if(!v){res.
   res.innerHTML=hits.map(h=>`<a href="${h.h}"${h.g?` data-g2="${h.g}"`:""}><span>${h.t}</span><small>${h.s}</small></a>`).join("")||`<div class="note" style="padding:.6em .8em">Nichts gefunden für „${v.replace(/[<>&"]/g,"")}“.</div>`;res.hidden=false});
 res.addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;if(a.dataset.g2&&a.dataset.g2!==gender){gender=a.dataset.g2;renderZones()}res.hidden=true;q.value="";const el=document.querySelector(a.getAttribute("href"));if(el&&el.classList.contains("item")){el.style.background="var(--surface-2)";setTimeout(()=>el.style.background="",1600)}});
 document.addEventListener("click",e=>{if(!e.target.closest(".searchbox"))res.hidden=true});
+
+/* ---------- astronomy helpers ---------- */
+const rad=x=>x*Math.PI/180,deg=x=>x*180/Math.PI,fixA=x=>x-360*Math.floor(x/360),fixH=x=>x-24*Math.floor(x/24);
+const jdNoon=d=>Date.UTC(d.getFullYear(),d.getMonth(),d.getDate(),12)/864e5+2440587.5;
+function sunPos(jd){const D=jd-2451545,g=fixA(357.529+0.98560028*D),q=fixA(280.459+0.98564736*D),L=fixA(q+1.915*Math.sin(rad(g))+0.020*Math.sin(rad(2*g))),e=23.439-0.00000036*D;
+  const RA=fixH(deg(Math.atan2(Math.cos(rad(e))*Math.sin(rad(L)),Math.cos(rad(L))))/15);let eqt=q/15-RA;if(eqt>12)eqt-=24;if(eqt<-12)eqt+=24;
+  return{decl:deg(Math.asin(Math.sin(rad(e))*Math.sin(rad(L)))),eqt,lon:L}}
+function moonLon(jd){const D=jd-2451545,L0=218.316+13.176396*D,M=134.963+13.064993*D;return fixA(L0+6.289*Math.sin(rad(M)))}
+const ZOD=[["Widder","♈","الحمل"],["Stier","♉","الثور"],["Zwillinge","♊","الجوزاء"],["Krebs","♋","السرطان"],["Löwe","♌","الأسد"],["Jungfrau","♍","العذراء"],["Waage","♎","الميزان"],["Skorpion","♏","العقرب"],["Schütze","♐","القوس"],["Steinbock","♑","الجدي"],["Wassermann","♒","الدلو"],["Fische","♓","الحوت"]];
+const zsym=i=>ZOD[i][1]+"︎";
+const zOf=lon=>Math.floor(lon/30)%12;
+const zText=i=>`${ZOD[i][0]} <span class="ar">${ZOD[i][2]}</span> ${zsym(i)}`;
+
+/* ---------- prayer times (Diyanet / DITIB method) ---------- */
+const CITIES=[["Berlin",52.520,13.405],["Hamburg",53.551,9.994],["München",48.137,11.575],["Köln",50.938,6.960],["Frankfurt am Main",50.110,8.682],["Stuttgart",48.776,9.183],["Düsseldorf",51.227,6.774],["Dortmund",51.514,7.468],["Essen",51.456,7.012],["Duisburg",51.435,6.763],["Bremen",53.079,8.802],["Hannover",52.376,9.732],["Nürnberg",49.452,11.077],["Leipzig",51.340,12.375],["Dresden",51.050,13.738],["Mannheim",49.488,8.466],["Bielefeld",52.030,8.532],["Bonn",50.737,7.098],["Wuppertal",51.256,7.150],["Gelsenkirchen",51.518,7.086],["Augsburg",48.371,10.898],["Kiel",54.323,10.123],["Wien",48.208,16.373,"Europe/Vienna"],["Zürich",47.377,8.541,"Europe/Zurich"]];
+const PNAMES=[["Fadschr","İmsak"],["Sonnenaufgang","Güneş"],["Dhuhr","Öğle"],["Asr","İkindi"],["Maghrib","Akşam"],["Ischa","Yatsı"]];
+function prayerTimes(d,lat,lng){
+  const {decl,eqt}=sunPos(jdNoon(d)),φ=rad(lat),δ=rad(decl);
+  const T=alt=>deg(Math.acos((Math.sin(rad(alt))-Math.sin(δ)*Math.sin(φ))/(Math.cos(δ)*Math.cos(φ))))/15;
+  const noon=12-lng/15-eqt, rise=noon-T(-0.833), set=noon+T(-0.833), night=24-(set-rise);
+  let fajr=noon-T(-18), isha=noon+T(-17);
+  if(isNaN(fajr)||rise-fajr>night*18/60)fajr=rise-night*18/60;
+  if(isNaN(isha)||isha-set>night*17/60)isha=set+night*17/60;
+  const asr=noon+T(deg(Math.atan(1/(1+Math.tan(Math.abs(φ-δ))))));
+  const base=Date.UTC(d.getFullYear(),d.getMonth(),d.getDate());
+  return [fajr,rise-7/60,noon+5/60,asr+4/60,set+7/60,isha].map(h=>new Date(base+Math.round(h*60)*60000));
+}
+let place=store.get("rh_place",{n:"Berlin",lat:52.520,lng:13.405,tz:"Europe/Berlin"});
+const sel_=$("#ptCity");
+sel_.innerHTML=CITIES.map((c,i)=>`<option value="${i}">${c[0]}</option>`).join("")+`<option value="geo" hidden>Mein Standort</option>`;
+function syncSelect(){const i=CITIES.findIndex(c=>c[0]===place.n);sel_.value=i>=0?String(i):"geo";if(i<0)sel_.querySelector('[value=geo]').hidden=false}
+syncSelect();
+const fmtT=(dt,tz)=>dt.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit",timeZone:tz});
+let ptTimer=null;
+function renderPrayer(){
+  const now=new Date(),t=prayerTimes(today,place.lat,place.lng);
+  let ni=t.findIndex(x=>x>now);const tomorrow=ni<0;
+  const nt=tomorrow?prayerTimes(addDays(today,1),place.lat,place.lng)[0]:t[ni];if(tomorrow)ni=0;
+  $("#ptDate").textContent=`${today.toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"})} · ${fmtH(hijri(today))} · ${place.n}`;
+  $("#ptList").innerHTML=t.map((x,i)=>`<li class="${!tomorrow&&i===ni?"next":""}"><span><b>${PNAMES[i][0]}</b><small>${PNAMES[i][1]}</small></span><time>${fmtT(x,place.tz)}</time></li>`).join("");
+  const mins=Math.max(0,Math.round((nt-now)/60000));
+  $("#ptNextTitle").textContent=`Nächstes Gebet: ${PNAMES[ni][0]}${tomorrow?" (morgen)":""}`;
+  $("#ptCount").textContent=`${fmtT(nt,place.tz)} Uhr · in ${mins>=60?Math.floor(mins/60)+" Std. ":""}${mins%60} Min.`;
+  clearTimeout(ptTimer);ptTimer=setTimeout(renderPrayer,30000);
+}
+sel_.addEventListener("change",()=>{if(sel_.value==="geo")return;const c=CITIES[+sel_.value];place={n:c[0],lat:c[1],lng:c[2],tz:c[3]||"Europe/Berlin"};store.set("rh_place",place);renderPrayer();showDay(selDay)});
+$("#ptLocate").addEventListener("click",()=>{
+  const st=$("#ptStatus");
+  if(!navigator.geolocation){st.textContent="Dein Browser gibt keinen Standort frei. Wähle bitte einen Ort aus der Liste.";return}
+  st.textContent="Standort wird abgefragt …";
+  navigator.geolocation.getCurrentPosition(pos=>{place={n:"Mein Standort",lat:+pos.coords.latitude.toFixed(3),lng:+pos.coords.longitude.toFixed(3),tz:Intl.DateTimeFormat().resolvedOptions().timeZone};store.set("rh_place",place);syncSelect();st.textContent="Gebetszeiten für deinen Standort berechnet. Der Standort bleibt auf deinem Gerät.";renderPrayer();showDay(selDay)},
+    ()=>{st.textContent="Standort nicht verfügbar. Wähle bitte einen Ort aus der Liste."},{timeout:10000,maximumAge:3600000});
+});
+renderPrayer();
+
+/* ---------- month calendar ---------- */
+let calY=today.getFullYear(),calM=today.getMonth(),selDay=today;
+const sameDay=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+function miniMoon(p){return `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="#2A1B3D"/><path d="${moonPath(p)}" fill="#F3E9FF"/></svg>`}
+function renderCal(){
+  const first=new Date(calY,calM,1),start=addDays(first,-((first.getDay()+6)%7)),last=new Date(calY,calM+1,0);
+  $("#calTitle").textContent=first.toLocaleDateString("de-DE",{month:"long",year:"numeric"});
+  const h1=hijri(first),h2=hijri(last);
+  $("#calHijri").textContent=h1.m===h2.m?`${MONTHS[h1.m-1]} ${h1.y}`:`${MONTHS[h1.m-1]}${h1.y!==h2.y?" "+h1.y:""} – ${MONTHS[h2.m-1]} ${h2.y}`;
+  let html=["Mo","Di","Mi","Do","Fr","Sa","So"].map(w=>`<div class="wd">${w}</div>`).join("");
+  const weeks=Math.ceil(((first.getDay()+6)%7+last.getDate())/7);
+  for(let i=0;i<weeks*7;i++){const d=addDays(start,i),h=hijri(d),it=wanted(classify(d)),k=it[0]&&it[0].k;
+    const age=moonAge(new Date(d.getFullYear(),d.getMonth(),d.getDate(),20)),z=zOf(moonLon(jdNoon(d)));
+    html+=`<button type="button" class="day${d.getMonth()!==calM?" out":""}${sameDay(d,today)?" today":""}${sameDay(d,selDay)?" sel":""}" data-t="${d.getTime()}" aria-label="${d.toLocaleDateString("de-DE")}, ${fmtH(h)}${it.length?", "+it.map(x=>x.t).join(", "):""}">
+      ${k?`<i class="fd ${k}"></i>`:""}<span class="g">${d.getDate()}</span><span class="h${h.d===1?" m1":""}"${h.d===1?` title="1. ${MONTHS[h.m-1]}"`:""}>${h.d}</span>${miniMoon(age)}<span class="z" title="Mond im ${ZOD[z][0]}">${zsym(z)}</span></button>`}
+  $("#calGrid").innerHTML=html;
+}
+function showDay(d){
+  selDay=d;const h=hijri(d),age=moonAge(new Date(d.getFullYear(),d.getMonth(),d.getDate(),20)),jd=jdNoon(d);
+  $("#gregToday").textContent=(sameDay(d,today)?"Heute, ":"")+d.toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  $("#hijriToday").textContent=fmtH(h)+" n. H.";
+  $("#hijriTodayAr").textContent=`${arDigits(h.d)} ${MONTHS_AR[h.m-1]} ${arDigits(h.y)}`;
+  drawMoon($("#bigMoon"),age);
+  $("#moonName").textContent=moonPhaseName(age);
+  $("#moonAge").textContent=`${Math.round((1-Math.cos(2*Math.PI*age))/2*100)} % beleuchtet, Mondalter ${(age*SYN).toFixed(1).replace(".",",")} Tage`;
+  $("#moonSign").innerHTML=zText(zOf(moonLon(jd)));
+  $("#sunSign").innerHTML=zText(zOf(sunPos(jd).lon));
+  const it=classify(d);
+  $("#dayFast").innerHTML=it.length?it.map(x=>`<span class="pill ${x.k}">${PILL[x.k]}</span> ${x.t}`).join("<br>"):"Kein besonderer Fastentag";
+  renderCal();
+}
+$("#calGrid").addEventListener("click",e=>{const b=e.target.closest(".day");if(!b)return;const d=new Date(+b.dataset.t);if(d.getMonth()!==calM){calY=d.getFullYear();calM=d.getMonth()}showDay(d)});
+$("#calPrev").addEventListener("click",()=>{calM--;if(calM<0){calM=11;calY--}renderCal()});
+$("#calNext").addEventListener("click",()=>{calM++;if(calM>11){calM=0;calY++}renderCal()});
+$("#calToday").addEventListener("click",()=>{calY=today.getFullYear();calM=today.getMonth();showDay(today)});
+showDay(today);
+
+/* ---------- views (router) ---------- */
+const VIEWS=[...document.querySelectorAll("[data-view]")];
+function route(){
+  const h=decodeURIComponent(location.hash.slice(1))||"start";
+  let el=document.getElementById(h),v=el&&el.closest("[data-view]");
+  if(!v){v=VIEWS[0];el=null}
+  const changed=v.hidden;
+  VIEWS.forEach(x=>x.hidden=x!==v);
+  document.querySelectorAll("nav.main a[data-nav]").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+h||(a.dataset.nav===v.id&&a.getAttribute("href")==="#"+v.id&&h===v.id)));
+  if(el&&el!==v)requestAnimationFrame(()=>el.scrollIntoView({block:"start"}));
+  else if(changed||el===v)window.scrollTo(0,0);
+}
+addEventListener("hashchange",route);route();
 })();
 </script>
 </body>
