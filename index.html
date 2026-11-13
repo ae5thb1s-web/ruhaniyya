@@ -103,6 +103,13 @@ nav.sub{border-top:1px solid var(--line);background:var(--surface-2)}
 nav.sub .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:6px}
 nav.sub a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:600;font-size:.9rem;padding:.35em .8em;border-radius:999px}
 nav.sub a.on{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14px var(--glow)}
+.gfilter{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.gfilter button{font:inherit;font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:999px;padding:.45em 1em;cursor:pointer}
+.gfilter button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
+.gift-hadith{border-left:3px solid var(--primary);padding:.3em 0 .3em 1em;margin:0 0 22px;color:var(--muted)}
+.gift-hadith .ar{display:block;font-family:Amiri,serif;font-size:1.4rem;color:var(--primary)}
+.col li.item[hidden]{display:none!important}
+.col.gempty{display:none}
 .two-cols{grid-template-columns:1fr 1fr!important}
 @media (max-width:760px){.two-cols{grid-template-columns:1fr!important}}
 .knames.big{padding:0;gap:8px}
@@ -322,6 +329,7 @@ html{scroll-padding-top:170px}
       <a href="#start" data-grp="start">Home</a>
       <a href="#quellen" data-grp="quellen">Wissensquellen</a>
       <a href="#shop" data-grp="shop">Shop</a>
+      <a href="#geschenke" data-grp="geschenke">Geschenke</a>
       <span class="hijri-strip" id="hijriStrip"></span>
     </div>
   </nav>
@@ -470,6 +478,7 @@ html{scroll-padding-top:170px}
         <a class="tile" href="#kleidung-maenner"><span class="ar">لِباس</span><b>Kleidung Männer</b><span>Von Kopf bis Fuß</span></a>
         <a class="tile" href="#accessoires"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Islamisch und praktisch</span></a>
         <a class="tile" href="#buecher"><span class="ar">الكُتُب</span><b>Bücher &amp; E-Books</b><span>Wissen zum Lesen und Mitnehmen</span></a>
+        <a class="tile" href="#geschenke"><span class="ar">هَدِيَّة</span><b>Geschenke</b><span>Ideen für Eid, Hochzeit, Geburt und mehr</span></a>
       </div>
     </div>
   </section>
@@ -581,6 +590,23 @@ html{scroll-padding-top:170px}
             <ul id="colEbooks"></ul>
           </article>
         </div>
+        <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
+      </div>
+    </section>
+  </div>
+  <div class="view" data-view id="geschenke" hidden>
+    <section style="padding-top:28px">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Geschenkideen</p><h2>Geschenke, die von Herzen kommen</h2><p class="lead">Du suchst ein Geschenk für jemanden? Hier findest du Ideen nach Anlass, zum Beispiel für Eid, eine Hochzeit, ein Baby oder die Rückkehr von der Pilgerfahrt.</p></div>
+        <p class="gift-hadith"><span class="ar">تَهَادَوْا تَحَابُّوا</span>„Beschenkt einander, so werdet ihr einander lieben.“ (al-Adab al-Mufrad, al-Buchārī)</p>
+        <div class="gfilter" id="gFilter" role="group" aria-label="Für wen">
+          <button type="button" data-w="" aria-pressed="true">Alle</button>
+          <button type="button" data-w="m" aria-pressed="false">Für ihn</button>
+          <button type="button" data-w="f" aria-pressed="false">Für sie</button>
+          <button type="button" data-w="k" aria-pressed="false">Für Kinder</button>
+          <button type="button" data-w="e" aria-pressed="false">Für Eltern &amp; Großeltern</button>
+        </div>
+        <div class="cols" id="giftCols"></div>
         <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
       </div>
     </section>
@@ -833,6 +859,37 @@ const SRC=[["Qur'an","Quran.com","Der Qur'an mit Rezitation, Wort-für-Wort-Anal
  ["Salawat","Dalāʾil al-Khayrāt","Imam al-Dschazūlīs berühmte Sammlung von Segenswünschen auf den Propheten ﷺ, über Jahrhunderte täglich gelesen.",amz("Dalail al-Khayrat")]];
 $("#sources").innerHTML=SRC.map(s=>`<article class="src"><span class="kind">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p>${s[3].includes("amazon.")?`<a href="${s[3]}" ${AMZ_ATTR}>Bei Amazon ansehen ↗</a>`:`<a href="${s[3]}" target="_blank" rel="noopener">Öffnen ↗</a>`}</article>`).join("");
 
+/* ---------- gifts ---------- */
+const OCC=[["eid","عيد","Ramadan & Eid","Zum Fastenbrechen und zum Fest"],["hochzeit","زواج","Hochzeit","Für das junge Ehepaar"],["baby","مولود","Geburt & Aqiqa","Für Eltern und Neugeborene"],["hajj","حج","Hajj & Umrah","Zum Abschied oder zur Rückkehr"],["neu","شهادة","Neu im Islam","Für jemanden, der den Weg gerade beginnt"],["alltag","هدية","Einfach so","Kleine Aufmerksamkeiten"]];
+const G=[
+ {id:"g1",o:"eid",w:"mfe",n:"Datteln-Geschenkbox",d:"Medjool-Datteln, edel verpackt",q:"Medjool Datteln Geschenkbox",ar:"تمر",bg:"#7C2D12"},
+ {id:"g2",o:"eid",w:"k",n:"Ramadan-Adventskalender",d:"30 Türchen bis Eid, für Kinder",q:"Ramadan Kalender Kinder",ar:"رمضان",bg:"#5B1E99"},
+ {id:"g3",o:"eid",w:"mfe",n:"Laterne (Fanous)",d:"Dekoration für Ramadan und Eid",q:"Ramadan Laterne Fanous",ar:"فانوس",bg:"#4C1D95"},
+ {id:"g4",o:"eid",w:"m",n:"Attar-Set",d:"Alkoholfreie Parfümöle, mehrere Düfte",q:"Attar Set alkoholfrei Geschenk",ar:"عطر",bg:"#7C2D92"},
+ {id:"g5",o:"hochzeit",w:"mf",n:"Partner-Gebetsteppiche",d:"Zwei passende Teppiche aus Baumwolle",q:"Gebetsteppich Set Paar Geschenk",ar:"سجادة",bg:"#4C1D95"},
+ {id:"g6",o:"hochzeit",w:"mf",n:"Qur'an mit Gravur",d:"Mit Namen, in Geschenkbox",q:"Koran personalisiert Gravur Geschenk",ar:"القرآن",bg:"#3B0D66"},
+ {id:"g7",o:"hochzeit",w:"mfe",n:"Islamisches Wandbild",d:"Kalligrafie für das neue Zuhause",q:"islamische Kalligrafie Wandbild",ar:"خط",bg:"#065F46"},
+ {id:"g8",o:"baby",w:"k",n:"Baby-Body aus Bio-Baumwolle",d:"Mit Basmala oder Halbmond",q:"Baby Body Bio Baumwolle islamisch",ar:"مولود",bg:"#0E7490"},
+ {id:"g9",o:"baby",w:"k",n:"Qur'an-Nachtlicht",d:"Spielt Suren zum Einschlafen",q:"Quran Nachtlicht Lautsprecher Kinder",ar:"نور",bg:"#5B21B6"},
+ {id:"g10",o:"baby",w:"k",n:"Prophetengeschichten für Kinder",d:"Bilderbuch auf Deutsch",q:"Prophetengeschichten Kinder Buch deutsch",ar:"قصص",bg:"#6A24B3"},
+ {id:"g11",o:"hajj",w:"mfe",n:"Hajj- und Umrah-Ratgeber",d:"Schritt für Schritt, Taschenformat",q:"Hajj Umrah Ratgeber deutsch",ar:"حج",bg:"#2E0A52"},
+ {id:"g12",o:"hajj",w:"m",n:"Ihram aus Baumwolle",d:"Zwei Tücher, saugfähig und weich",q:"Ihram Baumwolle Herren",ar:"إحرام",bg:"#047857"},
+ {id:"g13",o:"hajj",w:"mfe",n:"Zamzam-Trinkflasche",d:"Edelstahl, für unterwegs",q:"Zamzam Flasche Edelstahl",ar:"زمزم",bg:"#0E7490"},
+ {id:"g14",o:"neu",w:"mf",n:"Einsteiger-Set fürs Gebet",d:"Teppich, Misbaha und Gebetsanleitung",q:"Gebet Set Muslim Anfänger",ar:"صلاة",bg:"#4A1580"},
+ {id:"g15",o:"neu",w:"mf",n:"Der Islam für Einsteiger",d:"Verständliche Einführung",q:"Islam Einführung Buch deutsch Anfänger",ar:"إسلام",bg:"#3B0764"},
+ {id:"g16",o:"neu",w:"mfe",n:"Hisnul Muslim",d:"Bittgebete für jeden Anlass",q:"Hisnul Muslim deutsch",ar:"حصن",bg:"#5B1E99"},
+ {id:"g17",o:"alltag",w:"e",n:"Misbaha aus Olivenholz",d:"33 Perlen, in Holzbox",q:"Misbaha Olivenholz Geschenkbox",ar:"مسبحة",bg:"#065F46"},
+ {id:"g18",o:"alltag",w:"e",n:"Qur'an in Großdruck",d:"Gut lesbar für ältere Augen",q:"Koran Großdruck",ar:"القرآن",bg:"#3B0D66"},
+ {id:"g19",o:"alltag",w:"mf",n:"Digitaler Tasbih-Ring",d:"Zählt Dhikr per Fingertipp",q:"Tasbih Ring digital Zähler",ar:"عدّاد",bg:"#6D28D9"},
+ {id:"g20",o:"alltag",w:"f",n:"Hijab-Set aus Baumwolle",d:"Mehrere Farben, mit Geschenkbox",q:"Hijab Set Baumwolle Geschenk",ar:"حجاب",bg:"#7C2D92"}
+];
+const giftItem=x=>`<li class="item" id="${x.id}" data-w="${x.w}"><div class="thumb" style="background:${x.bg}" aria-hidden="true">${x.ar}</div><div style="min-width:0"><b>${x.n}</b><small>${x.d}</small></div><div class="side"><a class="add" href="${amz(x.q)}" ${AMZ_ATTR} aria-label="${x.n} bei Amazon ansehen">Amazon ↗</a></div></li>`;
+$("#giftCols").innerHTML=OCC.map(o=>`<article class="col" id="g-${o[0]}"><div class="col-head"><span class="ar">${o[1]}</span><h2>${o[2]}</h2><p class="note">${o[3]}</p></div><ul>${G.filter(g=>g.o===o[0]).map(giftItem).join("")}</ul></article>`).join("");
+function giftFilter(w){document.querySelectorAll("#gFilter button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.w===w));
+  document.querySelectorAll("#giftCols .col").forEach(c=>{let n=0;c.querySelectorAll("li.item").forEach(li=>{const ok=!w||li.dataset.w.includes(w);li.hidden=!ok;if(ok)n++});c.classList.toggle("gempty",!n)})}
+document.querySelectorAll("#gFilter button").forEach(b=>b.addEventListener("click",()=>giftFilter(b.dataset.w)));
+addEventListener("hashchange",()=>{if(/^g\d+$/.test(location.hash.slice(1)))giftFilter("")});
+
 /* ---------- search ---------- */
 const COL={knowledge:"Bücher",ebook:"E-Books",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
 const ZN=Object.fromEntries(ZONES.map(z=>[z[0],z[1]]));
@@ -841,6 +898,8 @@ const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c],k:(x.n+" "+x.d+" "+COL[x.c]).toLower
   ...ALLAH.map(r=>({t:r[1]+" – "+r[2],s:"Name Allahs",k:(r.join(" ")).toLowerCase(),h:"#knowledge"})),
   ...SRC.map(s=>({t:s[1],s:"Quelle · "+s[0],k:(s.join(" ")).toLowerCase(),h:"#quellen"})),
   {t:"Fastentage & Erinnerungen",s:"Bereich",k:"fasten fastentage sunnah montag donnerstag ramadan ashura arafa erinnerung",h:"#fasten"},
+  ...G.map(g=>({t:g.n,s:"Geschenk · "+OCC.find(o=>o[0]===g.o)[2],k:(g.n+" "+g.d+" geschenk geschenkidee "+OCC.find(o=>o[0]===g.o)[2]).toLowerCase(),h:"#"+g.id})),
+  {t:"Geschenkideen",s:"Bereich",k:"geschenk geschenke geschenkidee idee schenken eid hochzeit geburt baby hajj umrah",h:"#geschenke"},
   {t:"Mondkalender",s:"Bereich",k:"mond mondkalender hijri monat vollmond neumond",h:"#mond"}];
 const q=$("#q"),res=$("#results");
 q.addEventListener("input",()=>{const v=q.value.trim().toLowerCase();if(!v){res.hidden=true;return}
