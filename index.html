@@ -75,6 +75,7 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background
 .icon-btn b{color:var(--primary)}
 nav.main{border-top:1px solid var(--line)}
 nav.main .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:6px}
+@media (max-width:480px){nav.main .wrap{gap:0;padding-inline:8px}header nav.main .wrap a{font-size:.8rem;padding:.4em .42em;letter-spacing:-.01em}}
 nav.main a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:600;font-size:.93rem;padding:.4em .8em;border-radius:8px}
 nav.main a:hover{color:var(--primary);background:var(--surface-2)}
 .hijri-strip{margin-left:auto;white-space:nowrap;font-size:.86rem;color:var(--muted);padding:.4em 0}
@@ -332,6 +333,7 @@ html{scroll-padding-top:170px}
   <nav class="main" aria-label="Hauptmenü">
     <div class="wrap">
       <a href="#start" data-grp="start">Home</a>
+      <a href="#gebetszeiten" data-grp="gebetszeiten">Gebetszeiten</a>
       <a href="#quellen" data-grp="quellen">Wissensquellen</a>
       <a href="#shop" data-grp="shop">Shop</a>
       <a href="#geschenke" data-grp="geschenke">Geschenke</a>
@@ -1144,7 +1146,7 @@ function route(){
   if(!v){v=VIEWS[0];el=null}
   const changed=v.hidden;
   VIEWS.forEach(x=>x.hidden=x!==v);
-  const grp=SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
+  const grp=h==="gebetszeiten"?"gebetszeiten":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
   document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
   $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";
   document.querySelectorAll("#subwissen a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+v.id));
