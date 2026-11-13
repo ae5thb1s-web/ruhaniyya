@@ -82,7 +82,9 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background
 .icon-btn b{color:var(--primary)}
 nav.main{border-top:1px solid var(--line)}
 nav.main .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:6px}
-@media (max-width:480px){nav.main .wrap{gap:0;padding-inline:8px}header nav.main .wrap a{font-size:.8rem;padding:.4em .42em;letter-spacing:-.01em}}
+nav.main a.nav-donate{color:var(--primary)}
+nav.main a.nav-donate.on{background:var(--primary);color:var(--primary-fg)}
+@media (max-width:480px){nav.main .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding-inline:8px;overflow:visible}header nav.main .wrap a{font-size:.84rem;padding:.45em .3em;text-align:center}}
 nav.main a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:600;font-size:.93rem;padding:.4em .8em;border-radius:8px}
 nav.main a:hover{color:var(--primary);background:var(--surface-2)}
 .hijri-strip{margin-left:auto;white-space:nowrap;font-size:.86rem;color:var(--muted);padding:.4em 0}
@@ -116,6 +118,8 @@ nav.sub a.on{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14
 .plain li b{display:block}.plain li small{color:var(--muted)}
 .plain li.today{background:var(--surface-2);box-shadow:inset 3px 0 0 var(--primary)}
 .plain li .tag{float:right;font-size:.75rem;font-weight:700;color:var(--primary)}
+.way .saw,footer .saw{font-family:var(--f-ar);font-weight:400}
+.way{margin:.2em 0 .6em;font-weight:600;color:var(--primary);font-size:1.05rem;max-width:60ch}
 .gtabs{display:flex;gap:6px;margin:0 0 18px}
 .gtabs a{text-decoration:none;font-weight:700;font-size:.92rem;padding:.45em 1.1em;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--bg)}
 .gtabs a.on{background:var(--primary);border-color:var(--primary);color:var(--primary-fg)}
@@ -340,7 +344,6 @@ html{scroll-padding-top:170px}
       <div class="results" id="results" hidden></div>
     </div>
     <div class="icons">
-      <a class="icon-btn donate" href="#spenden" aria-label="Spenden"><span aria-hidden="true">♥</span><span>Spenden</span></a>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell oder dunkel umschalten"><span id="themeIco">☾</span><span class="lbl" id="themeLbl">Dunkel</span></button>
     </div>
   </div>
@@ -351,6 +354,7 @@ html{scroll-padding-top:170px}
       <a href="#quellen" data-grp="quellen">Wissensquellen</a>
       <a href="#shop" data-grp="shop">Shop</a>
       <a href="#geschenke" data-grp="geschenke">Geschenke</a>
+      <a href="#spenden" data-grp="spenden" class="nav-donate"><span aria-hidden="true">♥</span> Spenden</a>
       <span class="hijri-strip" id="hijriStrip"></span>
     </div>
   </nav>
@@ -378,6 +382,7 @@ html{scroll-padding-top:170px}
     <div class="wrap intro-grid">
       <div>
         <p class="eyebrow">Was ist Ruhaniyya?</p>
+        <p class="way">Ruhaniyya, der Weg des spirituellen Islam: der Weg des Propheten <span class="saw">ﷺ</span>, des Siegels der Propheten, des Propheten der Endzeit.</p>
         <h1>Nach der Sunnah leben, <span>vor allem in dieser Zeit.</span></h1>
         <p class="lead">Ruhaniyya (روحانية, Spiritualität) begleitet dich auf dem Weg der Sunnah des Propheten <span class="ar">ﷺ</span>. Wir geben dir Wissen und die wichtigen Quellen an die Hand, erinnern dich an die Sunnah-Tage und bieten dir das nötige Materielle, das uns auch physisch stärkt: Kleidung, Accessoires und praktische Helfer für den Alltag. Denn der Satan versucht, den Menschen im Alltag das Wichtige vergessen zu lassen („Der Satan hat sie überwältigt und sie das Gedenken Allahs vergessen lassen“, Qur'an 58:19). Ruhaniyya will dich daran erinnern.</p>
         <div class="ayah">
@@ -767,7 +772,7 @@ html{scroll-padding-top:170px}
 
 <footer>
   <div class="wrap">
-    <div><b>Ruhaniyya</b> · Weg des spirituellen Islam</div>
+    <div><b>Ruhaniyya</b> · Weg des spirituellen Islam · Der Weg des Propheten <span class="saw">ﷺ</span>, des Siegels der Propheten, des Propheten der Endzeit</div>
     <div>Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></div>
   </div>
 </footer>
