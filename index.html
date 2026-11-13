@@ -113,8 +113,8 @@ section .head{display:grid;gap:10px;margin-bottom:26px}
 .item small{color:var(--muted);display:block;font-size:.85rem;line-height:1.35}
 .item .side{display:grid;justify-items:end;gap:4px}
 .price{font-weight:700;font-variant-numeric:tabular-nums}
-.add{border:1px solid var(--primary);background:transparent;color:var(--primary);border-radius:999px;width:32px;height:32px;font:700 1.1rem var(--f-body);cursor:pointer;line-height:1}
-.add:hover,.add.done{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14px var(--glow)}
+.add{display:inline-grid;place-items:center;border:1px solid var(--primary);background:transparent;color:var(--primary);border-radius:999px;padding:0 .7em;height:30px;font:700 .8rem var(--f-body);text-decoration:none;white-space:nowrap}
+.add:hover{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14px var(--glow)}
 .col-sub{padding:14px 22px 6px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
 .knames{display:flex;flex-wrap:wrap;gap:6px;padding:4px 18px 18px}
 .chip{border:1px solid var(--line);border-radius:999px;padding:.3em .75em;font-size:.88rem;background:var(--bg);display:inline-flex;gap:.4em;align-items:baseline}
@@ -177,6 +177,29 @@ footer b{color:var(--primary);font-family:var(--f-display)}
 .drawer form{display:grid;gap:10px}
 .drawer input[type=email],.drawer input[type=password]{padding:.6em .9em;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--fg);font:1rem var(--f-body)}
 
+/* ---------- clothing head to toe ---------- */
+.gender{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px;background:var(--surface);gap:4px}
+.gender button{border:0;background:transparent;color:var(--muted);font:700 .95rem var(--f-body);padding:.5em 1.3em;border-radius:999px;cursor:pointer}
+.gender button[aria-pressed="true"]{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 18px var(--glow)}
+.mat-note{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.zones{display:grid;gap:0;position:relative}
+.zone{display:grid;grid-template-columns:170px 1fr;gap:20px;padding-block:18px;border-top:1px solid var(--line)}
+.zone:first-child{border-top:0}
+.zlabel{display:flex;gap:12px;align-items:flex-start;position:sticky;top:140px;align-self:start}
+.zlabel .dot{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);border:2px solid var(--primary);color:var(--primary);font-weight:700;font-size:.85rem;box-shadow:0 0 14px var(--glow)}
+.zlabel b{display:block;font-family:var(--f-display);font-size:1.1rem}
+.zlabel small{color:var(--muted);font-size:.82rem}
+.zcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;min-width:0}
+.cloth{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:grid;gap:6px;align-content:start}
+.cloth .top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.mat{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.cloth .ar{color:var(--primary);font-size:1.05rem}
+.cloth b{font-weight:700;line-height:1.25}
+.cloth p{color:var(--muted);font-size:.88rem}
+.amz{justify-self:start;margin-top:4px;display:inline-flex;gap:.35em;align-items:center;border:1px solid var(--primary);color:var(--primary);border-radius:999px;padding:.35em .9em;font:700 .85rem var(--f-body);text-decoration:none}
+.amz:hover{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14px var(--glow)}
+.disclosure{font-size:.82rem;color:var(--muted);border:1px dashed var(--line);border-radius:10px;padding:10px 14px}
+@media (max-width:700px){.zone{grid-template-columns:1fr;gap:10px}.zlabel{position:static}}
 @media (max-width:980px){.cols{grid-template-columns:1fr 1fr}.cols .col:first-child{grid-column:1/-1}}
 @media (max-width:820px){
   .show-grid,.two{grid-template-columns:1fr}
@@ -206,17 +229,17 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
     <a class="brand" href="#start"><b>Ruhaniyya</b><small>Weg des spirituellen Islam</small></a>
     <div class="searchbox">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Suchen: Produkte, Namen, Quellen …" aria-label="Seite durchsuchen" autocomplete="off">
+      <input id="q" type="search" placeholder="Suchen: Kleidung, Bücher, Namen …" aria-label="Seite durchsuchen" autocomplete="off">
       <div class="results" id="results" hidden></div>
     </div>
     <div class="icons">
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell oder dunkel umschalten"><span id="themeIco">☾</span><span class="lbl" id="themeLbl">Dunkel</span></button>
       <button class="icon-btn" id="accBtn" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lbl">Konto</span></button>
-      <button class="icon-btn" id="cartBtn" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 7h14l-1.5 12h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span class="lbl">Warenkorb</span> <b id="cartCount">0</b></button>
     </div>
   </div>
   <nav class="main" aria-label="Hauptmenü">
     <div class="wrap">
+      <a href="#kleidung">Kleidung</a>
       <a href="#knowledge">Islamic Knowledge</a>
       <a href="#islamisch">Islamische Accessoires</a>
       <a href="#praktisch">Praktische Accessoires</a>
@@ -237,18 +260,37 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
           <span class="tag" id="slideTag"></span>
           <h1 id="slideTitle"></h1>
           <p id="slideText"></p>
-          <div class="row"><span class="price" id="slidePrice"></span><button class="btn" type="button" id="slideBtn">In den Warenkorb</button></div>
+          <div class="row"><a class="btn" id="slideBtn" href="#" target="_blank" rel="nofollow sponsored noopener">Bei Amazon ansehen ↗</a></div>
         </div>
         <div class="dots" id="dots" role="group" aria-label="Angebot wählen"></div>
       </div>
       <div class="side-ads">
-        <a class="ad" href="#praktisch"><b>Für unterwegs</b><span>Qibla-Kompass, Reise-Gebetsteppich und Wudu-Flasche: alles, was in die Tasche passt.</span><em>Praktische Accessoires →</em></a>
+        <a class="ad" href="#kleidung"><b>Kleidung von Kopf bis Fuß</b><span>Nur Baumwolle und Leinen, für Männer und Frauen.</span><em>Zur Kleidung →</em></a>
+        <a class="ad" href="#praktisch" hidden><b>Für unterwegs</b><span>Qibla-Kompass, Reise-Gebetsteppich und Wudu-Flasche: alles, was in die Tasche passt.</span><em>Praktische Accessoires →</em></a>
         <a class="ad green" href="#fasten"><b id="adFastTitle">Nächster Fastentag</b><span id="adFastText">Wird berechnet …</span><em>Erinnerung einrichten →</em></a>
       </div>
     </div>
   </div>
 
-  <section id="produkte" style="padding-top:36px">
+  <section id="kleidung" style="padding-top:36px">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Kleidung</p>
+        <h2>Von Kopf bis Fuß</h2>
+        <p class="lead">Schlichte islamische Kleidung, ausschließlich aus Baumwolle oder Leinen: atmungsaktiv, natürlich und angenehm im Gebet.</p>
+        <div class="mat-note">
+          <div class="gender" role="group" aria-label="Für wen">
+            <button type="button" data-g="m" aria-pressed="true">Männer</button>
+            <button type="button" data-g="f" aria-pressed="false">Frauen</button>
+          </div>
+          <span class="mat">Baumwolle</span><span class="mat">Leinen</span>
+        </div>
+      </div>
+      <div class="zones" id="zones"></div>
+    </div>
+  </section>
+
+  <section id="produkte" style="padding-top:20px">
     <div class="wrap">
       <div class="cols">
         <article class="col" id="knowledge">
@@ -267,7 +309,7 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
           <ul id="colPractical"></ul>
         </article>
       </div>
-      <p class="note" style="margin-top:14px">Alle Produkte und Preise sind Beispiele, bis das Sortiment feststeht.</p>
+      <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
     </div>
   </section>
 
@@ -351,23 +393,14 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
 <footer>
   <div class="wrap">
     <div><b>Ruhaniyya</b> · Weg des spirituellen Islam</div>
-    <div>Impressum · Datenschutz · Versand &amp; Rückgabe <span class="note">(folgen)</span></div>
+    <div>Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. · Impressum · Datenschutz <span class="note">(folgen)</span></div>
   </div>
 </footer>
-
-<aside class="drawer" id="drawer" hidden aria-label="Warenkorb">
-  <button class="close" data-close type="button" aria-label="Schließen">×</button>
-  <h3>Warenkorb</h3>
-  <ul id="cartItems"></ul>
-  <div class="total"><span>Summe</span><span id="cartTotal">0,00 €</span></div>
-  <button class="btn" type="button" disabled>Zur Kasse (noch nicht verfügbar)</button>
-  <p class="note">Die Bezahlung wird angebunden, sobald Shop-System und Zahlungsanbieter feststehen.</p>
-</aside>
 
 <aside class="drawer" id="account" hidden aria-label="Konto">
   <button class="close" data-close type="button" aria-label="Schließen">×</button>
   <h3>Dein Konto</h3>
-  <p class="note">Mit einem Konto siehst du später deine Bestellungen, Wunschliste und gespeicherten Erinnerungen.</p>
+  <p class="note">Mit einem Konto speicherst du später deine Merkliste und Fastenerinnerungen.</p>
   <form id="loginForm">
     <input id="accEmail" type="email" placeholder="E-Mail" aria-label="E-Mail" required>
     <input id="accPw" type="password" placeholder="Passwort" aria-label="Passwort" required>
@@ -508,31 +541,75 @@ $("#icsBtn").addEventListener("click",()=>{const ics=buildICS();
 $("#icsCopy").addEventListener("click",()=>{const t=$("#icsText");const sel=()=>{t.select();status("Text markiert. Mit Strg+C kopieren.")};
   if(navigator.clipboard)navigator.clipboard.writeText(t.value).then(()=>status("Kalendertext kopiert."),sel);else sel()});
 
-/* ---------- products ---------- */
-const P=[
- {id:1,c:"knowledge",n:"Der edle Qur'an",d:"Arabisch und Deutsch, Hardcover",p:29,ar:"القرآن",bg:"#3B0D66"},
- {id:2,c:"knowledge",n:"Riyad as-Salihin",d:"Die Gärten der Tugendhaften, Imam an-Nawawi",p:34,ar:"رياض",bg:"#4A1580"},
- {id:3,c:"knowledge",n:"Hisnul Muslim",d:"Bittgebete für jeden Anlass, Taschenformat",p:9,ar:"حصن",bg:"#5B1E99"},
- {id:4,c:"knowledge",n:"Der versiegelte Nektar",d:"Prophetenbiografie von al-Mubarakpuri",p:27,ar:"الرحيق",bg:"#2E0A52"},
- {id:5,c:"knowledge",n:"Die 40 Hadithe",d:"Imam an-Nawawi, mit Erläuterungen",p:14,ar:"الأربعين",bg:"#6A24B3"},
- {id:6,c:"islamic",n:"Misbaha aus Olivenholz",d:"33 Perlen für Tasbih, Seidenquaste",p:24,ar:"مسبحة",bg:"#065F46"},
- {id:7,c:"islamic",n:"Gebetsteppich Samt",d:"Gepolstert, mit Mihrab-Muster",p:45,ar:"سجادة",bg:"#4C1D95"},
- {id:8,c:"islamic",n:"Attar „Oud & Rose“",d:"Alkoholfreies Parfümöl, 6 ml",p:22,ar:"عطر",bg:"#7C2D92"},
- {id:9,c:"islamic",n:"Miswak, 3er-Set",d:"Natürliche Zahnpflege nach der Sunna",p:7,ar:"سواك",bg:"#047857"},
- {id:10,c:"islamic",n:"Jersey-Hijab",d:"Blickdicht und weich, 180 × 70 cm",p:19,ar:"حجاب",bg:"#5B21B6"},
- {id:11,c:"islamic",n:"Kufi gehäkelt",d:"Handgearbeitete Gebetsmütze, Baumwolle",p:14,ar:"طاقية",bg:"#3B0764"},
- {id:12,c:"practical",n:"Digitaler Tasbih-Ring",d:"Zählt Dhikr per Fingertipp, mit Vibration",p:18,ar:"عدّاد",bg:"#6D28D9"},
- {id:13,c:"practical",n:"Qibla-Kompass",d:"Klein, ohne Akku, für Reise und Büro",p:16,ar:"قبلة",bg:"#065F46"},
- {id:14,c:"practical",n:"Reise-Gebetsteppich",d:"Faltbar auf Handygröße, wasserabweisend",p:24,ar:"سفر",bg:"#4C1D95"},
- {id:15,c:"practical",n:"Wudu-Flasche",d:"Faltbar, 450 ml, für unterwegs",p:12,ar:"وضوء",bg:"#0E7490"},
- {id:16,c:"practical",n:"Qur'an-Ständer (Rehal)",d:"Klappbar aus Holz, mit Gravur",p:21,ar:"رحل",bg:"#7C2D12"},
- {id:17,c:"practical",n:"Gebetszeiten-Wecker",d:"Zeigt Gebetszeiten, spielt den Adhan",p:39,ar:"أذان",bg:"#581C87"}
+/* ---------- Amazon affiliate ---------- */
+const AMAZON_TAG="DEIN-TAG-21"; // ← hier deinen Amazon-PartnerNet-Tracking-ID eintragen
+const amz=q=>`https://www.amazon.de/s?k=${encodeURIComponent(q)}&tag=${AMAZON_TAG}`;
+const AMZ_ATTR='target="_blank" rel="nofollow sponsored noopener"';
+
+/* ---------- clothing head to toe ---------- */
+const ZONES=[["kopf","Kopf","Kufi, Turban, Hijab"],["gesicht","Gesicht & Hals","Schal, Tuch"],["gewand","Gewand","Qamis, Abaya, Jilbab"],["oberteil","Oberteil","Hemd, Kurta, Tunika"],["beine","Beine","Sirwal, Hose, Rock"],["fuesse","Füße","Socken, Schuhe"]];
+const C=[
+ ["m","kopf","Kufi","طاقية","Baumwolle","Gehäkelte Gebetsmütze, atmungsaktiv","Kufi Baumwolle Gebetsmütze"],
+ ["m","kopf","Imama / Turban","عمامة","Baumwolle","Langes Turbantuch zum Wickeln, Sunna","Turban Imama Baumwolle"],
+ ["m","kopf","Taqiyah aus Leinen","طاقية","Leinen","Leichte Kappe für den Sommer","Leinen Kappe Taqiyah"],
+ ["m","gesicht","Shemagh","شماغ","Baumwolle","Klassisches Tuch für Kopf, Gesicht und Hals","Shemagh Baumwolle"],
+ ["m","gesicht","Leinenschal","وشاح","Leinen","Leichter Schal für Hals und Schultern","Leinen Schal Herren"],
+ ["m","gewand","Qamis / Thobe","قميص","Baumwolle","Knöchellanges Gewand, weit geschnitten","Thobe Herren Baumwolle"],
+ ["m","gewand","Leinen-Qamis","قميص","Leinen","Kühlendes Gewand für warme Tage","Leinen Kaftan Herren lang"],
+ ["m","oberteil","Kurta","كرتة","Leinen","Langes Hemd mit Stehkragen","Kurta Herren Leinen"],
+ ["m","oberteil","Leinenhemd","قميص","Leinen","Lockeres Hemd, Grandad-Kragen","Leinenhemd Herren Stehkragen"],
+ ["m","beine","Sirwal","سروال","Baumwolle","Weite Hose, über dem Knöchel","Sirwal Hose Herren Baumwolle"],
+ ["m","beine","Leinenhose","سروال","Leinen","Locker, mit Gummizug","Leinenhose Herren weit"],
+ ["m","fuesse","Baumwollsocken","جوارب","Baumwolle","Fein und atmungsaktiv, ideal für Wudu","Baumwollsocken Herren"],
+ ["m","fuesse","Leinen-Espadrilles","حذاء","Leinen","Leichte Schuhe für Moschee und Alltag","Espadrilles Leinen Herren"],
+ ["f","kopf","Hijab","حجاب","Baumwolle","Blickdicht, weich, 180 × 70 cm","Hijab Baumwolle"],
+ ["f","kopf","Unterkopftuch","بونيه","Baumwolle","Bonnet für sicheren Halt","Unterkopftuch Hijab Baumwolle"],
+ ["f","kopf","Khimar","خمار","Leinen","Langer Überwurf über Kopf und Schultern","Khimar Leinen"],
+ ["f","gesicht","Niqab","نقاب","Baumwolle","Leicht und atmungsaktiv","Niqab Baumwolle"],
+ ["f","gesicht","Leinentuch","وشاح","Leinen","Für Hals und Schultern","Leinen Tuch Damen Schal"],
+ ["f","gewand","Abaya","عباءة","Leinen","Fließend und weit, für jeden Tag","Abaya Leinen"],
+ ["f","gewand","Jilbab","جلباب","Baumwolle","Bodenlang, einteilig","Jilbab Baumwolle"],
+ ["f","oberteil","Lange Tunika","قميص","Leinen","Bis übers Knie, weit geschnitten","Tunika Damen Leinen lang"],
+ ["f","oberteil","Lange Bluse","قميص","Baumwolle","Langarm, blickdicht","Longbluse Damen Baumwolle langarm"],
+ ["f","beine","Weiter Rock","تنورة","Leinen","Bodenlang, mit Gummibund","Maxirock Leinen Damen"],
+ ["f","beine","Palazzohose","سروال","Baumwolle","Weit und bequem","Palazzohose Baumwolle Damen"],
+ ["f","fuesse","Baumwollsocken","جوارب","Baumwolle","Blickdicht und weich","Baumwollsocken Damen"],
+ ["f","fuesse","Leinenschuhe","حذاء","Leinen","Leichte Slipper","Espadrilles Leinen Damen"]
 ];
-const FEATURED=[{id:1,tag:"Empfehlung",t:"Der edle Qur'an",x:"Arabisch mit deutscher Übersetzung, festes Hardcover. Ein Buch für ein ganzes Leben."},
-  {id:12,tag:"Neu",t:"Digitaler Tasbih-Ring",x:"Dhikr zählen, ohne hinzusehen. Leicht, leise und den ganzen Tag am Finger."},
-  {id:7,tag:"Beliebt",t:"Gebetsteppich aus Samt",x:"Weich gepolstert mit klassischem Mihrab-Muster, für das Gebet zu Hause."}];
+let gender=store.get("rh_gender","m");
+function renderZones(){
+  $("#zones").innerHTML=ZONES.map(([z,name,hint],i)=>{const items=C.filter(c=>c[0]===gender&&c[1]===z);
+    return `<div class="zone"><div class="zlabel"><span class="dot">${i+1}</span><div><b>${name}</b><small>${hint}</small></div></div>
+    <div class="zcards">${items.map(c=>`<article class="cloth"><div class="top"><span class="ar">${c[3]}</span><span class="mat">${c[4]}</span></div><b>${c[2]}</b><p>${c[5]}</p><a class="amz" href="${amz(c[6])}" ${AMZ_ATTR}>Bei Amazon ansehen ↗</a></article>`).join("")}</div></div>`}).join("");
+  document.querySelectorAll("[data-g]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.g===gender));
+}
+document.querySelectorAll("[data-g]").forEach(b=>b.addEventListener("click",()=>{gender=b.dataset.g;store.set("rh_gender",gender);renderZones()}));
+renderZones();
+
+/* ---------- products (columns) ---------- */
+const P=[
+ {id:1,c:"knowledge",n:"Der edle Qur'an",d:"Arabisch und Deutsch, Hardcover",q:"Der edle Quran deutsch arabisch",ar:"القرآن",bg:"#3B0D66"},
+ {id:2,c:"knowledge",n:"Riyad as-Salihin",d:"Die Gärten der Tugendhaften, Imam an-Nawawi",q:"Riyad as-Salihin deutsch",ar:"رياض",bg:"#4A1580"},
+ {id:3,c:"knowledge",n:"Hisnul Muslim",d:"Bittgebete für jeden Anlass, Taschenformat",q:"Hisnul Muslim deutsch",ar:"حصن",bg:"#5B1E99"},
+ {id:4,c:"knowledge",n:"Der versiegelte Nektar",d:"Prophetenbiografie von al-Mubarakpuri",q:"Der versiegelte Nektar",ar:"الرحيق",bg:"#2E0A52"},
+ {id:5,c:"knowledge",n:"Die 40 Hadithe",d:"Imam an-Nawawi, mit Erläuterungen",q:"40 Hadithe Nawawi deutsch",ar:"الأربعين",bg:"#6A24B3"},
+ {id:6,c:"islamic",n:"Misbaha aus Olivenholz",d:"33 Perlen für Tasbih",q:"Misbaha Olivenholz 33",ar:"مسبحة",bg:"#065F46"},
+ {id:7,c:"islamic",n:"Gebetsteppich aus Baumwolle",d:"Gepolstert, mit Mihrab-Muster",q:"Gebetsteppich Baumwolle",ar:"سجادة",bg:"#4C1D95"},
+ {id:8,c:"islamic",n:"Attar „Oud & Rose“",d:"Alkoholfreies Parfümöl",q:"Attar Oud alkoholfrei",ar:"عطر",bg:"#7C2D92"},
+ {id:9,c:"islamic",n:"Miswak",d:"Natürliche Zahnpflege nach der Sunna",q:"Miswak",ar:"سواك",bg:"#047857"},
+ {id:10,c:"islamic",n:"Qur'an-Hülle aus Leinen",d:"Schützt den Mushaf, mit Reißverschluss",q:"Koran Hülle Stoff",ar:"غلاف",bg:"#5B21B6"},
+ {id:12,c:"practical",n:"Digitaler Tasbih-Ring",d:"Zählt Dhikr per Fingertipp",q:"Tasbih Ring digital Zähler",ar:"عدّاد",bg:"#6D28D9"},
+ {id:13,c:"practical",n:"Qibla-Kompass",d:"Klein, für Reise und Büro",q:"Qibla Kompass",ar:"قبلة",bg:"#065F46"},
+ {id:14,c:"practical",n:"Reise-Gebetsteppich",d:"Faltbar, mit Tasche",q:"Reise Gebetsteppich faltbar Tasche",ar:"سفر",bg:"#4C1D95"},
+ {id:15,c:"practical",n:"Wudu-Flasche",d:"Faltbar, für unterwegs",q:"Wudu Flasche faltbar",ar:"وضوء",bg:"#0E7490"},
+ {id:16,c:"practical",n:"Qur'an-Ständer (Rehal)",d:"Klappbar aus Holz",q:"Rehal Koranständer Holz",ar:"رحل",bg:"#7C2D12"},
+ {id:17,c:"practical",n:"Gebetszeiten-Uhr",d:"Zeigt Gebetszeiten, spielt den Adhan",q:"Azan Uhr Gebetszeiten",ar:"أذان",bg:"#581C87"}
+];
+const FEATURED=[{id:1,tag:"Empfehlung",t:"Der edle Qur'an",x:"Arabisch mit deutscher Übersetzung. Ein Buch für ein ganzes Leben."},
+  {id:"c7",tag:"Kleidung",t:"Qamis aus Leinen",x:"Kühlend, weit geschnitten und knöchellang. Ideal für warme Tage und das Freitagsgebet.",q:"Leinen Kaftan Herren lang",ar:"قميص",bg:"#4A1580"},
+  {id:12,tag:"Praktisch",t:"Digitaler Tasbih-Ring",x:"Dhikr zählen, ohne hinzusehen. Leicht, leise und den ganzen Tag am Finger."}];
 const byId=id=>P.find(p=>p.id==id);
-const itemHTML=x=>`<li class="item" id="p${x.id}"><div class="thumb" style="background:${x.bg}" aria-hidden="true">${x.ar}</div><div style="min-width:0"><b>${x.n}</b><small>${x.d}</small></div><div class="side"><span class="price">${eur(x.p)}</span><button class="add" type="button" data-id="${x.id}" aria-label="${x.n} in den Warenkorb">+</button></div></li>`;
+const itemHTML=x=>`<li class="item" id="p${x.id}"><div class="thumb" style="background:${x.bg}" aria-hidden="true">${x.ar}</div><div style="min-width:0"><b>${x.n}</b><small>${x.d}</small></div><div class="side"><a class="add" href="${amz(x.q)}" ${AMZ_ATTR} aria-label="${x.n} bei Amazon ansehen">Amazon ↗</a></div></li>`;
 $("#colKnowledge").innerHTML=P.filter(x=>x.c==="knowledge").map(itemHTML).join("");
 $("#colIslamic").innerHTML=P.filter(x=>x.c==="islamic").map(itemHTML).join("");
 $("#colPractical").innerHTML=P.filter(x=>x.c==="practical").map(itemHTML).join("");
@@ -540,32 +617,21 @@ $("#colPractical").innerHTML=P.filter(x=>x.c==="practical").map(itemHTML).join("
 /* showcase */
 let si=0,sTimer=null;
 $("#dots").innerHTML=FEATURED.map((f,i)=>`<button type="button" aria-label="Angebot ${i+1}" data-s="${i}"></button>`).join("");
-function showSlide(i){si=i;const f=FEATURED[i],p=byId(f.id);
+function showSlide(i){si=i;const f=FEATURED[i],p=byId(f.id)||f;
   $("#slide").style.background=`linear-gradient(120deg,${p.bg} 0%,#12061f 85%)`;
-  $("#slideArt").textContent=p.ar;$("#slideTag").textContent=f.tag;$("#slideTitle").textContent=f.t;$("#slideText").textContent=f.x;$("#slidePrice").textContent=eur(p.p);
-  $("#slideBtn").dataset.id=p.id;
+  $("#slideArt").textContent=p.ar;$("#slideTag").textContent=f.tag;$("#slideTitle").textContent=f.t;$("#slideText").textContent=f.x;
+  $("#slideBtn").href=amz(p.q);
   document.querySelectorAll("#dots button").forEach((b,j)=>b.setAttribute("aria-current",j===i))}
 function auto(){clearInterval(sTimer);if(!matchMedia("(prefers-reduced-motion: reduce)").matches)sTimer=setInterval(()=>showSlide((si+1)%FEATURED.length),6000)}
 $("#dots").addEventListener("click",e=>{const b=e.target.closest("[data-s]");if(b){showSlide(+b.dataset.s);auto()}});
 showSlide(0);auto();
 
-/* cart */
-let cart=store.get("rh_cart",{});
-function renderCart(){const ids=Object.keys(cart).filter(k=>cart[k]>0&&byId(k));
-  $("#cartCount").textContent=ids.reduce((s,k)=>s+cart[k],0);
-  $("#cartItems").innerHTML=ids.map(k=>{const x=byId(k);return `<li><div><b>${x.n}</b><br><span class="note">${eur(x.p)}</span></div><div class="qty"><button type="button" data-q="-1" data-id="${k}" aria-label="Weniger">−</button>${cart[k]}<button type="button" data-q="1" data-id="${k}" aria-label="Mehr">+</button></div></li>`}).join("")||`<li class="note">Dein Warenkorb ist leer.</li>`;
-  $("#cartTotal").textContent=eur(ids.reduce((s,k)=>s+cart[k]*byId(k).p,0));store.set("rh_cart",cart)}
-function addToCart(id,btn){cart[id]=(cart[id]||0)+1;renderCart();if(btn){btn.classList.add("done");const o=btn.textContent;btn.textContent="✓";setTimeout(()=>{btn.classList.remove("done");btn.textContent=o},1100)}}
-document.addEventListener("click",e=>{const b=e.target.closest(".add");if(b)addToCart(b.dataset.id,b)});
-$("#slideBtn").addEventListener("click",e=>{addToCart(e.currentTarget.dataset.id);e.currentTarget.textContent="Hinzugefügt ✓";setTimeout(()=>$("#slideBtn").textContent="In den Warenkorb",1200)});
-$("#cartItems").addEventListener("click",e=>{const b=e.target.closest("[data-q]");if(!b)return;cart[b.dataset.id]=Math.max(0,(cart[b.dataset.id]||0)+(+b.dataset.q));renderCart()});
+/* account */
 const open=id=>{document.querySelectorAll(".drawer").forEach(d=>d.hidden=d.id!==id)};
-$("#cartBtn").addEventListener("click",()=>open("drawer"));
 $("#accBtn").addEventListener("click",()=>open("account"));
 document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>b.closest(".drawer").hidden=true));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.querySelectorAll(".drawer").forEach(d=>d.hidden=true);$("#results").hidden=true}});
-renderCart();
-const accMsg="Konten werden freigeschaltet, sobald der Shop live ist. Deine Daten wurden nicht gespeichert.";
+const accMsg="Konten werden freigeschaltet, sobald die Merkliste live ist. Deine Daten wurden nicht gespeichert.";
 $("#loginForm").addEventListener("submit",e=>{e.preventDefault();$("#accPw").value="";$("#accStatus").textContent=accMsg});
 $("#regBtn").addEventListener("click",()=>$("#accStatus").textContent=accMsg);
 
@@ -584,7 +650,9 @@ $("#sources").innerHTML=SRC.map(s=>`<article class="src"><span class="kind">${s[
 
 /* ---------- search ---------- */
 const COL={knowledge:"Islamic Knowledge",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
-const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c]+" · "+eur(x.p),k:(x.n+" "+x.d+" "+COL[x.c]).toLowerCase(),h:"#p"+x.id})),
+const ZN=Object.fromEntries(ZONES.map(z=>[z[0],z[1]]));
+const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c],k:(x.n+" "+x.d+" "+COL[x.c]).toLowerCase(),h:"#p"+x.id})),
+  ...C.map(c=>({t:c[2]+" ("+c[4]+")",s:"Kleidung · "+(c[0]==="m"?"Männer":"Frauen")+" · "+ZN[c[1]],k:(c.join(" ")+(c[0]==="m"?" männer herren":" frauen damen")+" kleidung").toLowerCase(),h:"#kleidung",g:c[0]})),
   ...ALLAH.map(r=>({t:r[1]+" – "+r[2],s:"Name Allahs",k:(r.join(" ")).toLowerCase(),h:"#knowledge"})),
   ...SRC.map(s=>({t:s[1],s:"Quelle · "+s[0],k:(s.join(" ")).toLowerCase(),h:"#quellen"})),
   {t:"Fastentage & Erinnerungen",s:"Bereich",k:"fasten fastentage sunnah montag donnerstag ramadan ashura arafa erinnerung",h:"#fasten"},
@@ -592,8 +660,8 @@ const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c]+" · "+eur(x.p),k:(x.n+" "+x.d+" "+C
 const q=$("#q"),res=$("#results");
 q.addEventListener("input",()=>{const v=q.value.trim().toLowerCase();if(!v){res.hidden=true;return}
   const hits=INDEX.filter(i=>v.split(/\s+/).every(w=>i.k.includes(w))).slice(0,8);
-  res.innerHTML=hits.map(h=>`<a href="${h.h}"><span>${h.t}</span><small>${h.s}</small></a>`).join("")||`<div class="note" style="padding:.6em .8em">Nichts gefunden für „${v.replace(/[<>&"]/g,"")}“.</div>`;res.hidden=false});
-res.addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;res.hidden=true;q.value="";const el=document.querySelector(a.getAttribute("href"));if(el&&el.classList.contains("item")){el.style.background="var(--surface-2)";setTimeout(()=>el.style.background="",1600)}});
+  res.innerHTML=hits.map(h=>`<a href="${h.h}"${h.g?` data-g2="${h.g}"`:""}><span>${h.t}</span><small>${h.s}</small></a>`).join("")||`<div class="note" style="padding:.6em .8em">Nichts gefunden für „${v.replace(/[<>&"]/g,"")}“.</div>`;res.hidden=false});
+res.addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;if(a.dataset.g2&&a.dataset.g2!==gender){gender=a.dataset.g2;renderZones()}res.hidden=true;q.value="";const el=document.querySelector(a.getAttribute("href"));if(el&&el.classList.contains("item")){el.style.background="var(--surface-2)";setTimeout(()=>el.style.background="",1600)}});
 document.addEventListener("click",e=>{if(!e.target.closest(".searchbox"))res.hidden=true});
 })();
 </script>
