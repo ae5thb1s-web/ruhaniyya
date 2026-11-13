@@ -121,6 +121,15 @@ nav.sub a.on{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14
 .plain li .tag{float:right;font-size:.75rem;font-weight:700;color:var(--primary)}
 .way .saw,footer .saw{font-family:var(--f-ar);font-weight:400}
 .way{margin:.2em 0 .6em;font-weight:600;color:var(--primary);font-size:1.05rem;max-width:60ch}
+.rem-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:760px){.rem-grid{grid-template-columns:1fr}}
+.rem{border:1px solid var(--line);border-radius:18px;background:var(--surface);padding:22px;display:grid;gap:10px;align-content:start;box-shadow:0 0 0 1px transparent,0 10px 30px -18px var(--glow)}
+.rem .kind{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.rem blockquote{margin:0;font-size:1.15rem;line-height:1.55;font-weight:500}
+.rem cite{font-style:normal;color:var(--muted);font-size:.9rem}
+.rem-nav{display:flex;gap:8px;align-items:center}
+.rem-nav button{font:inherit;font-size:1.1rem;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.rem-nav a{margin-left:auto;font-weight:600;font-size:.9rem;color:var(--primary)}
 .gtabs{display:flex;gap:6px;margin:0 0 18px}
 .gtabs a{text-decoration:none;font-weight:700;font-size:.92rem;padding:.45em 1.1em;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--bg)}
 .gtabs a.on{background:var(--primary);border-color:var(--primary);color:var(--primary-fg)}
@@ -369,6 +378,7 @@ html{scroll-padding-top:170px}
     <div class="wrap">
       <a href="#gebetszeiten">Gebetszeiten</a>
       <a href="#fasten">Fastenzeiten</a>
+      <a href="#erinnerung">Erinnerungen</a>
       <a href="#sadaqa">Ṣadaqa</a>
     </div>
   </nav>
@@ -409,6 +419,17 @@ html{scroll-padding-top:170px}
         <a class="pillar" href="#kalender"><span class="ico">سُنّة</span><div><b>Die Sunna im Alltag</b><span>Mondkalender und Erinnerungen an Montag, Donnerstag, die weißen Tage und mehr.</span></div></a>
         <a class="pillar" href="#shop"><span class="ico">ذِكر</span><div><b>Was uns physisch stärkt</b><span>Kleidung aus Baumwolle und Leinen, Accessoires und Helfer, an die man oft nicht denkt.</span></div></a>
       </div>
+    </div>
+  </section>
+
+  <section id="erinnerung" style="padding-top:8px">
+    <div class="wrap">
+      <div class="head"><p class="eyebrow">Tägliche Erinnerung</p><h2>Für dein Herz, heute</h2><p class="lead" id="remDate"></p></div>
+      <div class="rem-grid">
+        <article class="rem"><span class="kind">Qur'an des Tages</span><blockquote id="remAyah"></blockquote><cite id="remAyahRef"></cite><div class="rem-nav"><button type="button" data-rem="a" data-d="-1" aria-label="Vorheriger Vers">‹</button><button type="button" data-rem="a" data-d="1" aria-label="Nächster Vers">›</button><a id="remAyahLink" target="_blank" rel="noopener">Im Qur'an lesen ↗</a></div></article>
+        <article class="rem"><span class="kind">Hadith des Tages</span><blockquote id="remHadith"></blockquote><cite id="remHadithRef"></cite><div class="rem-nav"><button type="button" data-rem="h" data-d="-1" aria-label="Vorheriger Hadith">‹</button><button type="button" data-rem="h" data-d="1" aria-label="Nächster Hadith">›</button></div></article>
+      </div>
+      <p class="disclosure" style="margin-top:12px">Jeden Tag erscheinen ein neuer Vers und ein neuer Hadith. Die Übersetzungen geben die Bedeutung sinngemäß wieder.</p>
     </div>
   </section>
 
@@ -947,7 +968,7 @@ $("#icsCopy").addEventListener("click",()=>{const t=$("#icsText");const sel=()=>
 const AMAZON_TAG="ruhaniyya-21";
 const DONATE_URL=""; /* z. B. https://www.paypal.com/donate/?hosted_button_id=... */
 /* Wallet-Adressen eintragen; leere werden als "folgt" angezeigt */
-const CRYPTO=[["Bitcoin","BTC","Bitcoin-Netzwerk",""],["Ethereum","ETH","Ethereum (ERC-20)",""],["Tether","USDT","Tron (TRC-20)",""],["Solana","SOL","Solana",""]];
+const CRYPTO=[["Bitcoin","BTC","Bitcoin-Netzwerk",""],["Ethereum","ETH","Ethereum (ERC-20)",""],["Tether","USDT","Ethereum (ERC-20)",""],["USD Coin","USDC","Ethereum (ERC-20)",""],["Solana","SOL","Solana",""],["Avalanche","AVAX","Avalanche C-Chain",""],["XRP","XRP","XRP Ledger, ggf. mit Destination Tag",""],["Monero","XMR","Monero",""],["Zcash","ZEC","Zcash",""]];
 const amz=q=>`https://www.amazon.de/s?k=${encodeURIComponent(q)}&tag=${AMAZON_TAG}`;
 const AMZ_ATTR='target="_blank" rel="nofollow sponsored noopener"';
 
@@ -1143,6 +1164,76 @@ if(DONATE_URL){$("#donateBtn").href=DONATE_URL}else{$("#donateBtn").setAttribute
 $("#cryptoList").innerHTML=CRYPTO.map((c,i)=>`<div class="crypto"><b>${c[0]} (${c[1]}) <small style="color:var(--muted);font-weight:400">· ${c[2]}</small></b>${c[3]?`<code>${c[3]}</code><button type="button" data-copy="${i}">Adresse kopieren</button>`:`<small style="color:var(--muted)">Adresse folgt in Kürze.</small>`}</div>`).join("");
 document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{const a=CRYPTO[b.dataset.copy][3];try{await navigator.clipboard.writeText(a);b.textContent="Kopiert ✓"}catch(e){const r=document.createRange();r.selectNodeContents(b.previousElementSibling);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);b.textContent="Markiert, bitte kopieren"}setTimeout(()=>b.textContent="Adresse kopieren",2500)}));
 
+/* ---------- daily reminders ---------- */
+const AYAT=[["Gedenkt Meiner, so gedenke Ich euer. Und seid Mir dankbar und seid nicht undankbar.","2:152"],
+["O die ihr glaubt, sucht Hilfe in der Geduld und im Gebet. Wahrlich, Allah ist mit den Geduldigen.","2:153"],
+["Und wenn dich Meine Diener nach Mir fragen: Ich bin nahe. Ich erhöre den Ruf des Rufenden, wenn er Mich ruft.","2:186"],
+["Allah erlegt keiner Seele mehr auf, als sie zu leisten vermag.","2:286"],
+["Wahrlich, im Gedenken Allahs finden die Herzen Ruhe.","13:28"],
+["Denn wahrlich, mit der Erschwernis kommt die Erleichterung. Wahrlich, mit der Erschwernis kommt die Erleichterung.","94:5"],
+["Und wer auf Allah vertraut, dem ist Er genug.","65:3"],
+["Sag: O Meine Diener, die ihr gegen euch selbst maßlos gewesen seid, verliert nicht die Hoffnung auf Allahs Barmherzigkeit. Allah vergibt alle Sünden.","39:53"],
+["Wahrlich, das Gebet hält ab vom Schändlichen und Verwerflichen. Und das Gedenken Allahs ist gewiss das Größte.","29:45"],
+["O die ihr glaubt, gedenkt Allahs in häufigem Gedenken und preist Ihn morgens und abends.","33:41"],
+["Wenn ihr dankbar seid, werde Ich euch ganz gewiss noch mehr geben.","14:7"],
+["Wir haben den Menschen erschaffen und wissen, was seine Seele ihm einflüstert. Und Wir sind ihm näher als seine Halsschlagader.","50:16"],
+["Und sag: Mein Herr, mehre mich an Wissen.","20:114"],
+["Wahrlich, der Edelste von euch bei Allah ist der Gottesfürchtigste von euch.","49:13"],
+["Und wenn du dich entschlossen hast, dann vertraue auf Allah. Wahrlich, Allah liebt die auf Ihn Vertrauenden.","3:159"],
+["Dein Herr hat bestimmt, dass ihr nur Ihm dienen und zu den Eltern gütig sein sollt.","17:23"],
+["Und Ich habe die Dschinn und die Menschen nur erschaffen, damit sie Mir dienen.","51:56"],
+["Jede Seele wird den Tod kosten. Und erst am Tag der Auferstehung wird euch euer Lohn voll gegeben.","3:185"],
+["Und seid nicht wie jene, die Allah vergaßen, sodass Er sie sich selbst vergessen ließ.","59:19"],
+["Und gedenke deines Herrn, wenn du vergessen hast.","18:24"],
+["Euer Herr sagt: Ruft Mich an, so erhöre Ich euch.","40:60"],
+["Ihr habt im Gesandten Allahs ein schönes Vorbild, für jeden, der auf Allah und den Jüngsten Tag hofft und Allahs häufig gedenkt.","33:21"],
+["Allah und Seine Engel sprechen den Segen über den Propheten. O die ihr glaubt, sprecht den Segen über ihn und grüßt ihn mit gebührendem Gruß.","33:56"],
+["Und Wir haben dich nur als Barmherzigkeit für die Welten gesandt.","21:107"],
+["Und eilt um die Wette zur Vergebung eures Herrn und zu einem Paradies, so breit wie die Himmel und die Erde.","3:133"],
+["Wahrlich, Allah gebietet Gerechtigkeit, Güte und die Freigebigkeit gegenüber den Verwandten.","16:90"],
+["Und die Diener des Allerbarmers sind jene, die demütig auf der Erde gehen und, wenn die Unwissenden sie ansprechen, „Frieden“ sagen.","25:63"],
+["Bei der Zeit! Wahrlich, der Mensch ist im Verlust, außer denen, die glauben, rechtschaffene Werke tun und einander die Wahrheit und die Geduld ans Herz legen.","103:1"],
+["Und Allah ist mit euch, wo immer ihr seid.","57:4"],
+["Und wer Allah fürchtet, dem schafft Er einen Ausweg und versorgt ihn, von wo er es nicht erwartet.","65:2"]];
+const AHADITH=[["Die Taten werden nur nach den Absichten beurteilt, und jedem Menschen steht nur das zu, was er beabsichtigt hat.","al-Buchārī 1"],
+["Keiner von euch ist wahrhaft gläubig, bis er für seinen Bruder liebt, was er für sich selbst liebt.","al-Buchārī 13"],
+["Wer an Allah und den Jüngsten Tag glaubt, soll Gutes sprechen oder schweigen.","al-Buchārī 6018"],
+["Der Starke ist nicht der, der andere im Ringkampf besiegt. Der Starke ist der, der sich beherrscht, wenn er zornig ist.","al-Buchārī 6114"],
+["Die Taten, die Allah am meisten liebt, sind die beständigsten, auch wenn sie wenig sind.","al-Buchārī 6464"],
+["Die Reinheit ist die Hälfte des Glaubens.","Muslim 223"],
+["Erleichtert und erschwert nicht. Verkündet frohe Botschaft und schreckt nicht ab.","al-Buchārī 69"],
+["Wer einen Weg geht, um Wissen zu suchen, dem erleichtert Allah dadurch einen Weg ins Paradies.","Muslim 2699"],
+["Der Beste von euch ist, wer den Qur'an lernt und ihn lehrt.","al-Buchārī 5027"],
+["Fürchte Allah, wo immer du bist. Lass auf eine schlechte Tat eine gute folgen, sie löscht sie aus. Und begegne den Menschen mit gutem Charakter.","at-Tirmidhī 1987"],
+["Lass das, was dich zweifeln lässt, für das, was dich nicht zweifeln lässt.","at-Tirmidhī 2518"],
+["Zum guten Islam eines Menschen gehört, dass er lässt, was ihn nichts angeht.","at-Tirmidhī 2317"],
+["Sei in dieser Welt, als wärst du ein Fremder oder ein Reisender.","al-Buchārī 6416"],
+["Allah schaut nicht auf eure Körper und euer Aussehen, sondern Er schaut auf eure Herzen und eure Taten.","Muslim 2564"],
+["Zwei Gaben gibt es, bei denen viele Menschen betrogen werden: die Gesundheit und die freie Zeit.","al-Buchārī 6412"],
+["Wer den Menschen nicht dankt, dankt Allah nicht.","Abū Dāwūd 4811"],
+["Der Gläubige ist für den Gläubigen wie ein Gebäude, dessen Teile einander stützen.","al-Buchārī 481"],
+["Wer einen Segenswunsch auf mich spricht, über den spricht Allah dafür zehn Segenswünsche.","Muslim 408"],
+["Zwei Worte sind leicht auf der Zunge, schwer auf der Waage und geliebt vom Allerbarmer: Subḥānallāhi wa biḥamdihī, Subḥānallāhil-ʿaẓīm.","al-Buchārī 6406"],
+["Der Islam begann als etwas Fremdes und wird wieder etwas Fremdes werden, so wie er begann. Glückselig sind die Fremden.","Muslim 145"],
+["Die Barmherzigen, derer erbarmt sich der Allerbarmer. Seid barmherzig zu denen auf der Erde, so erbarmt sich eurer Der im Himmel.","at-Tirmidhī 1924"],
+["Das beste Gedenken ist: Lā ilāha illallāh.","at-Tirmidhī 3383"],
+["Dein Lächeln für deinen Bruder ist Ṣadaqa.","at-Tirmidhī 1956"],
+["Wer am Morgen in Sicherheit aufwacht, gesund am Körper und mit Nahrung für seinen Tag, dem ist, als wäre ihm die ganze Welt gegeben.","at-Tirmidhī 2346"],
+["Der Gläubige wird nicht zweimal aus demselben Loch gebissen.","al-Buchārī 6133"],
+["Die Ṣadaqa mindert das Vermögen nicht.","Muslim 2588"],
+["Ein Gläubiger, der sich unter die Menschen mischt und ihr Unrecht geduldig erträgt, ist besser als einer, der es nicht tut.","at-Tirmidhī 2507"],
+["Nutze fünf vor fünf: deine Jugend vor deinem Alter, deine Gesundheit vor deiner Krankheit, deinen Reichtum vor deiner Armut, deine freie Zeit vor deiner Beschäftigung und dein Leben vor deinem Tod.","al-Ḥākim, al-Mustadrak"],
+["Der Mensch ist mit dem, den er liebt.","al-Buchārī 6168"],
+["Das Erste, worüber der Diener am Tag der Auferstehung zur Rechenschaft gezogen wird, ist das Gebet.","at-Tirmidhī 413"]];
+const doy=(d=>Math.floor((d-new Date(d.getFullYear(),0,0))/864e5))(new Date());
+let remA=doy%AYAT.length,remH=(doy*7)%AHADITH.length;
+function renderRem(){const a=AYAT[remA],h=AHADITH[remH];
+  $("#remAyah").textContent="„"+a[0]+"“";$("#remAyahRef").textContent="Qur'an "+a[1];$("#remAyahLink").href="https://quran.com/de/"+a[1].replace(":","/");
+  $("#remHadith").textContent="„"+h[0]+"“";$("#remHadithRef").textContent=h[1]}
+try{$("#remDate").textContent=new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"numeric",month:"long"}).format(new Date())}catch(e){}
+document.querySelectorAll("[data-rem]").forEach(b=>b.addEventListener("click",()=>{const d=+b.dataset.d;if(b.dataset.rem==="a")remA=(remA+d+AYAT.length)%AYAT.length;else remH=(remH+d+AHADITH.length)%AHADITH.length;renderRem()}));
+renderRem();
+
 /* ---------- sadaqa ---------- */
 const SADAQA=[["Ein Lächeln","„Dein Lächeln für deinen Bruder ist Ṣadaqa.“ (at-Tirmidhī 1956)"],["Ein gutes Wort","„Das gute Wort ist Ṣadaqa.“ (al-Buchārī 2989)"],["Hindernisse aus dem Weg räumen","„Etwas Schädliches vom Weg zu entfernen ist Ṣadaqa.“ (al-Buchārī 2989)"],["Dhikr","„Jedes Subḥānallāh ist Ṣadaqa, jedes Alḥamdulillāh ist Ṣadaqa.“ (Muslim 720)"],["Wasser geben","Einem Menschen oder Tier zu trinken geben gehört zu den besten Taten."],["Etwas Geld, auch wenig","Eine halbe Dattel, ein Euro: Allah lässt die Ṣadaqa wachsen (Qur'an 2:276)."],["Am Freitag","Viele geben am Freitag besonders gern, aber jeder Tag ist gut."]];
 $("#sadaqaList").innerHTML=SADAQA.map(r=>`<li><b>${r[0]}</b><small>${r[1]}</small></li>`).join("");
@@ -1199,6 +1290,7 @@ const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c],k:(x.n+" "+x.d+" "+COL[x.c]).toLower
   {t:"Fastentage & Erinnerungen",s:"Bereich",k:"fasten fastentage sunnah montag donnerstag ramadan ashura arafa erinnerung",h:"#fasten"},
   ...G.map(g=>({t:g.n,s:"Geschenk · "+OCC.find(o=>o[0]===g.o)[2],k:(g.n+" "+g.d+" geschenk geschenkidee "+OCC.find(o=>o[0]===g.o)[2]).toLowerCase(),h:"#"+g.id})),
   {t:"Geschenkideen",s:"Bereich",k:"geschenk geschenke geschenkidee idee schenken eid hochzeit geburt baby hajj umrah",h:"#geschenke"},
+  {t:"Tägliche Erinnerung: Qur'an und Hadith",s:"Gebet · Erinnerungen",k:"erinnerung täglich hadith des tages vers des tages koran quran ayah",h:"#erinnerung"},
   {t:"Mondkalender",s:"Bereich",k:"mond mondkalender hijri monat vollmond neumond",h:"#kalender"},
   {t:"Ṣadaqa",s:"Gebet · Ṣadaqa",k:"sadaqa sadaka spende spenden almosen gutes tun lächeln",h:"#sadaqa"}];
 const q=$("#q"),res=$("#results");
@@ -1316,9 +1408,9 @@ function route(){
   if(!v){v=VIEWS[0];el=null}
   const changed=v.hidden;
   VIEWS.forEach(x=>x.hidden=x!==v);
-  const GEBET={gebetszeiten:["gebetszeiten"],fasten:["kalender","fasten"],kalender:["kalender","fasten"]};
+  const GEBET={erinnerung:["erinnerung"],gebetszeiten:["gebetszeiten"],fasten:["kalender","fasten"],kalender:["kalender","fasten"]};
   const gPart=GEBET[h];
-  ["ueber","gebetszeiten","kalender","fasten","entdecken"].forEach(id=>document.getElementById(id).hidden=!!gPart&&!gPart.includes(id));
+  ["ueber","erinnerung","gebetszeiten","kalender","fasten","entdecken"].forEach(id=>document.getElementById(id).hidden=!!gPart&&!gPart.includes(id));
   const grp=(gPart||v.id==="sadaqa")?"gebet":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
   document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
   $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";$("#subgebet").hidden=grp!=="gebet";$("#subspenden").hidden=grp!=="spenden";
