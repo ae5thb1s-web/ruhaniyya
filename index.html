@@ -103,6 +103,11 @@ nav.sub{border-top:1px solid var(--line);background:var(--surface-2)}
 nav.sub .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:6px}
 nav.sub a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:600;font-size:.9rem;padding:.35em .8em;border-radius:999px}
 nav.sub a.on{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14px var(--glow)}
+.plain li{display:block;padding:12px 18px;border-top:1px solid var(--line)}
+.plain li:first-child{border-top:0}
+.plain li b{display:block}.plain li small{color:var(--muted)}
+.plain li.today{background:var(--surface-2);box-shadow:inset 3px 0 0 var(--primary)}
+.plain li .tag{float:right;font-size:.75rem;font-weight:700;color:var(--primary)}
 .gfilter{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
 .gfilter button{font:inherit;font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:999px;padding:.45em 1em;cursor:pointer}
 .gfilter button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
@@ -333,10 +338,19 @@ html{scroll-padding-top:170px}
       <span class="hijri-strip" id="hijriStrip"></span>
     </div>
   </nav>
+  <nav class="sub" id="subwissen" aria-label="Wissensbereiche" hidden>
+    <div class="wrap">
+      <a href="#koran">Qur'an</a>
+      <a href="#sunnah">Sunnah</a>
+      <a href="#dalail">Dalāʾil al-Khayrāt</a>
+      <a href="#ernaehrung">Ernährungswissenschaft</a>
+    </div>
+  </nav>
   <nav class="sub" id="subnav" aria-label="Shop-Bereiche" hidden>
     <div class="wrap">
       <a href="#kleidung-frauen">Kleidung Frauen</a>
       <a href="#kleidung-maenner">Kleidung Männer</a>
+      <a href="#schmuck">Schmuck</a>
       <a href="#accessoires">Accessoires</a>
       <a href="#buecher">Bücher &amp; E-Books</a>
     </div>
@@ -350,7 +364,7 @@ html{scroll-padding-top:170px}
       <div>
         <p class="eyebrow">Was ist Ruhaniyya?</p>
         <h1>Nach der Sunnah leben, <span>vor allem in dieser Zeit.</span></h1>
-        <p class="lead">Ruhaniyya (روحانية, Spiritualität) begleitet dich auf dem Weg der Sunnah des Propheten <span class="ar">ﷺ</span>. Wir geben dir Wissen und die wichtigen Quellen an die Hand, erinnern dich an die Sunnah-Tage und bieten dir das nötige Materielle, das uns auch physisch stärkt: Kleidung, Accessoires und praktische Helfer für den Alltag. Denn im Alltag vergisst man schnell.</p>
+        <p class="lead">Ruhaniyya (روحانية, Spiritualität) begleitet dich auf dem Weg der Sunnah des Propheten <span class="ar">ﷺ</span>. Wir geben dir Wissen und die wichtigen Quellen an die Hand, erinnern dich an die Sunnah-Tage und bieten dir das nötige Materielle, das uns auch physisch stärkt: Kleidung, Accessoires und praktische Helfer für den Alltag. Denn der Satan versucht, den Menschen im Alltag das Wichtige vergessen zu lassen („Der Satan hat sie überwältigt und sie das Gedenken Allahs vergessen lassen“, Qur'an 58:19). Ruhaniyya will dich daran erinnern.</p>
         <div class="ayah">
           <span class="ar">وَذَكِّرْ فَإِنَّ الذِّكْرَىٰ تَنفَعُ الْمُؤْمِنِينَ</span>
           <small>„Und ermahne, denn die Ermahnung nützt den Gläubigen.“ (Qur'an 51:55)</small>
@@ -490,9 +504,14 @@ html{scroll-padding-top:170px}
       <div class="head">
         <p class="eyebrow">Wissensquellen</p>
         <h2>Wissen aus erster Hand</h2>
-        <p class="lead">Die Grundlagen sind der Qur'an und die Sunna. Diese Werke und Seiten sind gute, frei zugängliche Einstiege.</p>
+        <p class="lead">Die Grundlagen sind der Qur'an und die Sunna. Wähle einen Bereich, um die Quellen zu öffnen.</p>
       </div>
-      <div class="sources" id="sources"></div>
+      <div class="tiles">
+        <a class="tile" href="#koran"><span class="ar">القُرْآن</span><b>Qur'an</b><span>Lesen, hören, verstehen: Text, Übersetzung, Tafsir</span></a>
+        <a class="tile" href="#sunnah"><span class="ar">السُّنَّة</span><b>Sunnah</b><span>Hadith-Sammlungen, Bittgebete, Leben des Propheten ﷺ</span></a>
+        <a class="tile" href="#dalail"><span class="ar">دَلائِل الخَيْرات</span><b>Dalāʾil al-Khayrāt</b><span>Segenswünsche auf den Propheten ﷺ, mit Wochenplan</span></a>
+        <a class="tile" href="#ernaehrung"><span class="ar">الطِّبّ النَّبَوِي</span><b>Ernährungswissenschaft</b><span>Prophetische Ernährung und was die Wissenschaft dazu sagt</span></a>
+      </div>
     </div>
   </section>
     <section style="padding-top:0">
@@ -504,6 +523,51 @@ html{scroll-padding-top:170px}
     </section>
   </div>
 
+  <div class="view" data-view id="koran" hidden>
+    <section style="padding-top:28px"><div class="wrap">
+      <div class="head"><p class="eyebrow">Wissensquellen · Qur'an</p><h2>Der edle Qur'an</h2><p class="lead">„Dies ist das Buch, an dem es keinen Zweifel gibt, eine Rechtleitung für die Gottesfürchtigen.“ (Qur'an 2:2)</p></div>
+      <div class="sources" id="srcKoran"></div>
+      <div class="cols two-cols" style="margin-top:22px"><article class="col"><div class="col-head"><span class="ar">مُصْحَف</span><h2>Für zu Hause</h2><p class="note">Mushaf, Übersetzung und Lernhilfen</p></div><ul id="colKoran"></ul></article></div>
+      <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts.</p>
+    </div></section>
+  </div>
+
+  <div class="view" data-view id="sunnah" hidden>
+    <section style="padding-top:28px"><div class="wrap">
+      <div class="head"><p class="eyebrow">Wissensquellen · Sunnah</p><h2>Die Sunnah des Propheten ﷺ</h2><p class="lead">„Ihr habt im Gesandten Allahs ein schönes Vorbild.“ (Qur'an 33:21)</p></div>
+      <div class="sources" id="srcSunnah"></div>
+      <div class="cols two-cols" style="margin-top:22px"><article class="col"><div class="col-head"><span class="ar">الحَدِيث</span><h2>Bücher zur Sunnah</h2><p class="note">Hadith und Prophetenbiografie</p></div><ul id="colSunnah"></ul></article></div>
+      <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts.</p>
+    </div></section>
+  </div>
+
+  <div class="view" data-view id="dalail" hidden>
+    <section style="padding-top:28px"><div class="wrap">
+      <div class="head"><p class="eyebrow">Wissensquellen · Salawat</p><h2>Dalāʾil al-Khayrāt</h2><p class="lead">Die Sammlung von Segenswünschen auf den Propheten ﷺ von Imam Muḥammad al-Dschazūlī (gest. 1465). Seit über 500 Jahren wird sie in der ganzen muslimischen Welt täglich gelesen.</p></div>
+      <p class="gift-hadith"><span class="ar">إِنَّ اللَّهَ وَمَلَائِكَتَهُ يُصَلُّونَ عَلَى النَّبِيِّ</span>„Allah und Seine Engel sprechen den Segen über den Propheten. O ihr, die ihr glaubt, sprecht den Segen über ihn.“ (Qur'an 33:56)</p>
+      <div class="cols two-cols">
+        <article class="col"><div class="col-head"><span class="ar">الأَحْزاب</span><h2>Wochenplan</h2><p class="note">Nach verbreiteter Tradition ist das Werk in acht Teile (Ḥizb) geteilt und wird von Montag bis Montag gelesen.</p></div><ul id="dalailPlan"></ul></article>
+        <article class="col"><div class="col-head"><span class="ar">كِتاب</span><h2>Ausgaben</h2><p class="note">Arabisch, mit Umschrift oder Übersetzung</p></div><ul id="colDalail"></ul></article>
+      </div>
+      <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts.</p>
+    </div></section>
+  </div>
+
+  <div class="view" data-view id="ernaehrung" hidden>
+    <section style="padding-top:28px"><div class="wrap">
+      <div class="head"><p class="eyebrow">Wissensquellen · Ernährung</p><h2>Ernährungswissenschaft &amp; prophetische Ernährung</h2><p class="lead">Was Qur'an und Sunnah über Essen lehren, und was die heutige Ernährungswissenschaft dazu sagt.</p></div>
+      <p class="gift-hadith"><span class="ar">بِحَسْبِ ابْنِ آدَمَ أُكُلَاتٌ يُقِمْنَ صُلْبَهُ</span>„Der Mensch füllt kein Gefäß, das schlimmer ist als sein Bauch. Ein Drittel für das Essen, ein Drittel für das Trinken, ein Drittel für den Atem.“ (at-Tirmidhī 2380)</p>
+      <div class="cols two-cols">
+        <article class="col"><div class="col-head"><span class="ar">آداب</span><h2>Sunnah beim Essen</h2><p class="note">Einfache Gewohnheiten mit großer Wirkung</p></div><ul id="nutriAdab"></ul></article>
+        <article class="col"><div class="col-head"><span class="ar">العِلْم</span><h2>Was die Forschung sagt</h2><p class="note">Allgemeine Erkenntnisse der Ernährungswissenschaft</p></div><ul id="nutriSci"></ul></article>
+      </div>
+      <div class="head" style="margin-top:30px"><h2>Lebensmittel aus Qur'an und Sunnah</h2></div>
+      <div class="sources" id="nutriFoods"></div>
+      <div class="cols two-cols" style="margin-top:22px"><article class="col"><div class="col-head"><span class="ar">طَيِّبات</span><h2>Gute Produkte</h2><p class="note">Naturbelassen, aus Qur'an und Sunnah bekannt</p></div><ul id="colFood"></ul></article></div>
+      <p class="disclosure" style="margin-top:16px">Diese Seite dient der allgemeinen Bildung und ersetzt keinen ärztlichen Rat. Bei Krankheit, Schwangerschaft oder Medikamenten sprich vor einer Ernährungsumstellung mit deiner Ärztin oder deinem Arzt. Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen.</p>
+    </div></section>
+  </div>
+
   <div class="view" data-view id="shop" hidden>
     <section style="padding-top:28px;padding-bottom:0">
       <div class="wrap">
@@ -511,6 +575,7 @@ html{scroll-padding-top:170px}
         <div class="tiles">
           <a class="tile" href="#kleidung-frauen"><span class="ar">لِباس</span><b>Kleidung Frauen</b><span>Hijab, Abaya, Khimar, nur Baumwolle und Leinen</span></a>
           <a class="tile" href="#kleidung-maenner"><span class="ar">لِباس</span><b>Kleidung Männer</b><span>Kufi, Qamis, Sirwal, nur Baumwolle und Leinen</span></a>
+          <a class="tile" href="#schmuck"><span class="ar">حِلْيَة</span><b>Schmuck</b><span>Frauen: Gold, Holz, Kristalle, Aqiq · Männer: Silber · Kupfer für alle</span></a>
           <a class="tile" href="#accessoires"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Für Gebet, Dhikr und den Alltag</span></a>
           <a class="tile" href="#buecher"><span class="ar">الكُتُب</span><b>Bücher &amp; E-Books</b><span>Qur'an, Hadith, Sira, Dalāʾil al-Khayrāt</span></a>
         </div>
@@ -555,6 +620,21 @@ html{scroll-padding-top:170px}
       <div class="zones" id="zones"></div>
     </div>
   </section>
+  </div>
+
+  <div class="view" data-view id="schmuck" hidden>
+    <section style="padding-top:28px">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Shop · Schmuck</p><h2>Schmuck nach der Sunnah</h2><p class="lead">Für Frauen Gold und natürliche Materialien, für Männer Silber, und Kupfer für alle.</p></div>
+        <p class="gift-hadith">„Das Tragen von Seide und Gold ist den Frauen meiner Umma erlaubt und den Männern verboten.“ (at-Tirmidhī 1720) Der Prophet ﷺ selbst trug einen Ring aus Silber (al-Buchārī und Muslim).</p>
+        <div class="cols">
+          <article class="col" id="schmuck-frauen"><div class="col-head"><span class="ar">لِلنِّساء</span><h2>Für Frauen</h2><p class="note">Gold, Bio-Holz, Kristalle und Aqiq-Steine</p></div><ul id="colSF"></ul></article>
+          <article class="col" id="schmuck-maenner"><div class="col-head"><span class="ar">لِلرِّجال</span><h2>Für Männer</h2><p class="note">Nur Silber, auch mit Aqiq</p></div><ul id="colSM"></ul></article>
+          <article class="col" id="schmuck-kupfer"><div class="col-head"><span class="ar">نُحاس</span><h2>Kupfer für alle</h2><p class="note">Allgemeine Accessoires aus Kupfer</p></div><ul id="colSK"></ul></article>
+        </div>
+        <p class="disclosure" style="margin-top:16px">Achte beim Kauf auf echte Materialangaben (z. B. 585er oder 750er Gold, 925er Sterlingsilber, reines Kupfer). Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen.</p>
+      </div>
+    </section>
   </div>
 
   <div class="view" data-view id="accessoires" hidden>
@@ -809,6 +889,41 @@ const P=[
  {id:32,c:"ebook",n:"Prophetenbiografie (Kindle)",d:"Das Leben des Propheten ﷺ",q:"Prophet Muhammad Biografie Kindle eBook deutsch",ar:"السيرة",bg:"#5B1E99"},
  {id:33,c:"ebook",n:"Dalāʾil al-Khayrāt (Kindle)",d:"Segenswünsche auf den Propheten ﷺ",q:"Dalail al-Khayrat Kindle",ar:"دلائل",bg:"#2E0A52"},
  {id:34,c:"ebook",n:"Bittgebete im Alltag (Kindle)",d:"Duʿa aus Qur'an und Sunna",q:"Bittgebete Islam Kindle eBook",ar:"دعاء",bg:"#6A24B3"},
+ {id:40,c:"koran",n:"Qur'an Arabisch-Deutsch",d:"Mit Übersetzung, Hardcover",q:"Der edle Quran deutsch arabisch",ar:"القرآن",bg:"#3B0D66"},
+ {id:41,c:"koran",n:"Tajwīd-Lehrbuch",d:"Qur'an richtig rezitieren lernen",q:"Tajweed Lehrbuch deutsch",ar:"تجويد",bg:"#4A1580"},
+ {id:42,c:"koran",n:"Nur al-Bayan",d:"Arabisch lesen lernen von Anfang an",q:"Nur al Bayan",ar:"نور",bg:"#5B1E99"},
+ {id:43,c:"koran",n:"Qur'an-Lesestift",d:"Tippen und Rezitation hören",q:"Quran Read Pen",ar:"قلم",bg:"#6A24B3"},
+ {id:44,c:"sunnah",n:"Riyad as-Salihin",d:"Imam an-Nawawi",q:"Riyad as-Salihin deutsch",ar:"رياض",bg:"#4A1580"},
+ {id:45,c:"sunnah",n:"Sahih al-Bukhari (Auswahl)",d:"Deutsche Übersetzung",q:"Sahih Bukhari deutsch",ar:"البخاري",bg:"#3B0764"},
+ {id:46,c:"sunnah",n:"Der versiegelte Nektar",d:"Prophetenbiografie, al-Mubarakpuri",q:"Der versiegelte Nektar",ar:"الرحيق",bg:"#2E0A52"},
+ {id:47,c:"sunnah",n:"Asch-Schamāʾil",d:"Die Eigenschaften des Propheten ﷺ, at-Tirmidhī",q:"Shamail Tirmidhi deutsch",ar:"الشمائل",bg:"#5B1E99"},
+ {id:48,c:"dalail",n:"Dalāʾil al-Khayrāt, Arabisch",d:"Klassische Ausgabe",q:"Dalail al-Khayrat arabisch",ar:"دلائل",bg:"#3B0764"},
+ {id:49,c:"dalail",n:"Dalāʾil mit Übersetzung",d:"Arabisch mit Umschrift und Übersetzung",q:"Dalail al-Khayrat translation transliteration",ar:"دلائل",bg:"#4A1580"},
+ {id:50,c:"dalail",n:"Dalāʾil im Taschenformat",d:"Für unterwegs",q:"Dalail al-Khayrat pocket",ar:"جيب",bg:"#6A24B3"},
+ {id:51,c:"food",n:"Ajwa-Datteln",d:"Aus Medina",q:"Ajwa Datteln Medina",ar:"عجوة",bg:"#7C2D12"},
+ {id:52,c:"food",n:"Naturhonig",d:"Roh und unbehandelt",q:"Rohhonig naturbelassen",ar:"عسل",bg:"#B45309"},
+ {id:53,c:"food",n:"Schwarzkümmelöl",d:"Kaltgepresst, ägyptisch",q:"Schwarzkümmelöl kaltgepresst",ar:"حبة",bg:"#1F2937"},
+ {id:54,c:"food",n:"Natives Olivenöl extra",d:"Erste Kaltpressung",q:"Olivenöl nativ extra",ar:"زيت",bg:"#3F6212"},
+ {id:55,c:"food",n:"Gerstenmehl für Talbina",d:"Vollkorn, für den Gerstenbrei",q:"Gerstenmehl Vollkorn",ar:"تلبينة",bg:"#92400E"},
+ {id:56,c:"food",n:"Medizin des Propheten",d:"Ibn al-Qayyim, aṭ-Ṭibb an-Nabawī",q:"Ibn Qayyim Medizin des Propheten",ar:"الطب",bg:"#065F46"},
+ {id:60,c:"sf",n:"Goldkette mit Allah-Anhänger",d:"Echtgold 585",q:"Allah Anhänger Gold 585 Kette",ar:"ذهب",bg:"#A16207"},
+ {id:61,c:"sf",n:"Goldene Halbmond-Ohrringe",d:"Echtgold, schlicht",q:"Halbmond Ohrringe Gold 585",ar:"هلال",bg:"#B45309"},
+ {id:62,c:"sf",n:"Goldarmband",d:"Fein, Echtgold 585",q:"Armband Gold 585 Damen fein",ar:"سوار",bg:"#A16207"},
+ {id:63,c:"sf",n:"Armband aus Bio-Holz",d:"Natürliche Holzperlen",q:"Holzperlen Armband Damen natur",ar:"خشب",bg:"#7C2D12"},
+ {id:64,c:"sf",n:"Holz-Misbaha",d:"Sandelholz, duftend",q:"Misbaha Sandelholz",ar:"صندل",bg:"#92400E"},
+ {id:65,c:"sf",n:"Kristall-Armband",d:"Bergkristall oder Amethyst",q:"Bergkristall Armband echt",ar:"بلور",bg:"#6D28D9"},
+ {id:66,c:"sf",n:"Aqiq-Kette",d:"Echter Achat (Aqiq)",q:"Aqiq Achat Kette Damen",ar:"عقيق",bg:"#9F1239"},
+ {id:67,c:"sf",n:"Aqiq-Ring in Gold",d:"Roter Yemen-Aqiq",q:"Aqiq Ring Gold Damen",ar:"عقيق",bg:"#B91C1C"},
+ {id:70,c:"sm",n:"Silberring mit Aqiq",d:"925er Sterlingsilber, roter Aqiq",q:"Aqiq Ring Silber 925 Herren",ar:"خاتم",bg:"#475569"},
+ {id:71,c:"sm",n:"Schlichter Silberring",d:"925er Sterlingsilber",q:"Silberring Herren 925 schlicht",ar:"فضة",bg:"#64748B"},
+ {id:72,c:"sm",n:"Silberring mit Gravur",d:"Name oder Schahada",q:"Silberring Gravur arabisch Herren 925",ar:"نقش",bg:"#334155"},
+ {id:73,c:"sm",n:"Silberne Misbaha",d:"Perlen in 925er Silber",q:"Misbaha Silber 925",ar:"مسبحة",bg:"#475569"},
+ {id:74,c:"sm",n:"Silberne Manschettenknöpfe",d:"Für Qamis und Hemd",q:"Manschettenknöpfe Silber 925",ar:"فضة",bg:"#64748B"},
+ {id:80,c:"sk",n:"Kupferarmband",d:"Reines Kupfer, offen",q:"Kupferarmband rein",ar:"نحاس",bg:"#9A3412"},
+ {id:81,c:"sk",n:"Kupferbecher",d:"Reines Kupfer, für Wasser",q:"Kupferbecher rein",ar:"كوب",bg:"#C2410C"},
+ {id:82,c:"sk",n:"Kupferkanne",d:"Für Wasser und Wudu",q:"Kupferkanne rein Wasser",ar:"إبريق",bg:"#9A3412"},
+ {id:83,c:"sk",n:"Kupfer-Räuchergefäß (Mabkhara)",d:"Für Oud und Bakhoor",q:"Mabkhara Kupfer Bakhoor",ar:"مبخرة",bg:"#7C2D12"},
+ {id:84,c:"sk",n:"Kupfer-Schlüsselanhänger",d:"Mit arabischer Kalligrafie",q:"Kupfer Schlüsselanhänger arabisch",ar:"مفتاح",bg:"#C2410C"},
  {id:6,c:"islamic",n:"Misbaha aus Olivenholz",d:"33 Perlen für Tasbih",q:"Misbaha Olivenholz 33",ar:"مسبحة",bg:"#065F46"},
  {id:7,c:"islamic",n:"Gebetsteppich aus Baumwolle",d:"Gepolstert, mit Mihrab-Muster",q:"Gebetsteppich Baumwolle",ar:"سجادة",bg:"#4C1D95"},
  {id:8,c:"islamic",n:"Attar „Oud & Rose“",d:"Alkoholfreies Parfümöl",q:"Attar Oud alkoholfrei",ar:"عطر",bg:"#7C2D92"},
@@ -830,6 +945,7 @@ $("#colKnowledge").innerHTML=P.filter(x=>x.c==="knowledge").map(itemHTML).join("
 $("#colIslamic").innerHTML=P.filter(x=>x.c==="islamic").map(itemHTML).join("");
 $("#colPractical").innerHTML=P.filter(x=>x.c==="practical").map(itemHTML).join("");
 $("#colEbooks").innerHTML=P.filter(x=>x.c==="ebook").map(itemHTML).join("");
+[["koran","#colKoran"],["sunnah","#colSunnah"],["dalail","#colDalail"],["food","#colFood"],["sf","#colSF"],["sm","#colSM"],["sk","#colSK"]].forEach(([c,sel])=>$(sel).innerHTML=P.filter(x=>x.c===c).map(itemHTML).join(""));
 
 /* showcase */
 let si=0,sTimer=null;
@@ -850,14 +966,29 @@ const ALLAH=[["الرَّحْمَٰن","Ar-Rahman","Der Allerbarmer"],["الرَ
 $("#kNames").innerHTML=ALLAH.map(r=>`<span class="chip" title="${r[2]}"><span class="ar">${r[0]}</span>${r[1]}</span>`).join("");
 
 /* ---------- sources ---------- */
-const SRC=[["Qur'an","Quran.com","Der Qur'an mit Rezitation, Wort-für-Wort-Analyse und deutschen Übersetzungen.","https://quran.com/de"],
- ["Hadith","Sunnah.com","Die großen Hadith-Sammlungen (Bukhari, Muslim, Abu Dawud, Tirmidhi u. a.) mit Quellenangabe.","https://sunnah.com"],
- ["Hadith","Riyad as-Salihin","Imam an-Nawawis Auswahl an Hadithen zu Charakter und Alltag.","https://sunnah.com/riyadussalihin"],
- ["Hadith","Die 40 Hadithe an-Nawawis","Kurze Sammlung grundlegender Hadithe.","https://sunnah.com/nawawi40"],
- ["Tafsir","Tafsir Ibn Kathir","Klassische Qur'an-Erläuterung, auf Quran.com lesbar.","https://quran.com/1:1/tafsirs/en-tafisr-ibn-kathir"],
- ["Bittgebete","Hisnul Muslim","Duʿa aus Qur'an und Sunna für jeden Anlass.","https://sunnah.com/hisn"],
- ["Salawat","Dalāʾil al-Khayrāt","Imam al-Dschazūlīs berühmte Sammlung von Segenswünschen auf den Propheten ﷺ, über Jahrhunderte täglich gelesen.",amz("Dalail al-Khayrat")]];
-$("#sources").innerHTML=SRC.map(s=>`<article class="src"><span class="kind">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p>${s[3].includes("amazon.")?`<a href="${s[3]}" ${AMZ_ATTR}>Bei Amazon ansehen ↗</a>`:`<a href="${s[3]}" target="_blank" rel="noopener">Öffnen ↗</a>`}</article>`).join("");
+const SRC=[["Qur'an","Quran.com","Der Qur'an mit Rezitation, Wort-für-Wort-Analyse und deutschen Übersetzungen.","https://quran.com/de","koran"],
+ ["Tafsir","Tafsir Ibn Kathir","Klassische Qur'an-Erläuterung, auf Quran.com lesbar.","https://quran.com/1:1/tafsirs/en-tafisr-ibn-kathir","koran"],
+ ["Rezitation","Qur'an hören","Rezitationen bekannter Qurrāʾ, Sure für Sure, auf Quran.com.","https://quran.com/de/reciters","koran"],
+ ["Hadith","Sunnah.com","Die großen Hadith-Sammlungen (Bukhari, Muslim, Abu Dawud, Tirmidhi u. a.) mit Quellenangabe.","https://sunnah.com","sunnah"],
+ ["Hadith","Riyad as-Salihin","Imam an-Nawawis Auswahl an Hadithen zu Charakter und Alltag.","https://sunnah.com/riyadussalihin","sunnah"],
+ ["Hadith","Die 40 Hadithe an-Nawawis","Kurze Sammlung grundlegender Hadithe.","https://sunnah.com/nawawi40","sunnah"],
+ ["Schamāʾil","Asch-Schamāʾil al-Muḥammadiyya","At-Tirmidhīs Beschreibung von Aussehen, Charakter und Alltag des Propheten ﷺ.","https://sunnah.com/shamail","sunnah"],
+ ["Bittgebete","Hisnul Muslim","Duʿa aus Qur'an und Sunna für jeden Anlass.","https://sunnah.com/hisn","sunnah"]];
+const srcCard=s=>`<article class="src"><span class="kind">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p>${s[3].includes("amazon.")?`<a href="${s[3]}" ${AMZ_ATTR}>Bei Amazon ansehen ↗</a>`:`<a href="${s[3]}" target="_blank" rel="noopener">Öffnen ↗</a>`}</article>`;
+$("#srcKoran").innerHTML=SRC.filter(x=>x[4]==="koran").map(srcCard).join("");
+$("#srcSunnah").innerHTML=SRC.filter(x=>x[4]==="sunnah").map(srcCard).join("");
+/* dalail weekly plan */
+const DAL=[["Montag","1. Ḥizb",1],["Dienstag","2. Ḥizb",2],["Mittwoch","3. Ḥizb",3],["Donnerstag","4. Ḥizb",4],["Freitag","5. Ḥizb",5],["Samstag","6. Ḥizb",6],["Sonntag","7. Ḥizb",0],["Montag (folgende Woche)","8. Ḥizb, Abschluss",-1]];
+$("#dalailPlan").classList.add("plain");
+$("#dalailPlan").innerHTML=DAL.map(r=>`<li${r[2]===new Date().getDay()?' class="today"':""}>${r[2]===new Date().getDay()?'<span class="tag">Heute</span>':""}<b>${r[0]}</b><small>${r[1]}</small></li>`).join("")+`<li><small>Vorher werden üblicherweise die Einleitung, die Namen des Propheten ﷺ und die Beschreibung seines Grabes gelesen. Manche lesen das ganze Werk an einem Tag, andere einen Teil täglich. Richte dich nach deinem Lehrer.</small></li>`;
+/* nutrition */
+const ADAB=[["Mit Bismillah beginnen","„Sprich den Namen Allahs, iss mit der Rechten und iss von dem, was vor dir ist.“ (al-Buchārī 5376)"],["Nicht satt essen","Ein Drittel Essen, ein Drittel Trinken, ein Drittel Atem (at-Tirmidhī 2380)."],["Gemeinsam essen","„Esst zusammen und sprecht den Namen Allahs, dann liegt Segen darin.“ (Abū Dāwūd 3764)"],["Fasten am Montag und Donnerstag","Regelmäßige Essenspausen nach der Sunnah. Die Termine findest du im <a href=\"#fasten\">Fastenkalender</a>."],["Mit Datteln und Wasser das Fasten brechen","Der Prophet ﷺ brach sein Fasten mit frischen Datteln, sonst mit trockenen, sonst mit Wasser (Abū Dāwūd 2356)."],["Nicht verschwenden","„Esst und trinkt, aber seid nicht maßlos.“ (Qur'an 7:31)"]];
+const SCI=[["Langsam essen, früher satt","Das Sättigungsgefühl setzt erst nach etwa 15 bis 20 Minuten ein. Wer langsam isst und aufhört, bevor er voll ist, isst meist weniger."],["Ballaststoffe","Datteln, Feigen, Gerste und Hülsenfrüchte liefern Ballaststoffe, die die Verdauung unterstützen und lange sättigen."],["Ungesättigte Fette","Olivenöl ist reich an einfach ungesättigten Fettsäuren und gilt als Kern der mediterranen Ernährung."],["Essenspausen","Studien zu Intervallfasten zeigen mögliche Vorteile für Blutzucker und Gewicht. Die Forschung dazu läuft noch."],["Wenig Zucker, viel Wasser","Fachgesellschaften empfehlen, freien Zucker zu begrenzen und vor allem Wasser zu trinken."]];
+$("#nutriAdab").classList.add("plain");$("#nutriSci").classList.add("plain");
+$("#nutriAdab").innerHTML=ADAB.map(r=>`<li><b>${r[0]}</b><small>${r[1]}</small></li>`).join("");
+$("#nutriSci").innerHTML=SCI.map(r=>`<li><b>${r[0]}</b><small>${r[1]}</small></li>`).join("");
+const FOODS=[["Qur'an 16:69","Honig","„Darin ist Heilung für die Menschen.“ Natürliche Süße, am besten roh und in Maßen."],["al-Buchārī 5688","Schwarzkümmel","„Im Schwarzkümmel ist Heilung für jede Krankheit außer dem Tod.“"],["al-Buchārī 5445","Ajwa-Datteln","Sieben Ajwa-Datteln am Morgen werden in der Sunnah besonders erwähnt."],["at-Tirmidhī 1851","Olivenöl","„Esst das Öl und salbt euch damit, denn es stammt von einem gesegneten Baum.“"],["al-Buchārī 5417","Talbina (Gerstenbrei)","Ein Brei aus Gerstenmehl, Milch und Honig, der laut ʿĀʾischa das Herz des Kranken tröstet."],["Qur'an 95:1","Feigen und Oliven","„Bei der Feige und der Olive.“ Allah schwört bei ihnen im Qur'an."],["Qur'an 55:68","Granatapfel","Unter den Früchten des Paradieses genannt, reich an Polyphenolen."],["al-Buchārī 5379","Kürbis","Der Prophet ﷺ aß Kürbis gern, berichtet Anas."]];
+$("#nutriFoods").innerHTML=FOODS.map(f=>`<article class="src"><span class="kind">${f[0]}</span><h3>${f[1]}</h3><p>${f[2]}</p></article>`).join("");
 
 /* ---------- gifts ---------- */
 const OCC=[["eid","عيد","Ramadan & Eid","Zum Fastenbrechen und zum Fest"],["hochzeit","زواج","Hochzeit","Für das junge Ehepaar"],["baby","مولود","Geburt & Aqiqa","Für Eltern und Neugeborene"],["hajj","حج","Hajj & Umrah","Zum Abschied oder zur Rückkehr"],["neu","شهادة","Neu im Islam","Für jemanden, der den Weg gerade beginnt"],["alltag","هدية","Einfach so","Kleine Aufmerksamkeiten"]];
@@ -891,12 +1022,15 @@ document.querySelectorAll("#gFilter button").forEach(b=>b.addEventListener("clic
 addEventListener("hashchange",()=>{if(/^g\d+$/.test(location.hash.slice(1)))giftFilter("")});
 
 /* ---------- search ---------- */
-const COL={knowledge:"Bücher",ebook:"E-Books",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
+const COL={knowledge:"Bücher",ebook:"E-Books",koran:"Qur'an",sunnah:"Sunnah",dalail:"Dalāʾil al-Khayrāt",food:"Ernährung",sf:"Schmuck · Frauen",sm:"Schmuck · Männer",sk:"Kupfer",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
 const ZN=Object.fromEntries(ZONES.map(z=>[z[0],z[1]]));
 const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c],k:(x.n+" "+x.d+" "+COL[x.c]).toLowerCase(),h:"#p"+x.id})),
   ...C.map(c=>({t:c[2]+" ("+c[4]+")",s:"Kleidung · "+(c[0]==="m"?"Männer":"Frauen")+" · "+ZN[c[1]],k:(c.join(" ")+(c[0]==="m"?" männer herren":" frauen damen")+" kleidung").toLowerCase(),h:"#kleidung",g:c[0]})),
-  ...ALLAH.map(r=>({t:r[1]+" – "+r[2],s:"Name Allahs",k:(r.join(" ")).toLowerCase(),h:"#knowledge"})),
-  ...SRC.map(s=>({t:s[1],s:"Quelle · "+s[0],k:(s.join(" ")).toLowerCase(),h:"#quellen"})),
+  ...ALLAH.map(r=>({t:r[1]+" – "+r[2],s:"Name Allahs",k:(r.join(" ")).toLowerCase(),h:"#kNames"})),
+  ...FOODS.map(f=>({t:f[1],s:"Ernährung · "+f[0],k:(f.join(" ")+" ernährung essen").toLowerCase(),h:"#ernaehrung"})),
+  {t:"Dalāʾil al-Khayrāt – Wochenplan",s:"Wissensquelle",k:"dalail dalāʾil khayrat salawat jazuli dschazuli hizb wochenplan",h:"#dalail"},
+  {t:"Ernährungswissenschaft",s:"Wissensquelle",k:"ernährung ernährungswissenschaft essen gesund sunnah tibb nabawi",h:"#ernaehrung"},
+  ...SRC.map(s=>({t:s[1],s:"Quelle · "+s[0],k:(s.join(" ")).toLowerCase(),h:"#"+s[4]})),
   {t:"Fastentage & Erinnerungen",s:"Bereich",k:"fasten fastentage sunnah montag donnerstag ramadan ashura arafa erinnerung",h:"#fasten"},
   ...G.map(g=>({t:g.n,s:"Geschenk · "+OCC.find(o=>o[0]===g.o)[2],k:(g.n+" "+g.d+" geschenk geschenkidee "+OCC.find(o=>o[0]===g.o)[2]).toLowerCase(),h:"#"+g.id})),
   {t:"Geschenkideen",s:"Bereich",k:"geschenk geschenke geschenkidee idee schenken eid hochzeit geburt baby hajj umrah",h:"#geschenke"},
@@ -1001,7 +1135,7 @@ showDay(today);
 
 /* ---------- views (router) ---------- */
 const VIEWS=[...document.querySelectorAll("[data-view]")];
-const SHOP=["shop","kleidung","accessoires","buecher"];
+const SHOP=["shop","kleidung","schmuck","accessoires","buecher"],WISSEN=["quellen","koran","sunnah","dalail","ernaehrung"];
 function route(){
   let h=decodeURIComponent(location.hash.slice(1))||"start";
   if(h==="kleidung-frauen"||h==="kleidung-maenner"){gender=h.endsWith("frauen")?"f":"m";store.set("rh_gender",gender);renderZones();h="kleidung"}
@@ -1010,11 +1144,13 @@ function route(){
   if(!v){v=VIEWS[0];el=null}
   const changed=v.hidden;
   VIEWS.forEach(x=>x.hidden=x!==v);
-  const grp=SHOP.includes(v.id)?"shop":v.id;
+  const grp=SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
   document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
-  $("#subnav").hidden=grp!=="shop";
+  $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";
+  document.querySelectorAll("#subwissen a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+v.id));
   const subKey=v.id==="kleidung"?(gender==="f"?"kleidung-frauen":"kleidung-maenner"):v.id;
   document.querySelectorAll("#subnav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+subKey));
+  document.querySelectorAll("nav.sub a.on").forEach(a=>{const w=a.parentNode;w.scrollLeft=a.offsetLeft-(w.clientWidth-a.offsetWidth)/2});
   if(el&&el!==v)requestAnimationFrame(()=>el.scrollIntoView({block:"start"}));
   else if(changed||el===v)window.scrollTo(0,0);
 }
