@@ -379,7 +379,33 @@ html{scroll-padding-top:170px}
   </section>
 
   <div class="night">
-    <section id="kalender">
+    <section id="gebetszeiten">
+      <div class="wrap">
+        <div class="head">
+          <p class="eyebrow">Gebetszeiten</p>
+          <h2>Gebetszeiten nach DITIB</h2>
+        </div>
+        <div class="two">
+          <div class="panel">
+            <div class="pt-top">
+              <label for="ptCity" class="note">Ort</label>
+              <select id="ptCity"></select>
+              <button class="btn ghost" type="button" id="ptLocate">Mein Standort</button>
+            </div>
+            <p class="pt-date" id="ptDate"></p>
+            <ul class="ptimes" id="ptList"></ul>
+          </div>
+          <div class="panel">
+            <h3 id="ptNextTitle">Nächstes Gebet</h3>
+            <p class="pt-count" id="ptCount">–</p>
+            <p class="note">Berechnet nach der Methode der türkischen Religionsbehörde Diyanet, die auch DITIB verwendet (Fadschr 18°, Ischa 17°, mit Diyanet-Zuschlägen). Die offiziellen DITIB-Zeiten können um wenige Minuten abweichen. Im Zweifel gilt der Kalender deiner Moschee.</p>
+            <p class="status" id="ptStatus" role="status"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="kalender" style="padding-top:8px">
       <div class="wrap">
         <div class="head">
           <p class="eyebrow">Kalender</p>
@@ -417,32 +443,6 @@ html{scroll-padding-top:170px}
             <p id="moonNext" class="note">–</p>
             <p class="note">Tierkreis hier als astronomische Position am Himmel (tropischer Tierkreis), ohne Deutung.</p>
             <details class="months-box"><summary>Die zwölf islamischen Monate</summary><ol class="months" id="months"></ol></details>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="gebetszeiten" style="padding-top:8px">
-      <div class="wrap">
-        <div class="head">
-          <p class="eyebrow">Gebetszeiten</p>
-          <h2>Gebetszeiten nach DITIB</h2>
-        </div>
-        <div class="two">
-          <div class="panel">
-            <div class="pt-top">
-              <label for="ptCity" class="note">Ort</label>
-              <select id="ptCity"></select>
-              <button class="btn ghost" type="button" id="ptLocate">Mein Standort</button>
-            </div>
-            <p class="pt-date" id="ptDate"></p>
-            <ul class="ptimes" id="ptList"></ul>
-          </div>
-          <div class="panel">
-            <h3 id="ptNextTitle">Nächstes Gebet</h3>
-            <p class="pt-count" id="ptCount">–</p>
-            <p class="note">Berechnet nach der Methode der türkischen Religionsbehörde Diyanet, die auch DITIB verwendet (Fadschr 18°, Ischa 17°, mit Diyanet-Zuschlägen). Die offiziellen DITIB-Zeiten können um wenige Minuten abweichen. Im Zweifel gilt der Kalender deiner Moschee.</p>
-            <p class="status" id="ptStatus" role="status"></p>
           </div>
         </div>
       </div>
