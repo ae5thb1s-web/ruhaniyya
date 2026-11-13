@@ -622,6 +622,7 @@ const P=[
  {id:3,c:"knowledge",n:"Hisnul Muslim",d:"Bittgebete für jeden Anlass, Taschenformat",q:"Hisnul Muslim deutsch",ar:"حصن",bg:"#5B1E99"},
  {id:4,c:"knowledge",n:"Der versiegelte Nektar",d:"Prophetenbiografie von al-Mubarakpuri",q:"Der versiegelte Nektar",ar:"الرحيق",bg:"#2E0A52"},
  {id:5,c:"knowledge",n:"Die 40 Hadithe",d:"Imam an-Nawawi, mit Erläuterungen",q:"40 Hadithe Nawawi deutsch",ar:"الأربعين",bg:"#6A24B3"},
+ {id:18,c:"knowledge",n:"Dalāʾil al-Khayrāt",d:"Segenswünsche auf den Propheten ﷺ, Imam al-Dschazūlī",q:"Dalail al-Khayrat",ar:"دلائل",bg:"#3B0764"},
  {id:6,c:"islamic",n:"Misbaha aus Olivenholz",d:"33 Perlen für Tasbih",q:"Misbaha Olivenholz 33",ar:"مسبحة",bg:"#065F46"},
  {id:7,c:"islamic",n:"Gebetsteppich aus Baumwolle",d:"Gepolstert, mit Mihrab-Muster",q:"Gebetsteppich Baumwolle",ar:"سجادة",bg:"#4C1D95"},
  {id:8,c:"islamic",n:"Attar „Oud & Rose“",d:"Alkoholfreies Parfümöl",q:"Attar Oud alkoholfrei",ar:"عطر",bg:"#7C2D92"},
@@ -667,8 +668,9 @@ const SRC=[["Qur'an","Quran.com","Der Qur'an mit Rezitation, Wort-für-Wort-Anal
  ["Hadith","Riyad as-Salihin","Imam an-Nawawis Auswahl an Hadithen zu Charakter und Alltag.","https://sunnah.com/riyadussalihin"],
  ["Hadith","Die 40 Hadithe an-Nawawis","Kurze Sammlung grundlegender Hadithe.","https://sunnah.com/nawawi40"],
  ["Tafsir","Tafsir Ibn Kathir","Klassische Qur'an-Erläuterung, auf Quran.com lesbar.","https://quran.com/1:1/tafsirs/en-tafisr-ibn-kathir"],
- ["Bittgebete","Hisnul Muslim","Duʿa aus Qur'an und Sunna für jeden Anlass.","https://sunnah.com/hisn"]];
-$("#sources").innerHTML=SRC.map(s=>`<article class="src"><span class="kind">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p><a href="${s[3]}" target="_blank" rel="noopener">Öffnen ↗</a></article>`).join("");
+ ["Bittgebete","Hisnul Muslim","Duʿa aus Qur'an und Sunna für jeden Anlass.","https://sunnah.com/hisn"],
+ ["Salawat","Dalāʾil al-Khayrāt","Imam al-Dschazūlīs berühmte Sammlung von Segenswünschen auf den Propheten ﷺ, über Jahrhunderte täglich gelesen.",amz("Dalail al-Khayrat")]];
+$("#sources").innerHTML=SRC.map(s=>`<article class="src"><span class="kind">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p>${s[3].includes("amazon.")?`<a href="${s[3]}" ${AMZ_ATTR}>Bei Amazon ansehen ↗</a>`:`<a href="${s[3]}" target="_blank" rel="noopener">Öffnen ↗</a>`}</article>`).join("");
 
 /* ---------- search ---------- */
 const COL={knowledge:"Islamic Knowledge",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
