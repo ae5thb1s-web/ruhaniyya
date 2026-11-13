@@ -403,7 +403,6 @@ html{scroll-padding-top:170px}
   <nav class="sub" id="subgebet" aria-label="Gebet, Fasten, Sadaqa" hidden>
     <div class="wrap">
       <a href="#gebetszeiten">Gebetszeiten</a>
-      <a href="#qibla">Qibla</a>
       <a href="#fasten">Fastenzeiten</a>
       <a href="#erinnerung">Erinnerungen</a>
       <a href="#sadaqa">Ṣadaqa</a>
@@ -657,34 +656,6 @@ html{scroll-padding-top:170px}
       <div class="cols two-cols" style="margin-top:22px"><article class="col"><div class="col-head"><span class="ar">طَيِّبات</span><h2>Gute Produkte</h2><p class="note">Naturbelassen, aus Qur'an und Sunnah bekannt</p></div><ul id="colFood"></ul></article></div>
       <p class="disclosure" style="margin-top:16px">Diese Seite dient der allgemeinen Bildung und ersetzt keinen ärztlichen Rat. Bei Krankheit, Schwangerschaft oder Medikamenten sprich vor einer Ernährungsumstellung mit deiner Ärztin oder deinem Arzt. Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen.</p>
     </div></section>
-  </div>
-
-  <div class="view" data-view id="qibla" hidden>
-    <section style="padding-top:28px">
-      <div class="wrap">
-        <div class="head"><p class="eyebrow">Gebet · Qibla</p><h2>Qibla-Kompass</h2><p class="lead" id="qPlace"></p></div>
-        <div class="qibla-box">
-          <svg id="qDial" viewBox="0 0 300 300" aria-hidden="true">
-            <defs><radialGradient id="qg" cx="50%" cy="40%"><stop offset="0" stop-color="#2a1550"/><stop offset="1" stop-color="#0b0614"/></radialGradient></defs>
-            <g id="qRose">
-              <circle cx="150" cy="150" r="140" fill="url(#qg)" stroke="#c084fc" stroke-width="2"/>
-              <g id="qTicks"></g>
-              <text x="150" y="38" text-anchor="middle" fill="#f0abfc" font-size="20" font-weight="700">N</text>
-              <text x="266" y="157" text-anchor="middle" fill="#ffffffa0" font-size="16">O</text>
-              <text x="150" y="276" text-anchor="middle" fill="#ffffffa0" font-size="16">S</text>
-              <text x="34" y="157" text-anchor="middle" fill="#ffffffa0" font-size="16">W</text>
-              <g id="qNeedle"><line x1="150" y1="150" x2="150" y2="46" stroke="#34d399" stroke-width="5" stroke-linecap="round"/><rect x="136" y="30" width="28" height="28" rx="3" fill="#111" stroke="#d4af37" stroke-width="3"/><line x1="136" y1="38" x2="164" y2="38" stroke="#d4af37" stroke-width="2"/></g>
-            </g>
-            <circle cx="150" cy="150" r="7" fill="#f0abfc"/>
-            <path d="M150 2 l8 14 h-16z" fill="#fff"/>
-          </svg>
-          <p class="qibla-deg" id="qDeg"></p>
-          <p class="qibla-hint" id="qHint">Tippe auf „Kompass starten“ und halte dein Handy flach vor dich.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn" type="button" id="qStart">Kompass starten</button><a class="btn ghost" href="#gebetszeiten">Ort ändern</a></div>
-          <small class="note" style="max-width:46ch;text-align:center">Der Kompass nutzt den Sensor deines Handys. Halte Abstand zu Metall und Magneten und bewege das Handy in einer Acht, falls die Richtung springt. Am Computer siehst du die Richtung mit Norden oben.</small>
-        </div>
-      </div>
-    </section>
   </div>
 
   <div class="view" data-view id="sadaqa" hidden>
@@ -1492,9 +1463,8 @@ renderPrayer();
 
 /* ---------- qibla compass ---------- */
 const qiblaDeg=(lat,lng)=>{const φ=lat*Math.PI/180,φk=KAABA[1]*Math.PI/180,dλ=(KAABA[0]-lng)*Math.PI/180;return(Math.atan2(Math.sin(dλ),Math.cos(φ)*Math.tan(φk)-Math.sin(φ)*Math.cos(dλ))*180/Math.PI+360)%360};
-$("#qTicks").innerHTML=Array.from({length:72},(_,i)=>{const a=i*5,l=a%30?6:14;return `<line x1="150" y1="12" x2="150" y2="${12+l}" stroke="#ffffff${a%30?"40":"90"}" stroke-width="${a%30?1:2}" transform="rotate(${a} 150 150)"/>`}).join("");
 var qHead=null;
-function renderQibla(){const q=qiblaDeg(place.lat,place.lng);
+function renderQibla(){if(!document.getElementById("qDial"))return;const q=qiblaDeg(place.lat,place.lng);
   $("#qPlace").textContent=`Richtung Kaaba von ${place.n}${place.c?", "+place.c:""}`;
   $("#qNeedle").setAttribute("transform",`rotate(${q} 150 150)`);
   $("#qRose").style.transform=qHead==null?"":`rotate(${-qHead}deg)`;
@@ -1511,7 +1481,6 @@ async function startCompass(hint){try{
   hint.hidden=false;hint.textContent="Kompass aktiv. Halte das Handy flach vor dich.";
   setTimeout(()=>{if(qHead==null){hint.hidden=false;hint.textContent="Dein Gerät liefert keine Kompassdaten. Am besten am Handy öffnen."}},2500)
 }catch(e){hint.hidden=false;hint.textContent="Kompass nicht verfügbar. Am besten am Handy öffnen."}}
-$("#qStart").addEventListener("click",()=>startCompass($("#qHint")));
 $("#ptCompass").addEventListener("click",()=>startCompass($("#globeDir")));
 renderQibla();
 
@@ -1572,7 +1541,7 @@ function route(){
   const GEBET={erinnerung:["erinnerung"],gebetszeiten:["gebetszeiten"],fasten:["kalender","fasten"],kalender:["kalender","fasten"]};
   const gPart=GEBET[h];
   ["ueber","erinnerung","gebetszeiten","kalender","fasten","entdecken"].forEach(id=>document.getElementById(id).hidden=!!gPart&&!gPart.includes(id));
-  const grp=(gPart||v.id==="sadaqa"||v.id==="qibla")?"gebet":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
+  const grp=(gPart||v.id==="sadaqa")?"gebet":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
   document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
   $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";$("#subgebet").hidden=grp!=="gebet";$("#subspenden").hidden=grp!=="spenden";
   document.querySelectorAll("#subgebet a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+(h==="kalender"?"fasten":gPart?h:v.id)));
