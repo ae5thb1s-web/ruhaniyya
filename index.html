@@ -565,7 +565,7 @@ $("#icsCopy").addEventListener("click",()=>{const t=$("#icsText");const sel=()=>
   if(navigator.clipboard)navigator.clipboard.writeText(t.value).then(()=>status("Kalendertext kopiert."),sel);else sel()});
 
 /* ---------- Amazon affiliate ---------- */
-const AMAZON_TAG="DEIN-TAG-21"; // ← hier deinen Amazon-PartnerNet-Tracking-ID eintragen
+const AMAZON_TAG="ruhaniyya-21";
 const amz=q=>`https://www.amazon.de/s?k=${encodeURIComponent(q)}&tag=${AMAZON_TAG}`;
 const AMZ_ATTR='target="_blank" rel="nofollow sponsored noopener"';
 
