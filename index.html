@@ -182,6 +182,9 @@ nav.main a.on{color:var(--primary);background:var(--surface-2)}
 .day.ram .g{color:#bfdbfe;font-weight:700}
 .day.ram.out{opacity:.55}
 .cal-key .sw.blue{background:#3b82f666;border-color:#60a5fa}
+.cal-rec{margin:0 0 12px;display:grid;gap:8px}
+.cal-rec p{margin:0;padding:10px 12px;border-radius:12px;background:#fbbf2418;border:1px solid #fbbf2466;color:var(--night-fg);font-size:.9rem;line-height:1.45}
+.cal-rec b{color:#fcd34d;margin-right:.3em}
 .cal-key .sw.pink{background:#ec489966;border-color:#f472b6}
 .day.bid.out{opacity:.55}
 .cal-key{display:block;margin:10px 0 0;line-height:1.5;font-size:.85rem;color:var(--night-muted)}
@@ -522,6 +525,7 @@ html{scroll-padding-top:170px}
               <div class="cal-title"><b id="calTitle"></b><small id="calHijri"></small></div>
               <button class="cal-nav" type="button" id="calNext" aria-label="Nächster Monat">›</button>
             </div>
+            <div class="cal-rec" id="calRec" hidden></div>
             <div class="cal-grid" id="calGrid" role="grid"></div>
             <p class="cal-key"><span class="sw blue"></span> Ramadan: Fasten ist Pflicht</p>
             <p class="cal-key"><span class="sw"></span> Weiße Tage (13., 14. und 15. des Mondmonats): Fasten ist Sunnah</p>
@@ -930,6 +934,11 @@ const arDigits=n=>String(n).replace(/\d/g,c=>"٠١٢٣٤٥٦٧٨٩"[c]);
 const fmtH=h=>`${h.d}. ${MONTHS[h.m-1]} ${h.y}`;
 
 /* ---------- fasting rules ---------- */
+const REC_M={1:"Empfohlener Fastenmonat: „Das beste Fasten nach dem Ramadan ist das Fasten im Monat Allahs, dem Muḥarram.“ (Muslim 1163)",
+ 7:"Einer der vier heiligen Monate (Qur'an 9:36). Viele Gelehrte empfehlen, in den heiligen Monaten mehr zu fasten.",
+ 8:"In keinem Monat außer dem Ramadan fastete der Prophet ﷺ so viel wie im Schaʿbān (al-Buchārī 1969). Eine gute Vorbereitung auf den Ramadan.",
+ 11:"Einer der vier heiligen Monate (Qur'an 9:36). Viele Gelehrte empfehlen, in den heiligen Monaten mehr zu fasten.",
+ 12:"Die ersten neun Tage gehören zu den besten Tagen des Jahres, besonders der Tag von Arafa (Muslim 1162)."};
 function classify(d){
   const h=hijri(d),wd=d.getDay(),out=[];
   if(h.m===10&&h.d===1) return [{t:"Eid al-Fitr",k:"no",g:"no"}];
@@ -941,6 +950,7 @@ function classify(d){
   if(h.m===1&&h.d===9) out.push({t:"Tasuʿa (9. Muharram)",k:"special",g:"special"});
   if(h.m===1&&h.d===10) out.push({t:"Ashura",k:"special",g:"special"});
   if(h.m===10&&h.d>=2) out.push({t:"Sechs Tage im Schawwal",k:"special",g:"special"});
+  if(h.d===1&&REC_M[h.m]) out.push({t:`Beginn ${MONTHS[h.m-1]}: empfohlener Fastenmonat`,k:"special",g:"special"});
   if(h.m!==9&&h.d>=13&&h.d<=15) out.push({t:`Weißer Tag (${h.d}.)`,k:"sunnah",g:"bid"});
   if(h.m!==9&&(wd===1||wd===4)) out.push({t:wd===1?"Montag":"Donnerstag",k:"sunnah",g:"monthu"});
   return out;
@@ -1516,6 +1526,8 @@ function renderCal(){
     html+=`<button type="button" class="day${d.getMonth()!==calM?" out":""}${sameDay(d,today)?" today":""}${sameDay(d,selDay)?" sel":""}${bid?" bid":""}${hij?" hij":""}${ram?" ram":""}" data-t="${d.getTime()}" aria-label="${d.toLocaleDateString("de-DE")}, ${fmtH(h)}${it.length?", "+it.map(x=>x.t).join(", "):""}">
       ${k?`<i class="fd ${k}"></i>`:""}<span class="g">${d.getDate()}</span><span class="h${h.d===1?" m1":""}"${h.d===1?` title="1. ${MONTHS[h.m-1]}"`:""}>${h.d}</span>${miniMoon(age)}<span class="z" title="Mond im ${ZOD[z][0]}">${zsym(z)}</span></button>`}
   $("#calGrid").innerHTML=html;
+  const recs=[...new Set([h1.m,h2.m])].filter(m=>REC_M[m]);
+  $("#calRec").hidden=!recs.length;$("#calRec").innerHTML=recs.map(m=>`<p><b>⭐ ${MONTHS[m-1]}</b> ${REC_M[m]}</p>`).join("");
 }
 function showDay(d){
   selDay=d;const h=hijri(d),age=moonAge(new Date(d.getFullYear(),d.getMonth(),d.getDate(),20)),jd=jdNoon(d);
