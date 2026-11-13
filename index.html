@@ -71,6 +71,13 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background
 .results a:hover,.results a:focus{background:var(--surface-2)}
 .results small{color:var(--muted)}
 .icons{display:flex;gap:6px;flex:none}
+.icons{display:flex;gap:8px;align-items:center}
+.icon-btn.donate{text-decoration:none;background:var(--primary);border-color:var(--primary);color:var(--primary-fg);box-shadow:0 0 14px var(--glow)}
+.donate-box{border:1px solid var(--line);border-radius:20px;background:var(--surface);padding:22px;display:grid;gap:12px;max-width:560px}
+.crypto{display:grid;gap:6px;border-top:1px solid var(--line);padding-top:10px}
+.crypto code{font-size:.8rem;word-break:break-all;background:var(--surface-2);border-radius:8px;padding:.5em .7em}
+.crypto button{justify-self:start;font:inherit;font-weight:600;font-size:.85rem;border:1px solid var(--primary);color:var(--primary);background:transparent;border-radius:999px;padding:.35em .9em;cursor:pointer}
+.donate-box .btn[aria-disabled="true"]{opacity:.55;pointer-events:none}
 .icon-btn{display:inline-flex;align-items:center;gap:.4em;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:.45em .8em;font:600 .9rem var(--f-body);cursor:pointer}
 .icon-btn b{color:var(--primary)}
 nav.main{border-top:1px solid var(--line)}
@@ -113,6 +120,9 @@ nav.sub a.on{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14
 .gtabs a{text-decoration:none;font-weight:700;font-size:.92rem;padding:.45em 1.1em;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--bg)}
 .gtabs a.on{background:var(--primary);border-color:var(--primary);color:var(--primary-fg)}
 .gfilter{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+#aWho{margin-bottom:10px}
+.mat{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent,#059669);margin-left:.4em}
+.col .empty{padding:16px 18px;color:var(--muted);font-size:.9rem}
 .gfilter button{font:inherit;font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:999px;padding:.45em 1em;cursor:pointer}
 .gfilter button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
 .gift-hadith{border-left:3px solid var(--primary);padding:.3em 0 .3em 1em;margin:0 0 22px;color:var(--muted)}
@@ -330,6 +340,7 @@ html{scroll-padding-top:170px}
       <div class="results" id="results" hidden></div>
     </div>
     <div class="icons">
+      <a class="icon-btn donate" href="#spenden" aria-label="Spenden"><span aria-hidden="true">♥</span><span>Spenden</span></a>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell oder dunkel umschalten"><span id="themeIco">☾</span><span class="lbl" id="themeLbl">Dunkel</span></button>
     </div>
   </div>
@@ -572,6 +583,34 @@ html{scroll-padding-top:170px}
     </div></section>
   </div>
 
+  <div class="view" data-view id="spenden" hidden>
+    <section style="padding-top:28px">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Spenden · Ṣadaqa</p><h2>Gemeinsam Gutes tun</h2><p class="lead">Mit deiner Spende unterstützt du Ruhaniyya. Die Spenden setzen wir für gemeinnützige Zwecke ein.</p></div>
+        <p class="gift-hadith"><span class="ar">مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ</span>„Die Ṣadaqa mindert das Vermögen nicht.“ (Muslim 2588)</p>
+        <div class="tiles">
+          <div class="tile"><span class="ar">المُحْتاج</span><b>Bedürftigen helfen</b><span>Unterstützung für Menschen in Not, zum Beispiel Iftar-Essen im Ramadan</span></div>
+          <div class="tile"><span class="ar">العِلْم</span><b>Wissen weitergeben</b><span>Quellen, Kalender und Gebetszeiten bleiben für alle kostenlos</span></div>
+          <div class="tile"><span class="ar">الخَيْر</span><b>Gemeinnützige Projekte</b><span>Wir berichten hier, wofür die Spenden verwendet wurden</span></div>
+        </div>
+        <div class="donate-box" style="margin-top:22px">
+          <b style="font-size:1.1rem">Geld spenden</b>
+          <span class="note" style="color:var(--muted)">Jeder Betrag hilft, ob einmalig oder regelmäßig. Per PayPal, Kreditkarte oder Lastschrift.</span>
+          <div class="row" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" id="donateBtn" href="#" target="_blank" rel="noopener">Mit PayPal spenden ↗</a></div>
+          <small id="donateHint" style="color:var(--muted)"></small>
+        </div>
+        <div class="donate-box" style="margin-top:16px">
+          <b style="font-size:1.1rem">Mit Krypto spenden</b>
+          <span class="note" style="color:var(--muted)">Kopiere die Adresse und sende nur die passende Währung über das genannte Netzwerk. Falsch gesendete Beträge gehen verloren.</span>
+          <div id="cryptoList" style="display:grid;gap:10px"></div>
+        </div>
+        <div style="max-width:560px;margin-top:12px">
+          <small style="color:var(--muted)">Hinweis: Ruhaniyya ist kein eingetragener gemeinnütziger Verein. Deshalb können wir keine steuerlich absetzbare Spendenbescheinigung ausstellen.</small>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <div class="view" data-view id="shop" hidden>
     <section style="padding-top:28px;padding-bottom:0">
       <div class="wrap">
@@ -612,6 +651,7 @@ html{scroll-padding-top:170px}
         <div class="tiles">
           <a class="tile" href="#kleidung-frauen"><span class="ar">لِباس</span><b>Kleidung</b><span>Von Kopf bis Fuß: Hijab, Abaya, Khimar, nur Baumwolle und Leinen</span></a>
           <a class="tile" href="#schmuck-frauen"><span class="ar">حِلْيَة</span><b>Schmuck</b><span>Gold, Bio-Holz, Kristalle und Aqiq-Steine</span></a>
+          <a class="tile" href="#accessoires-frauen"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Gold, Holz, Kupfer, Baumwolle und Leinen</span></a>
         </div>
       </div>
     </section>
@@ -624,6 +664,7 @@ html{scroll-padding-top:170px}
         <div class="tiles">
           <a class="tile" href="#kleidung-maenner"><span class="ar">لِباس</span><b>Kleidung</b><span>Von Kopf bis Fuß: Kufi, Qamis, Sirwal, nur Baumwolle und Leinen</span></a>
           <a class="tile" href="#schmuck-maenner"><span class="ar">حِلْيَة</span><b>Schmuck</b><span>Silber, auch mit Aqiq-Stein, und Bio-Holz</span></a>
+          <a class="tile" href="#accessoires-maenner"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Silber, Holz, Kupfer, Baumwolle und Leinen</span></a>
         </div>
       </div>
     </section>
@@ -668,8 +709,11 @@ html{scroll-padding-top:170px}
   <div class="view" data-view id="accessoires" hidden>
     <section style="padding-top:28px">
       <div class="wrap">
-        <div class="head"><p class="eyebrow">Shop · Accessoires</p><h2>Accessoires</h2></div>
-        <div class="cols">
+        <div class="head"><p class="eyebrow">Shop · Accessoires</p><h2>Accessoires</h2><p class="lead">Wähle, für wen und aus welchem Material.</p></div>
+        <div class="gfilter" id="aWho" role="group" aria-label="Für wen"><button type="button" data-v="" aria-pressed="true">Alle</button><button type="button" data-v="m" aria-pressed="false">Für Männer</button><button type="button" data-v="f" aria-pressed="false">Für Frauen</button><button type="button" data-v="u" aria-pressed="false">Unisex</button></div>
+        <div class="gfilter" id="aMat" role="group" aria-label="Material"><button type="button" data-v="" aria-pressed="true">Alle Materialien</button><button type="button" data-v="kupfer" aria-pressed="false">Kupfer</button><button type="button" data-v="silber" aria-pressed="false">Silber</button><button type="button" data-v="gold" aria-pressed="false">Gold</button><button type="button" data-v="holz" aria-pressed="false">Holz</button><button type="button" data-v="textil" aria-pressed="false">Baumwolle &amp; Leinen</button></div>
+        <p class="gift-hadith" id="aNote" hidden></p>
+        <div class="cols two-cols">
           <article class="col" id="islamisch">
             <div class="col-head"><span class="ar">الزِّينَة</span><h2>Islamische Accessoires</h2><p class="note">Für Gebet, Dhikr und schlichte Kleidung.</p></div>
             <ul id="colIslamic"></ul>
@@ -678,7 +722,6 @@ html{scroll-padding-top:170px}
             <div class="col-head"><span class="ar">التَّيْسِير</span><h2>Praktische Accessoires</h2><p class="note">Kleine Helfer, die den Alltag als Muslim leichter machen.</p></div>
             <ul id="colPractical"></ul>
           </article>
-          <article class="col" id="kupfer"><div class="col-head"><span class="ar">نُحاس</span><h2>Aus Kupfer</h2><p class="note">Für alle: Becher, Kannen, Armbänder und mehr</p></div><ul id="colSK"></ul></article>
         </div>
         <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
       </div>
@@ -862,6 +905,9 @@ $("#icsCopy").addEventListener("click",()=>{const t=$("#icsText");const sel=()=>
 
 /* ---------- Amazon affiliate ---------- */
 const AMAZON_TAG="ruhaniyya-21";
+const DONATE_URL=""; /* z. B. https://www.paypal.com/donate/?hosted_button_id=... */
+/* Wallet-Adressen eintragen; leere werden als "folgt" angezeigt */
+const CRYPTO=[["Bitcoin","BTC","Bitcoin-Netzwerk",""],["Ethereum","ETH","Ethereum (ERC-20)",""],["Tether","USDT","Tron (TRC-20)",""],["Solana","SOL","Solana",""]];
 const amz=q=>`https://www.amazon.de/s?k=${encodeURIComponent(q)}&tag=${AMAZON_TAG}`;
 const AMZ_ATTR='target="_blank" rel="nofollow sponsored noopener"';
 
@@ -951,22 +997,32 @@ const P=[
  {id:75,c:"sm",n:"Armband aus Bio-Holz",d:"Natürliche Holzperlen, für Herren",q:"Holzperlen Armband Herren natur",ar:"خشب",bg:"#7C2D12"},
  {id:76,c:"sm",n:"Holzring",d:"Aus massivem Naturholz",q:"Holzring Herren Naturholz",ar:"خاتم",bg:"#92400E"},
  {id:77,c:"sm",n:"Misbaha aus Olivenholz",d:"33 Perlen, Bio-Holz",q:"Misbaha Olivenholz 33",ar:"مسبحة",bg:"#65411F"},
- {id:80,c:"sk",n:"Kupferarmband",d:"Reines Kupfer, offen",q:"Kupferarmband rein",ar:"نحاس",bg:"#9A3412"},
- {id:81,c:"sk",n:"Kupferbecher",d:"Reines Kupfer, für Wasser",q:"Kupferbecher rein",ar:"كوب",bg:"#C2410C"},
- {id:82,c:"sk",n:"Kupferkanne",d:"Für Wasser und Wudu",q:"Kupferkanne rein Wasser",ar:"إبريق",bg:"#9A3412"},
- {id:83,c:"sk",n:"Kupfer-Räuchergefäß (Mabkhara)",d:"Für Oud und Bakhoor",q:"Mabkhara Kupfer Bakhoor",ar:"مبخرة",bg:"#7C2D12"},
- {id:84,c:"sk",n:"Kupfer-Schlüsselanhänger",d:"Mit arabischer Kalligrafie",q:"Kupfer Schlüsselanhänger arabisch",ar:"مفتاح",bg:"#C2410C"},
- {id:6,c:"islamic",n:"Misbaha aus Olivenholz",d:"33 Perlen für Tasbih",q:"Misbaha Olivenholz 33",ar:"مسبحة",bg:"#065F46"},
- {id:7,c:"islamic",n:"Gebetsteppich aus Baumwolle",d:"Gepolstert, mit Mihrab-Muster",q:"Gebetsteppich Baumwolle",ar:"سجادة",bg:"#4C1D95"},
- {id:8,c:"islamic",n:"Attar „Oud & Rose“",d:"Alkoholfreies Parfümöl",q:"Attar Oud alkoholfrei",ar:"عطر",bg:"#7C2D92"},
- {id:9,c:"islamic",n:"Miswak",d:"Natürliche Zahnpflege nach der Sunna",q:"Miswak",ar:"سواك",bg:"#047857"},
- {id:10,c:"islamic",n:"Qur'an-Hülle aus Leinen",d:"Schützt den Mushaf, mit Reißverschluss",q:"Koran Hülle Stoff",ar:"غلاف",bg:"#5B21B6"},
- {id:12,c:"practical",n:"Digitaler Tasbih-Ring",d:"Zählt Dhikr per Fingertipp",q:"Tasbih Ring digital Zähler",ar:"عدّاد",bg:"#6D28D9"},
- {id:13,c:"practical",n:"Qibla-Kompass",d:"Klein, für Reise und Büro",q:"Qibla Kompass",ar:"قبلة",bg:"#065F46"},
- {id:14,c:"practical",n:"Reise-Gebetsteppich",d:"Faltbar, mit Tasche",q:"Reise Gebetsteppich faltbar Tasche",ar:"سفر",bg:"#4C1D95"},
- {id:15,c:"practical",n:"Wudu-Flasche",d:"Faltbar, für unterwegs",q:"Wudu Flasche faltbar",ar:"وضوء",bg:"#0E7490"},
- {id:16,c:"practical",n:"Qur'an-Ständer (Rehal)",d:"Klappbar aus Holz",q:"Rehal Koranständer Holz",ar:"رحل",bg:"#7C2D12"},
- {id:17,c:"practical",n:"Gebetszeiten-Uhr",d:"Zeigt Gebetszeiten, spielt den Adhan",q:"Azan Uhr Gebetszeiten",ar:"أذان",bg:"#581C87"}
+ {id:90,c:"islamic",w:"f",m:"gold",n:"Goldene Hijab-Nadeln",d:"Vergoldet, mit Perle",q:"Hijab Nadeln gold",ar:"دبوس",bg:"#A16207"},
+ {id:91,c:"islamic",w:"f",m:"gold",n:"Misbaha mit Goldperlen",d:"33 Perlen, goldfarben",q:"Misbaha gold Damen",ar:"مسبحة",bg:"#B45309"},
+ {id:92,c:"practical",w:"f",m:"gold",n:"Goldener Taschenspiegel",d:"Klappbar, für die Handtasche",q:"Taschenspiegel gold klappbar",ar:"مرآة",bg:"#A16207"},
+ {id:93,c:"practical",w:"f",m:"holz",n:"Hijab-Ständer aus Holz",d:"Ordnet Tücher und Nadeln",q:"Hijab Ständer Holz",ar:"خشب",bg:"#92400E"},
+ {id:94,c:"islamic",w:"u",m:"silber",n:"Attar-Flakon aus Silber",d:"Zum Nachfüllen, für die Tasche",q:"Attar Flakon Silber",ar:"عطر",bg:"#64748B"},
+ {id:95,c:"practical",w:"m",m:"silber",n:"Geldklammer aus Silber",d:"925er Sterlingsilber",q:"Geldklammer Silber 925",ar:"فضة",bg:"#475569"},
+ {id:96,c:"islamic",w:"m",m:"silber",n:"Schlüsselanhänger Schahada",d:"Silber, mit Kalligrafie",q:"Schlüsselanhänger Silber arabisch Kalligrafie",ar:"شهادة",bg:"#334155"},
+ {id:97,c:"practical",w:"m",m:"holz",n:"Armbanduhr aus Holz",d:"Leicht, aus Naturholz",q:"Holzuhr Herren",ar:"ساعة",bg:"#7C2D12"},
+ {id:98,c:"islamic",w:"u",m:"holz",n:"Bartkamm und Haarkamm aus Holz",d:"Pflege nach der Sunnah",q:"Bartkamm Holz Sandelholz",ar:"مشط",bg:"#92400E"},
+ {id:99,c:"practical",w:"u",m:"holz",n:"Sonnenbrille mit Holzbügeln",d:"Natürlich und leicht",q:"Sonnenbrille Holz",ar:"نظارة",bg:"#65411F"},
+ {id:80,c:"practical",w:"u",m:"kupfer",n:"Kupferarmband",d:"Reines Kupfer, offen",q:"Kupferarmband rein",ar:"نحاس",bg:"#9A3412"},
+ {id:81,c:"practical",w:"u",m:"kupfer",n:"Kupferbecher",d:"Reines Kupfer, für Wasser",q:"Kupferbecher rein",ar:"كوب",bg:"#C2410C"},
+ {id:82,c:"islamic",w:"u",m:"kupfer",n:"Kupferkanne",d:"Für Wasser und Wudu",q:"Kupferkanne rein Wasser",ar:"إبريق",bg:"#9A3412"},
+ {id:83,c:"islamic",w:"u",m:"kupfer",n:"Kupfer-Räuchergefäß (Mabkhara)",d:"Für Oud und Bakhoor",q:"Mabkhara Kupfer Bakhoor",ar:"مبخرة",bg:"#7C2D12"},
+ {id:84,c:"islamic",w:"u",m:"kupfer",n:"Kupfer-Schlüsselanhänger",d:"Mit arabischer Kalligrafie",q:"Kupfer Schlüsselanhänger arabisch",ar:"مفتاح",bg:"#C2410C"},
+ {id:6,c:"islamic",w:"u",m:"holz",n:"Misbaha aus Olivenholz",d:"33 Perlen für Tasbih",q:"Misbaha Olivenholz 33",ar:"مسبحة",bg:"#065F46"},
+ {id:7,c:"islamic",w:"u",m:"textil",n:"Gebetsteppich aus Baumwolle",d:"Gepolstert, mit Mihrab-Muster",q:"Gebetsteppich Baumwolle",ar:"سجادة",bg:"#4C1D95"},
+ {id:8,c:"islamic",w:"u",m:"sonst",n:"Attar „Oud & Rose“",d:"Alkoholfreies Parfümöl",q:"Attar Oud alkoholfrei",ar:"عطر",bg:"#7C2D92"},
+ {id:9,c:"islamic",w:"u",m:"holz",n:"Miswak",d:"Natürliche Zahnpflege nach der Sunna",q:"Miswak",ar:"سواك",bg:"#047857"},
+ {id:10,c:"islamic",w:"u",m:"textil",n:"Qur'an-Hülle aus Leinen",d:"Schützt den Mushaf, mit Reißverschluss",q:"Koran Hülle Stoff",ar:"غلاف",bg:"#5B21B6"},
+ {id:12,c:"practical",w:"u",m:"sonst",n:"Digitaler Tasbih-Ring",d:"Zählt Dhikr per Fingertipp",q:"Tasbih Ring digital Zähler",ar:"عدّاد",bg:"#6D28D9"},
+ {id:13,c:"practical",w:"u",m:"sonst",n:"Qibla-Kompass",d:"Klein, für Reise und Büro",q:"Qibla Kompass",ar:"قبلة",bg:"#065F46"},
+ {id:14,c:"practical",w:"u",m:"textil",n:"Reise-Gebetsteppich",d:"Faltbar, mit Tasche",q:"Reise Gebetsteppich faltbar Tasche",ar:"سفر",bg:"#4C1D95"},
+ {id:15,c:"practical",w:"u",m:"sonst",n:"Wudu-Flasche",d:"Faltbar, für unterwegs",q:"Wudu Flasche faltbar",ar:"وضوء",bg:"#0E7490"},
+ {id:16,c:"practical",w:"u",m:"holz",n:"Qur'an-Ständer (Rehal)",d:"Klappbar aus Holz",q:"Rehal Koranständer Holz",ar:"رحل",bg:"#7C2D12"},
+ {id:17,c:"practical",w:"u",m:"sonst",n:"Gebetszeiten-Uhr",d:"Zeigt Gebetszeiten, spielt den Adhan",q:"Azan Uhr Gebetszeiten",ar:"أذان",bg:"#581C87"}
 ];
 const FEATURED=[{id:1,tag:"Empfehlung",t:"Der edle Qur'an",x:"Arabisch mit deutscher Übersetzung. Ein Buch für ein ganzes Leben."},
   {id:"c7",tag:"Kleidung",t:"Qamis aus Leinen",x:"Kühlend, weit geschnitten und knöchellang. Ideal für warme Tage und das Freitagsgebet.",q:"Leinen Kaftan Herren lang",ar:"قميص",bg:"#4A1580"},
@@ -974,10 +1030,23 @@ const FEATURED=[{id:1,tag:"Empfehlung",t:"Der edle Qur'an",x:"Arabisch mit deuts
 const byId=id=>P.find(p=>p.id==id);
 const itemHTML=x=>`<li class="item" id="p${x.id}"><div class="thumb" style="background:${x.bg}" aria-hidden="true">${x.ar}</div><div style="min-width:0"><b>${x.n}</b><small>${x.d}</small></div><div class="side"><a class="add" href="${amz(x.q)}" ${AMZ_ATTR} aria-label="${x.n} bei Amazon ansehen">Amazon ↗</a></div></li>`;
 $("#colKnowledge").innerHTML=P.filter(x=>x.c==="knowledge").map(itemHTML).join("");
-$("#colIslamic").innerHTML=P.filter(x=>x.c==="islamic").map(itemHTML).join("");
-$("#colPractical").innerHTML=P.filter(x=>x.c==="practical").map(itemHTML).join("");
+const MATN={kupfer:"Kupfer",silber:"Silber",gold:"Gold",holz:"Holz",textil:"Baumwolle/Leinen",sonst:""},WN={m:"Männer",f:"Frauen",u:"Unisex"};
+const accHTML=x=>itemHTML(x).replace('<li class="item"',`<li class="item" data-w="${x.w}" data-m="${x.m}"`).replace(`<b>${x.n}</b>`,`<b>${x.n}</b>`).replace(`<small>${x.d}</small>`,`<small>${x.d}${MATN[x.m]?`<span class="mat">${MATN[x.m]}</span>`:""}${x.w!=="u"?`<span class="mat">${WN[x.w]}</span>`:""}</small>`);
+$("#colIslamic").innerHTML=P.filter(x=>x.c==="islamic").map(accHTML).join("")+'<li class="empty" hidden>Keine passenden Artikel.</li>';
+$("#colPractical").innerHTML=P.filter(x=>x.c==="practical").map(accHTML).join("")+'<li class="empty" hidden>Keine passenden Artikel.</li>';
+let aW="",aM="";
+function accFilter(){
+  document.querySelectorAll("#aWho button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===aW));
+  document.querySelectorAll("#aMat button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===aM));
+  ["#colIslamic","#colPractical"].forEach(sel=>{let n=0;document.querySelectorAll(sel+" li.item").forEach(li=>{const w=li.dataset.w,ok=(!aW||(aW==="u"?w==="u":w===aW||w==="u"))&&(!aM||li.dataset.m===aM);li.hidden=!ok;if(ok)n++});$(sel+" li.empty").hidden=n>0});
+  const note=$("#aNote");
+  if(aW==="m"&&aM==="gold"){note.hidden=false;note.textContent="Gold ist für Männer nicht erlaubt: „Das Tragen von Seide und Gold ist den Frauen meiner Umma erlaubt und den Männern verboten.“ (at-Tirmidhī 1720) Schau dir stattdessen Silber oder Holz an.";}
+  else note.hidden=true;
+}
+document.querySelectorAll("#aWho button").forEach(b=>b.addEventListener("click",()=>{aW=b.dataset.v;accFilter()}));
+document.querySelectorAll("#aMat button").forEach(b=>b.addEventListener("click",()=>{aM=b.dataset.v;accFilter()}));
 $("#colEbooks").innerHTML=P.filter(x=>x.c==="ebook").map(itemHTML).join("");
-[["koran","#colKoran"],["sunnah","#colSunnah"],["dalail","#colDalail"],["food","#colFood"],["sf","#colSF"],["sm","#colSM"],["sk","#colSK"]].forEach(([c,sel])=>$(sel).innerHTML=P.filter(x=>x.c===c).map(itemHTML).join(""));
+[["koran","#colKoran"],["sunnah","#colSunnah"],["dalail","#colDalail"],["food","#colFood"],["sf","#colSF"],["sm","#colSM"]].forEach(([c,sel])=>$(sel).innerHTML=P.filter(x=>x.c===c).map(itemHTML).join(""));
 
 /* showcase */
 let si=0,sTimer=null;
@@ -1022,6 +1091,12 @@ $("#nutriSci").innerHTML=SCI.map(r=>`<li><b>${r[0]}</b><small>${r[1]}</small></l
 const FOODS=[["Qur'an 16:69","Honig","„Darin ist Heilung für die Menschen.“ Natürliche Süße, am besten roh und in Maßen."],["al-Buchārī 5688","Schwarzkümmel","„Im Schwarzkümmel ist Heilung für jede Krankheit außer dem Tod.“"],["al-Buchārī 5445","Ajwa-Datteln","Sieben Ajwa-Datteln am Morgen werden in der Sunnah besonders erwähnt."],["at-Tirmidhī 1851","Olivenöl","„Esst das Öl und salbt euch damit, denn es stammt von einem gesegneten Baum.“"],["al-Buchārī 5417","Talbina (Gerstenbrei)","Ein Brei aus Gerstenmehl, Milch und Honig, der laut ʿĀʾischa das Herz des Kranken tröstet."],["Qur'an 95:1","Feigen und Oliven","„Bei der Feige und der Olive.“ Allah schwört bei ihnen im Qur'an."],["Qur'an 55:68","Granatapfel","Unter den Früchten des Paradieses genannt, reich an Polyphenolen."],["al-Buchārī 5379","Kürbis","Der Prophet ﷺ aß Kürbis gern, berichtet Anas."]];
 $("#nutriFoods").innerHTML=FOODS.map(f=>`<article class="src"><span class="kind">${f[0]}</span><h3>${f[1]}</h3><p>${f[2]}</p></article>`).join("");
 
+/* ---------- donate ---------- */
+if(DONATE_URL){$("#donateBtn").href=DONATE_URL}else{$("#donateBtn").setAttribute("aria-disabled","true");$("#donateBtn").removeAttribute("href");$("#donateHint").textContent="Der Spenden-Link wird in Kürze freigeschaltet."}
+
+$("#cryptoList").innerHTML=CRYPTO.map((c,i)=>`<div class="crypto"><b>${c[0]} (${c[1]}) <small style="color:var(--muted);font-weight:400">· ${c[2]}</small></b>${c[3]?`<code>${c[3]}</code><button type="button" data-copy="${i}">Adresse kopieren</button>`:`<small style="color:var(--muted)">Adresse folgt in Kürze.</small>`}</div>`).join("");
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",async()=>{const a=CRYPTO[b.dataset.copy][3];try{await navigator.clipboard.writeText(a);b.textContent="Kopiert ✓"}catch(e){const r=document.createRange();r.selectNodeContents(b.previousElementSibling);const sel=getSelection();sel.removeAllRanges();sel.addRange(r);b.textContent="Markiert, bitte kopieren"}setTimeout(()=>b.textContent="Adresse kopieren",2500)}));
+
 /* ---------- gifts ---------- */
 const OCC=[["eid","عيد","Ramadan & Eid","Zum Fastenbrechen und zum Fest"],["hochzeit","زواج","Hochzeit","Für das junge Ehepaar"],["baby","مولود","Geburt & Aqiqa","Für Eltern und Neugeborene"],["hajj","حج","Hajj & Umrah","Zum Abschied oder zur Rückkehr"],["neu","شهادة","Neu im Islam","Für jemanden, der den Weg gerade beginnt"],["alltag","هدية","Einfach so","Kleine Aufmerksamkeiten"]];
 const G=[
@@ -1054,7 +1129,7 @@ document.querySelectorAll("#gFilter button").forEach(b=>b.addEventListener("clic
 addEventListener("hashchange",()=>{if(/^g\d+$/.test(location.hash.slice(1)))giftFilter("")});
 
 /* ---------- search ---------- */
-const COL={knowledge:"Bücher",ebook:"E-Books",koran:"Qur'an",sunnah:"Sunnah",dalail:"Dalāʾil al-Khayrāt",food:"Ernährung",sf:"Schmuck · Frauen",sm:"Schmuck · Männer",sk:"Accessoires aus Kupfer",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
+const COL={knowledge:"Bücher",ebook:"E-Books",koran:"Qur'an",sunnah:"Sunnah",dalail:"Dalāʾil al-Khayrāt",food:"Ernährung",sf:"Schmuck · Frauen",sm:"Schmuck · Männer",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
 const ZN=Object.fromEntries(ZONES.map(z=>[z[0],z[1]]));
 const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c],k:(x.n+" "+x.d+" "+COL[x.c]).toLowerCase(),h:"#p"+x.id})),
   ...C.map(c=>({t:c[2]+" ("+c[4]+")",s:"Kleidung · "+(c[0]==="m"?"Männer":"Frauen")+" · "+ZN[c[1]],k:(c.join(" ")+(c[0]==="m"?" männer herren":" frauen damen")+" kleidung").toLowerCase(),h:"#kleidung",g:c[0]})),
@@ -1173,6 +1248,7 @@ function route(){
   const setG=g=>{if(g!==gender){gender=g;store.set("rh_gender",g);renderZones()}};
   if(/^(kleidung|schmuck)-(frauen|maenner)$/.test(h)){setG(h.endsWith("frauen")?"f":"m");h=h.split("-")[0]}
   else if(h==="frauen"||h==="maenner")setG(h==="frauen"?"f":"m");
+  else if(/^accessoires-(frauen|maenner|unisex)$/.test(h)){aW={frauen:"f",maenner:"m",unisex:"u"}[h.split("-")[1]];aM="";accFilter();h="accessoires"}
   else if(h==="knowledge")h="buecher";
   {const e0=document.getElementById(h);if(e0&&e0.closest("#colSchmuckF"))setG("f");else if(e0&&e0.closest("#colSchmuckM"))setG("m");}
   let el=document.getElementById(h),v=el&&el.closest("[data-view]");
