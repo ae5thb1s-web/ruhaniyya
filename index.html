@@ -90,12 +90,13 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background
 .ptimes.karahat li.weak{background:#f43f5e08;border-style:dashed}
 .ptimes.karahat li.weak b{color:#fda4af}
 .ptimes.karahat li.off{opacity:.6}
-.ptclock{margin:6px auto 14px;max-width:340px}
+.ptclock{margin:6px auto 14px;max-width:420px}
 .ptclock svg{width:100%;height:auto;display:block;overflow:visible;direction:ltr}
-.ptclock .lbl{font:700 12px system-ui,sans-serif;fill:#fff}
-.ptclock .tm{font:600 11px system-ui,sans-serif;fill:#ffffffc0}
+.ptclock .lbl{font:700 14px system-ui,sans-serif;fill:#fff}
+.ptclock .tm{font:600 13px system-ui,sans-serif;fill:#ffffffc0}
 .ptclock .hr{font:500 9px system-ui,sans-serif;fill:#ffffff90}
 .ptclock .num{font:700 15px system-ui,sans-serif;fill:#fff}
+.ptclock .num.sm{font:500 9.5px system-ui,sans-serif;fill:#ffffff99}
 .ptclock .half{font:600 11px system-ui,sans-serif;fill:#ffffffa0;letter-spacing:.06em;text-transform:uppercase}
 .clk-tabs{display:flex;gap:6px;justify-content:center;margin-bottom:6px}
 .clk-tabs button{font:inherit;font-size:.8rem;padding:.35em .8em;border-radius:999px;border:1px solid #ffffff40;background:transparent;color:#fff;cursor:pointer}
@@ -1555,11 +1556,11 @@ $("#ptLocate").addEventListener("click",()=>{
 let clockHalf=null,clockArgs=null;
 function renderClock(t,fj2,lt){const el=document.getElementById("ptClock");if(!el)return;clockArgs=[t,fj2,lt];
   const M=60000,mi=dt=>{const [h,m]=fmtT(dt,place.tz).split(":").map(Number);return (h%24)*60+m};
-  const now=new Date(),N=mi(now),H=clockHalf===null?(N<720?0:1):clockHalf,H0=H*720;
+  const now=new Date(),N=mi(now);
   const sr=new Date(t[1].getTime()+7*M);
-  const C=160,R=124,W=22,P=Math.PI,ang=m=>(m-H0)/720*2*P,pt=(m,r)=>[C+r*Math.sin(ang(m)),C-r*Math.cos(ang(m))],f=v=>v.toFixed(1);
-  const parts=(a,b)=>{const L=b<a?[[a,1440],[0,b]]:[[a,b]];return L.map(([x,y])=>[Math.max(x,H0),Math.min(y,H0+720)]).filter(([x,y])=>y-x>0.5)};
-  const band=(a,b,ro,ri,fill,extra="")=>parts(a,b).map(([x,y])=>{const lg=y-x>360?1:0,[p1x,p1y]=pt(x,ro),[p2x,p2y]=pt(y,ro),[p3x,p3y]=pt(y,ri),[p4x,p4y]=pt(x,ri);
+  const C=160,R=124,W=22,P=Math.PI,ang=m=>m/1440*2*P,pt=(m,r)=>[C+r*Math.sin(ang(m)),C-r*Math.cos(ang(m))],f=v=>v.toFixed(1);
+  const parts=(a,b)=>{const L=b<a?[[a,1440],[0,b]]:[[a,b]];return L.filter(([x,y])=>y-x>0.5)};
+  const band=(a,b,ro,ri,fill,extra="")=>parts(a,b).map(([x,y])=>{const lg=y-x>720?1:0,[p1x,p1y]=pt(x,ro),[p2x,p2y]=pt(y,ro),[p3x,p3y]=pt(y,ri),[p4x,p4y]=pt(x,ri);
     return `<path d="M${f(p1x)} ${f(p1y)}A${ro} ${ro} 0 ${lg} 1 ${f(p2x)} ${f(p2y)}L${f(p3x)} ${f(p3y)}A${ri} ${ri} 0 ${lg} 0 ${f(p4x)} ${f(p4y)}Z" fill="${fill}"${extra}/>`}).join("");
   const F=mi(t[0]),SR=mi(sr),D=mi(t[2]),A=mi(t[3]),SS=mi(new Date(t[4].getTime()-7*M)),I=mi(t[5]),F2=mi(fj2),LT=mi(lt);
   const COL={tah:"#5b3aa6",fajr:"#7c3aed",kar:"#f43f5e",duha:"#f5b301",dhuhr:"#a855f7",asr:"#c084fc",magh:"#d946ef",isha:"#4c2a85"};
@@ -1571,19 +1572,17 @@ function renderClock(t,fj2,lt){const el=document.getElementById("ptClock");if(!e
   g+=base.map(x=>band(x[0],x[1],Ro,Ri,x[2])).join("");
   g+=kseg.map(x=>band(x[0],x[1],Ro+3,Ri-3,COL.kar,' stroke="#fff" stroke-width="1.5"')).join("");
   g+=KW.filter(w=>w.k===2).map(w=>band(mi(w.a),mi(w.b),Ri-5,Ri-8,"#fda4af")).join("");
-  for(let i=0;i<60;i++){const m=H0+i*12,big=i%5===0,[x1,y1]=pt(m,Ri-10),[x2,y2]=pt(m,Ri-(big?20:14));g+=`<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="#fff" stroke-width="${big?2:1}" opacity="${big?.9:.35}"/>`}
-  for(let h=1;h<=12;h++){const [x,y]=pt(H0+h*60,Ri-33);g+=`<text class="num" x="${f(x)}" y="${f(y+5)}" text-anchor="middle">${H&&h<12?h+12:h}</text>`}
+  for(let i=0;i<96;i++){const m=i*15,hr=i%4===0,big=i%24===0,[x1,y1]=pt(m,Ri-8),[x2,y2]=pt(m,Ri-(big?20:hr?15:11));g+=`<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="#fff" stroke-width="${big?2.2:hr?1.4:1}" opacity="${big?.95:hr?.6:.25}"/>`}
+  for(let h=0;h<24;h++){const big=h%6===0,[x,y]=pt(h*60,Ri-(big?33:28));g+=`<text class="${big?"num":"num sm"}" x="${f(x)}" y="${f(y+(big?5:4))}" text-anchor="middle">${h}</text>`}
   const PN=PNAMES.map(x=>x[0]),marks=[[t[0],0],[t[1],1],[t[2],2],[t[3],3],[t[4],4],[t[5],5]];
-  marks.forEach(([dt,i])=>{let m=mi(dt);if(m<H0-15||m>=H0+720)return;if(m<H0)m=H0;const [x1,y1]=pt(m,Ri-2),[x2,y2]=pt(m,Ro+6),[lx,ly]=pt(m,Ro+16),sx=Math.sin(ang(m)),cy=Math.cos(ang(m)),anc=sx>.3?"start":sx<-.3?"end":"middle",dy=cy>.5?-8:cy<-.5?12:3;
-    g+=`<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="#fff" stroke-width="2.5"/><text class="lbl" x="${f(lx)}" y="${f(ly+dy-5)}" text-anchor="${anc}">${PN[i]}</text><text class="tm" x="${f(lx)}" y="${f(ly+dy+7)}" text-anchor="${anc}">${fmtT(dt,place.tz)}</text>`});
-  const hA=((N%720)/720)*2*P,mA=((N%60)/60)*2*P,hand=(a,l,w,c)=>`<line x1="${C}" y1="${C}" x2="${f(C+l*Math.sin(a))}" y2="${f(C-l*Math.cos(a))}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;
-  g+=`<text class="half" x="${C}" y="${C+58}" text-anchor="middle">${H?"Nachmittag":"Vormittag"}</text>`;
-  const curH=(N<720?0:1)===H;g+=`<g opacity="${curH?1:.3}">`+hand(hA,58,6,"#fff")+hand(mA,86,3.5,"#e9d5ff")+`</g><circle cx="${C}" cy="${C}" r="6" fill="#fff" stroke="#7c3aed" stroke-width="2.5"/>`;
+  marks.forEach(([dt,i])=>{const m=mi(dt), [x1,y1]=pt(m,Ri-2),[x2,y2]=pt(m,Ro+6),[lx,ly]=pt(m,Ro+16),sx=Math.sin(ang(m)),cy=Math.cos(ang(m)),anc=sx>.3?"start":sx<-.3?"end":"middle",dy=cy>.5?-8:cy<-.5?12:3;
+    g+=`<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" stroke="#fff" stroke-width="2.5"/><text class="lbl" x="${f(lx)}" y="${f(ly+dy-7)}" text-anchor="${anc}">${PN[i]}</text><text class="tm" x="${f(lx)}" y="${f(ly+dy+9)}" text-anchor="${anc}">${fmtT(dt,place.tz)}</text>`});
+  const hA=ang(N),[tx,ty]=pt(N,Ro+1);
+  g+=`<line x1="${C}" y1="${C}" x2="${f(C+(Ri-40)*Math.sin(hA))}" y2="${f(C-(Ri-40)*Math.cos(hA))}" stroke="#fff" stroke-width="5" stroke-linecap="round"/><circle cx="${f(tx)}" cy="${f(ty)}" r="6.5" fill="#fff" stroke="#7c3aed" stroke-width="3"/><circle cx="${C}" cy="${C}" r="6" fill="#fff" stroke="#7c3aed" stroke-width="2.5"/>`;
   const inS=(a,b)=>{let n=N;if(b<a){b+=1440;if(n<a)n+=1440}return n>=a&&n<b};
   const cs=kseg.find(x=>inS(x[0],x[1]))||base.find(x=>inS(x[0],x[1]))||[0,0,"","Nacht"],cur=cs[4]?`Karāhat-Zeit bis ${fmtT(cs[4].b,place.tz)}`:cs[3];
   const ni=t.findIndex(x=>x>now),nt=ni<0?fj2:t[ni],nn=PN[ni<0?0:ni];
-  el.innerHTML=`<div class="clk-tabs" role="group"><button type="button" data-h="0" aria-pressed="${H===0}">Vormittag (0–12 Uhr)</button><button type="button" data-h="1" aria-pressed="${H===1}">Nachmittag (12–24 Uhr)</button></div><svg viewBox="-36 -24 392 368" role="img">${g}</svg><p class="clk-now"><b>${fmtT(now,place.tz)}</b> · <span>${cur}</span></p><p class="clk-next">Nächstes Gebet: ${nn} ${fmtT(nt,place.tz)}</p><figcaption><span><i style="background:${COL.fajr}"></i>Pflichtgebet</span><span><i style="background:${COL.duha}"></i>Duḥā</span><span><i style="background:${COL.tah}"></i>Tahadschud</span><span><i style="background:${COL.kar}"></i>Karāhat-Zeit</span><span><i style="background:#fda4af;height:4px;vertical-align:2px"></i>keine freiwilligen Gebete</span></figcaption>`;
-  el.querySelectorAll("[data-h]").forEach(b=>b.addEventListener("click",()=>{clockHalf=+b.dataset.h;renderClock(...clockArgs)}))}
+  el.innerHTML=`<svg viewBox="-92 -22 504 364" role="img">${g}</svg><p class="clk-now"><b>${fmtT(now,place.tz)}</b> · <span>${cur}</span></p><p class="clk-next">Nächstes Gebet: ${nn} ${fmtT(nt,place.tz)}</p><figcaption><span><i style="background:${COL.fajr}"></i>Pflichtgebet</span><span><i style="background:${COL.duha}"></i>Duḥā</span><span><i style="background:${COL.tah}"></i>Tahadschud</span><span><i style="background:${COL.kar}"></i>Karāhat-Zeit</span><span><i style="background:#fda4af;height:4px;vertical-align:2px"></i>keine freiwilligen Gebete</span></figcaption>`;}
 /* ---------- friday ---------- */
 function renderJumua(t){const el=document.getElementById("jumuaList");if(!el)return;
   const pd=dayIn(place.tz),wd=pd.getDay(),isFri=wd===5,days=(5-wd+7)%7,fri=addDays(pd,days);
