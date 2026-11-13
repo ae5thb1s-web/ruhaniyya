@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0B5D46">
+<title>Ruhaniyya</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Ruhaniyya – islamische Kleidung, Accessoires und Bücher, Quellen, Namen, Hijri-Kalender und Erinnerungen an Sunnah-Fastentage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@500;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: one long page, sticky nav, sections alternate between plain ground and a deep "night" band for the calendar */
+:root{
+  --bg:#F5F7F4; --surface:#FFFFFF; --fg:#18231F; --muted:#56635D; --line:#D9E0DB;
+  --primary:#0E4B48; --primary-fg:#F3F8F6; --accent:#A97A2C; --accent-soft:#F1E6D1;
+  --night:#0F2524; --night-fg:#E8F0EC; --night-muted:#9DB4AC;
+  --good:#2E7D4F; --warn:#B4442E;
+  --f-display:"Reem Kufi","Trebuchet MS",sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-ar:"Amiri","Traditional Arabic","Times New Roman",serif;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1614; --surface:#15201D; --fg:#E4ECE8; --muted:#9AAAA3; --line:#26332F;
+  --primary:#5FB3A8; --primary-fg:#0B1513; --accent:#D6A757; --accent-soft:#2E2617;
+  --night:#091110; --night-fg:#E8F0EC; --night-muted:#93A9A1; --good:#6CC48F; --warn:#E37C64; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1614; --surface:#15201D; --fg:#E4ECE8; --muted:#9AAAA3; --line:#26332F;
+  --primary:#5FB3A8; --primary-fg:#0B1513; --accent:#D6A757; --accent-soft:#2E2617;
+  --night:#091110; --night-fg:#E8F0EC; --night-muted:#93A9A1; --good:#6CC48F; --warn:#E37C64; color-scheme:dark}
+/* Farbwelten, vom Besucher wählbar (überschreiben System-Hell/Dunkel) */
+:root[data-palette="smaragd"]{
+  --bg:#F3F7F4; --surface:#FFFFFF; --fg:#15231D; --muted:#52645B; --line:#D5E1DA;
+  --primary:#0B5D46; --primary-fg:#F1FAF5; --accent:#A97A2C; --accent-soft:#EEF3E6;
+  --night:#0A2A20; --night-fg:#E7F2EC; --night-muted:#93B3A5; color-scheme:light}
+:root[data-palette="lila"]{
+  --bg:#F7F4F9; --surface:#FFFFFF; --fg:#22182A; --muted:#625670; --line:#E2D9EA;
+  --primary:#4A1D63; --primary-fg:#F8F2FC; --accent:#B0832F; --accent-soft:#F0E7F5;
+  --night:#1F0F2C; --night-fg:#F1E9F7; --night-muted:#B7A3C8; color-scheme:light}
+:root[data-palette="weiss"]{
+  --bg:#FFFFFF; --surface:#FFFFFF; --fg:#151515; --muted:#5E5E5E; --line:#E4E4E4;
+  --primary:#151515; --primary-fg:#FFFFFF; --accent:#9C7330; --accent-soft:#F6F3EE;
+  --night:#1B1B1B; --night-fg:#F2F2F2; --night-muted:#A8A8A8; color-scheme:light}
+:root[data-palette="schwarz"]{
+  --bg:#0B0B0C; --surface:#141416; --fg:#ECEAE6; --muted:#9C9893; --line:#28282B;
+  --primary:#D6B26A; --primary-fg:#141108; --accent:#D6B26A; --accent-soft:#1D1A14;
+  --night:#000000; --night-fg:#ECEAE6; --night-muted:#9C9893; color-scheme:dark}
+.palette{display:flex;gap:6px;align-items:center}
+.swatch{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
+.swatch[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--surface) inset}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+a{color:var(--primary)}
+h1,h2,h3{font-family:var(--f-display);font-weight:500;line-height:1.2;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.6rem,3vw,2.1rem)}
+h3{font-size:1.15rem}
+p{margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.ar{font-family:var(--f-ar);direction:rtl}
+.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lead{color:var(--muted);max-width:62ch}
+.btn{display:inline-flex;align-items:center;gap:.5em;border:1px solid var(--primary);background:var(--primary);color:var(--primary-fg);font:600 .95rem var(--f-body);padding:.6em 1.1em;border-radius:999px;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--primary)}
+.btn:focus-visible,button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:20px;padding-block:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--fg)}
+.brand b{font-family:var(--f-display);font-size:1.4rem;font-weight:700;color:var(--primary)}
+.brand span{font-family:var(--f-ar);font-size:1.3rem;color:var(--accent)}
+nav.main{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav.main a{text-decoration:none;color:var(--muted);font-weight:600;font-size:.92rem;padding:.35em .7em;border-radius:6px}
+nav.main a:hover{color:var(--primary);background:var(--accent-soft)}
+.cart-btn{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:.35em .9em;font:600 .9rem var(--f-body);cursor:pointer}
+.cart-btn b{color:var(--accent)}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;padding-block:56px 48px;align-items:center}
+.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);color:var(--primary)}
+.hero h1 .ar{display:block;text-align:left;direction:rtl;unicode-bidi:plaintext;font-size:.8em;color:var(--accent);margin-bottom:.1em}
+.hero .lead{margin-top:16px;font-size:1.1rem}
+.hero .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.today{background:var(--night);color:var(--night-fg);border-radius:16px;padding:24px;display:grid;gap:14px;position:relative;overflow:hidden}
+.today .row{display:flex;gap:18px;align-items:center}
+.today .hdate{font-family:var(--f-display);font-size:1.6rem;line-height:1.15}
+.today .hdate-ar{font-family:var(--f-ar);font-size:1.3rem;color:var(--accent)}
+.today small{color:var(--night-muted)}
+.today .next{border-top:1px solid #ffffff1f;padding-top:14px}
+.today .next strong{color:var(--accent)}
+
+section{padding-block:64px}
+section .head{display:grid;gap:10px;margin-bottom:28px}
+
+/* shop */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.tab{border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:.4em 1em;border-radius:999px;cursor:pointer;font:600 .9rem var(--f-body)}
+.tab[aria-pressed="true"]{background:var(--primary);color:var(--primary-fg);border-color:var(--primary)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.prod{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.prod .pic{aspect-ratio:4/3;max-width:100%;display:grid;place-items:center;font-family:var(--f-ar);font-size:2.6rem;color:var(--primary-fg);position:relative}
+.prod .pic span{font-family:var(--f-body);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;position:absolute;left:10px;top:10px;background:#00000040;padding:2px 8px;border-radius:999px}
+.prod .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.prod .desc{color:var(--muted);font-size:.92rem;flex:1}
+.prod .foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.price{font-weight:700;font-variant-numeric:tabular-nums}
+.add{border:1px solid var(--primary);background:transparent;color:var(--primary);border-radius:999px;padding:.3em .9em;font:600 .85rem var(--f-body);cursor:pointer}
+.add:hover{background:var(--primary);color:var(--primary-fg)}
+.note{font-size:.85rem;color:var(--muted)}
+
+/* calendar band */
+.night{background:var(--night);color:var(--night-fg)}
+.night .lead,.night .note{color:var(--night-muted)}
+.night a{color:var(--accent)}
+.cal-layout{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:start}
+.fastlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.fastlist li{display:grid;grid-template-columns:92px 1fr auto;gap:12px;align-items:center;background:#ffffff0d;border:1px solid #ffffff14;border-radius:8px;padding:10px 14px}
+.fastlist .d{font-variant-numeric:tabular-nums;font-weight:600}
+.fastlist .d small{display:block;color:var(--night-muted);font-weight:400}
+.fastlist .h{color:var(--night-muted);font-size:.9rem}
+.fastlist .t{font-weight:600}
+.pill{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.pill.fard{background:var(--accent);color:#1b1305}
+.pill.sunnah{background:#5FB3A833;color:#9fe0d6}
+.pill.special{background:#D6A75733;color:#f0cf8f}
+.pill.no{background:#E37C6433;color:#f3a896}
+.panel{background:#ffffff0a;border:1px solid #ffffff1a;border-radius:12px;padding:20px;display:grid;gap:14px}
+.panel label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.panel input{margin-top:4px;accent-color:#D6A757}
+.night .btn{background:var(--accent);border-color:var(--accent);color:#1b1305}
+.night .btn.ghost{background:transparent;color:var(--accent)}
+.status{font-size:.9rem;color:var(--night-muted);min-height:1.4em}
+textarea#icsText{width:100%;height:120px;font:12px ui-monospace,monospace;background:#00000040;color:var(--night-fg);border:1px solid #ffffff22;border-radius:6px;padding:8px}
+.moon{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.moon svg{flex:none}
+.moon .info{display:grid;gap:4px;min-width:0}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+
+/* names */
+.names-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.search{flex:1;min-width:200px;max-width:360px;padding:.55em .9em;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--fg);font:1rem var(--f-body)}
+.names{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.name{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:2px}
+.name .ar{font-size:1.7rem;color:var(--primary);text-align:right;line-height:1.4}
+.name b{font-weight:700}
+.name small{color:var(--muted)}
+
+/* sources */
+.sources{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.src{border-top:3px solid var(--accent);background:var(--surface);padding:18px;border-radius:0 0 var(--r) var(--r);display:grid;gap:8px;align-content:start}
+.src .kind{font-size:.75rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.src p{color:var(--muted);font-size:.95rem}
+
+/* topics */
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.topic{display:grid;gap:8px;align-content:start;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.topic .meta{font-size:.82rem;color:var(--accent);font-weight:700;letter-spacing:.04em}
+.topic p{color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding-block:32px;color:var(--muted);font-size:.9rem}
+footer .wrap{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between}
+
+/* cart drawer */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(380px,100%);background:var(--surface);border-left:1px solid var(--line);z-index:20;padding:calc(20px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) 20px;display:flex;flex-direction:column;gap:14px;box-shadow:-10px 0 30px #0000002a}
+.drawer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;overflow:auto;flex:1}
+.drawer li{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:8px}
+.qty{display:flex;gap:6px;align-items:center}
+.qty button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.close{align-self:flex-end;border:none;background:none;color:var(--muted);font-size:1.4rem;cursor:pointer}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem}
+
+@media (max-width:820px){
+  .hero .wrap,.cal-layout{grid-template-columns:1fr}
+  nav.main{order:3;width:100%;margin-left:0;overflow-x:auto;flex-wrap:nowrap}
+  nav.main a{white-space:nowrap}
+  header.top .wrap{gap:10px}
+  .palette{margin-left:auto}
+  .swatch{width:18px;height:18px}
+  .brand span{display:none}
+  .fastlist li{grid-template-columns:76px 1fr;}
+  .fastlist li .pill{grid-column:2;justify-self:start}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#start"><b>Ruhaniyya</b><span class="ar">روحانية</span></a>
+    <nav class="main" aria-label="Hauptnavigation">
+      <a href="#shop">Shop</a>
+      <a href="#fasten">Fastentage</a>
+      <a href="#mond">Mond &amp; Kalender</a>
+      <a href="#namen">Namen</a>
+      <a href="#quellen">Quellen</a>
+      <a href="#themen">Aktuelles</a>
+    </nav>
+    <div class="palette" role="group" aria-label="Farbwelt wählen">
+      <button class="swatch" type="button" data-pal="smaragd" title="Smaragdgrün" aria-label="Smaragdgrün" style="background:#0B5D46"></button>
+      <button class="swatch" type="button" data-pal="lila" title="Tiefes Lila" aria-label="Tiefes Lila" style="background:#4A1D63"></button>
+      <button class="swatch" type="button" data-pal="weiss" title="Weiß" aria-label="Weiß" style="background:#FFFFFF"></button>
+      <button class="swatch" type="button" data-pal="schwarz" title="Schwarz" aria-label="Schwarz" style="background:#0B0B0C"></button>
+    </div>
+    <button class="cart-btn" id="cartBtn" type="button">Warenkorb <b id="cartCount">0</b></button>
+  </div>
+</header>
+
+<main id="start">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Kleidung · Accessoires · Bücher · Wissen</p>
+        <h1><span class="ar">روحانية</span>Für einen Alltag, der zum Herzen passt.</h1>
+        <p class="lead">Ruhaniyya bietet schlichte islamische Kleidung, ausgewählte Accessoires und Bücher. Dazu findest du verlässliche Quellen, die Namen Allahs und der Propheten und den Hijri-Kalender mit Erinnerungen an die Sunnah-Fastentage.</p>
+        <div class="ctas">
+          <a class="btn" href="#shop">Zum Shop</a>
+          <a class="btn ghost" href="#fasten">Fastentage ansehen</a>
+        </div>
+      </div>
+      <aside class="today" aria-label="Heute">
+        <div class="row">
+          <svg id="heroMoon" width="72" height="72" viewBox="0 0 100 100" aria-hidden="true"></svg>
+          <div>
+            <small id="gregToday">–</small>
+            <div class="hdate" id="hijriToday">–</div>
+            <div class="hdate-ar" id="hijriTodayAr"></div>
+          </div>
+        </div>
+        <div class="next" id="nextFast">Nächster Fastentag wird berechnet …</div>
+      </aside>
+    </div>
+  </div>
+
+  <section id="shop">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Shop</p>
+        <h2>Kleidung, Accessoires und Bücher</h2>
+        <p class="lead">Eine kleine, sorgfältige Auswahl. Alle Produkte und Preise auf dieser Seite sind Beispiele, bis das Sortiment feststeht.</p>
+      </div>
+      <div class="tabs" role="group" aria-label="Kategorie filtern">
+        <button class="tab" type="button" data-cat="alle" aria-pressed="true">Alle</button>
+        <button class="tab" type="button" data-cat="kleidung" aria-pressed="false">Kleidung</button>
+        <button class="tab" type="button" data-cat="accessoires" aria-pressed="false">Accessoires</button>
+        <button class="tab" type="button" data-cat="buecher" aria-pressed="false">Bücher</button>
+      </div>
+      <div class="grid" id="products"></div>
+    </div>
+  </section>
+
+  <div class="night">
+    <section id="fasten">
+      <div class="wrap">
+        <div class="head">
+          <p class="eyebrow">Sunnah-Fasten</p>
+          <h2>Die nächsten Fastentage</h2>
+          <p class="lead">Montag und Donnerstag, die „weißen Tage“ (13., 14. und 15. jedes Mondmonats), Ashura, Arafa, die sechs Tage im Schawwal und der Ramadan. Tage, an denen nicht gefastet wird (Eid und Taschriq-Tage), sind markiert.</p>
+        </div>
+        <div class="cal-layout">
+          <div style="min-width:0">
+            <ul class="fastlist" id="fastList"></ul>
+            <p class="note" style="margin-top:12px">Berechnet nach dem Umm-al-Qura-Kalender. Je nach lokaler Mondsichtung kann ein Tag Abweichung entstehen. Richte dich im Zweifel nach deiner Gemeinde.</p>
+          </div>
+          <div class="panel" id="reminders">
+            <h3>Erinnerungen</h3>
+            <p class="note">Wähle, woran du erinnert werden möchtest. Die Erinnerung kommt am Vorabend um 20 Uhr, damit du den Suhur planen kannst.</p>
+            <label><input type="checkbox" id="optMonThu" checked> <span>Montag &amp; Donnerstag</span></label>
+            <label><input type="checkbox" id="optBid" checked> <span>Weiße Tage (13.–15.)</span></label>
+            <label><input type="checkbox" id="optSpecial" checked> <span>Besondere Tage (Ashura, Arafa, Schawwal, erste zehn Tage Dhu l-Hiddscha)</span></label>
+            <label><input type="checkbox" id="optRamadan" checked> <span>Beginn des Ramadan</span></label>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn" type="button" id="notifyBtn">Browser-Benachrichtigung aktivieren</button>
+              <button class="btn ghost" type="button" id="icsBtn">In Kalender übernehmen (.ics)</button>
+            </div>
+            <p class="status" id="remStatus" role="status"></p>
+            <div id="icsBox" hidden>
+              <p class="note">Falls der Download hier blockiert ist: Text kopieren, als <code>ruhaniyya-fasten.ics</code> speichern und in Google, Apple oder Outlook Kalender importieren.</p>
+              <textarea id="icsText" readonly aria-label="Kalenderdaten"></textarea>
+              <button class="btn ghost" type="button" id="icsCopy">Text kopieren</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="mond">
+      <div class="wrap">
+        <div class="head">
+          <p class="eyebrow">Mond &amp; Kalender</p>
+          <h2>Der Himmel als Kalender</h2>
+          <p class="lead">Die islamischen Monate richten sich nach dem Mond. Die Astronomie (ʿilm al-falak) hilft bei Kalender, Gebetszeiten und Qibla. Sterndeutung, also Vorhersagen aus den Sternen, lehnt der Islam dagegen ab. Hier geht es deshalb um den Mond als Zeitmesser.</p>
+        </div>
+        <div class="cal-layout">
+          <div class="panel">
+            <div class="moon">
+              <svg id="bigMoon" width="140" height="140" viewBox="0 0 100 100" role="img" aria-label="Aktuelle Mondphase"></svg>
+              <div class="info">
+                <h3 id="moonName">–</h3>
+                <p id="moonAge" class="note">–</p>
+                <p id="moonNext" class="note">–</p>
+              </div>
+            </div>
+            <p class="note">„Sie fragen dich nach den Neumonden. Sag: Sie sind Zeitbestimmungen für die Menschen und für die Pilgerfahrt.“ (Qur'an 2:189)</p>
+          </div>
+          <div class="panel">
+            <h3>Die zwölf Monate</h3>
+            <ol id="months" style="margin:0;padding-left:1.4em;display:grid;gap:4px"></ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section id="namen">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Wichtige Namen</p>
+        <h2>Die schönsten Namen Allahs und die Propheten</h2>
+        <p class="lead">„Allah gehören die schönsten Namen, so ruft Ihn damit an.“ (Qur'an 7:180). Eine Auswahl aus den 99 Namen und die 25 im Qur'an genannten Propheten.</p>
+      </div>
+      <div class="names-tools">
+        <div class="tabs" role="group" aria-label="Namensliste wählen" style="margin:0">
+          <button class="tab" type="button" data-names="allah" aria-pressed="true">Namen Allahs</button>
+          <button class="tab" type="button" data-names="propheten" aria-pressed="false">Propheten</button>
+        </div>
+        <input class="search" id="nameSearch" type="search" placeholder="Suchen, z. B. Licht oder Musa" aria-label="Namen durchsuchen">
+      </div>
+      <div class="names" id="names"></div>
+    </div>
+  </section>
+
+  <section id="quellen" style="background:var(--accent-soft)">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Wichtige Quellen</p>
+        <h2>Wissen aus erster Hand</h2>
+        <p class="lead">Die Grundlagen sind der Qur'an und die Sunna. Diese Werke und Seiten sind gute, frei zugängliche Einstiege.</p>
+      </div>
+      <div class="sources" id="sources"></div>
+    </div>
+  </section>
+
+  <section id="themen">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Aktuelle Themen</p>
+        <h2>Aus dem Journal</h2>
+        <p class="lead">Beispielartikel, die zeigen, wie der Bereich aussehen wird.</p>
+      </div>
+      <div class="topics" id="topics"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:var(--primary);font-family:var(--f-display)">Ruhaniyya</b> · Islamische Kleidung, Bücher und Wissen</div>
+    <div>Impressum · Datenschutz · Versand &amp; Rückgabe <span class="note">(folgen)</span></div>
+  </div>
+</footer>
+
+<aside class="drawer" id="drawer" hidden aria-label="Warenkorb">
+  <button class="close" id="closeCart" type="button" aria-label="Warenkorb schließen">×</button>
+  <h3>Warenkorb</h3>
+  <ul id="cartItems"></ul>
+  <div class="total"><span>Summe</span><span id="cartTotal">0,00 €</span></div>
+  <button class="btn" type="button" disabled>Zur Kasse (noch nicht verfügbar)</button>
+  <p class="note">Die Bezahlung wird angebunden, sobald Shop-System und Zahlungsanbieter feststehen.</p>
+</aside>
+
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function setPalette(p){document.documentElement.setAttribute("data-palette",p);document.querySelectorAll("[data-pal]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.pal===p));store.set("rh_palette",p)}
+setPalette(store.get("rh_palette","smaragd"));
+document.querySelectorAll("[data-pal]").forEach(b=>b.addEventListener("click",()=>setPalette(b.dataset.pal)));
+const eur=n=>n.toLocaleString("de-DE",{style:"currency",currency:"EUR"});
+
+/* ---------- Hijri ---------- */
+const MONTHS=["Muharram","Safar","Rabīʿ al-awwal","Rabīʿ ath-thānī","Dschumādā al-ūlā","Dschumādā al-āchira","Radschab","Schaʿbān","Ramadan","Schawwal","Dhu l-Qaʿda","Dhu l-Hiddscha"];
+const MONTHS_AR=["مُحَرَّم","صَفَر","رَبِيع الأَوَّل","رَبِيع الآخِر","جُمَادَى الأُولَى","جُمَادَى الآخِرَة","رَجَب","شَعْبَان","رَمَضَان","شَوَّال","ذُو القَعْدَة","ذُو الحِجَّة"];
+const MONTH_NOTES=["Heiliger Monat, Ashura am 10.","","Geburtsmonat des Propheten ﷺ","","","","Heiliger Monat","Vorbereitung auf Ramadan","Pflichtfasten","Eid al-Fitr, sechs Tage Fasten","Heiliger Monat","Haddsch, Arafa, Eid al-Adha"];
+let hf=null;
+try{hf=new Intl.DateTimeFormat("en-u-ca-islamic-umalqura",{day:"numeric",month:"numeric",year:"numeric",timeZone:"UTC"})}catch(e){}
+function hijri(d){ // d: Date at local midnight
+  const u=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate(),12));
+  if(hf){const p={};hf.formatToParts(u).forEach(x=>p[x.type]=x.value);return{d:+p.day,m:+p.month,y:parseInt(p.year,10)}}
+  // fallback: tabular Islamic calendar
+  const jd=Math.floor(u/86400000)+2440588;let l=jd-1948440+10632;const n=Math.floor((l-1)/10631);l=l-10631*n+354;
+  const j=Math.floor((10985-l)/5316)*Math.floor(50*l/17719)+Math.floor(l/5670)*Math.floor(43*l/15238);
+  l=l-Math.floor((30-j)/15)*Math.floor(17719*j/50)-Math.floor(j/16)*Math.floor(15238*j/43)+29;
+  const m=Math.floor(24*l/709);return{d:l-Math.floor(709*m/24),m,y:30*n+j-30};
+}
+const arDigits=n=>String(n).replace(/\d/g,c=>"٠١٢٣٤٥٦٧٨٩"[c]);
+const fmtH=h=>`${h.d}. ${MONTHS[h.m-1]} ${h.y}`;
+
+/* ---------- fasting rules ---------- */
+function classify(d){
+  const h=hijri(d),wd=d.getDay(),out=[];
+  if(h.m===10&&h.d===1) return [{t:"Eid al-Fitr",k:"no",g:"no",info:"An diesem Tag wird nicht gefastet."}];
+  if(h.m===12&&h.d===10) return [{t:"Eid al-Adha",k:"no",g:"no",info:"An diesem Tag wird nicht gefastet."}];
+  if(h.m===12&&h.d>=11&&h.d<=13) return [{t:"Taschriq-Tag",k:"no",g:"no",info:"An diesem Tag wird nicht gefastet."}];
+  if(h.m===9) out.push({t:h.d===1?"Erster Tag des Ramadan":"Ramadan",k:"fard",g:"ramadan"});
+  if(h.m===12&&h.d===9) out.push({t:"Tag von Arafa",k:"special",g:"special"});
+  else if(h.m===12&&h.d<=8) out.push({t:"Erste zehn Tage Dhu l-Hiddscha",k:"special",g:"special"});
+  if(h.m===1&&h.d===9) out.push({t:"Tasuʿa (9. Muharram)",k:"special",g:"special"});
+  if(h.m===1&&h.d===10) out.push({t:"Ashura",k:"special",g:"special"});
+  if(h.m===10&&h.d>=2) out.push({t:"Sechs Tage im Schawwal",k:"special",g:"special"});
+  if(h.m!==9&&h.d>=13&&h.d<=15) out.push({t:`Weißer Tag (${h.d}.)`,k:"sunnah",g:"bid"});
+  if(h.m!==9&&(wd===1||wd===4)) out.push({t:wd===1?"Montag":"Donnerstag",k:"sunnah",g:"monthu"});
+  return out;
+}
+const PILL={fard:"Pflicht",sunnah:"Sunnah",special:"Besonders",no:"Kein Fasten"};
+const midnight=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
+const addDays=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const today=midnight(new Date());
+const prefs=Object.assign({monthu:true,bid:true,special:true,ramadan:true},store.get("rh_prefs",{}));
+function wanted(items){return items.filter(i=>i.g==="no"||(i.g==="ramadan"?prefs.ramadan:prefs[i.g]))}
+function upcoming(days,onlyFast){
+  const res=[];
+  for(let i=0;i<days;i++){const d=addDays(today,i);let it=wanted(classify(d));if(onlyFast)it=it.filter(x=>x.k!=="no");
+    if(it.some(x=>x.g==="ramadan")&&hijri(d).d!==1&&onlyFast==="remind")it=it.filter(x=>x.g!=="ramadan");
+    if(it.length)res.push({d,items:it})}
+  return res;
+}
+
+/* ---------- moon ---------- */
+const SYN=29.530588853;
+function moonAge(date){const jd=date.getTime()/86400000+2440587.5;let a=((jd-2451550.1)/SYN)%1;if(a<0)a+=1;return a}
+function moonPath(p){
+  const r=40,cx=50,cy=50,k=Math.cos(2*Math.PI*p),rx=Math.abs(k)*r,wax=p<.5;
+  const outer=wax?1:0,term=wax?(k>0?0:1):(k>0?1:0);
+  return `M${cx} ${cy-r} A${r} ${r} 0 0 ${outer} ${cx} ${cy+r} A${rx} ${r} 0 0 ${term} ${cx} ${cy-r}Z`;
+}
+function drawMoon(svg,p){
+  svg.innerHTML=`<circle cx="50" cy="50" r="40" fill="#24403C"/><path d="${moonPath(p)}" fill="#F2E3BE"/><circle cx="50" cy="50" r="40" fill="none" stroke="#ffffff22"/>`;
+}
+function moonPhaseName(p){
+  const names=[[.03,"Neumond"],[.22,"Zunehmende Sichel (Hilal)"],[.28,"Erstes Viertel"],[.47,"Zunehmender Mond"],[.53,"Vollmond"],[.72,"Abnehmender Mond"],[.78,"Letztes Viertel"],[.97,"Abnehmende Sichel"],[1.01,"Neumond"]];
+  return names.find(n=>p<n[0])[1];
+}
+
+/* ---------- render: hero + moon ---------- */
+const th=hijri(today);
+$("#gregToday").textContent=today.toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+$("#hijriToday").textContent=fmtH(th)+" n. H.";
+$("#hijriTodayAr").textContent=`${arDigits(th.d)} ${MONTHS_AR[th.m-1]} ${arDigits(th.y)}`;
+const age=moonAge(new Date());
+drawMoon($("#heroMoon"),age);drawMoon($("#bigMoon"),age);
+$("#moonName").textContent=moonPhaseName(age);
+$("#moonAge").textContent=`Mondalter: ${(age*SYN).toFixed(1).replace(".",",")} Tage, ${Math.round((1-Math.cos(2*Math.PI*age))/2*100)} % beleuchtet`;
+const toFull=((.5-age+1)%1)*SYN,toNew=((1-age)%1)*SYN;
+const fmtShort=d=>d.toLocaleDateString("de-DE",{day:"numeric",month:"long"});
+$("#moonNext").textContent=`Nächster Vollmond etwa am ${fmtShort(addDays(today,Math.round(toFull)))}, nächster Neumond etwa am ${fmtShort(addDays(today,Math.round(toNew)))}.`;
+$("#months").innerHTML=MONTHS.map((m,i)=>`<li${i+1===th.m?' style="color:var(--accent);font-weight:700"':''}><span>${m}</span> <span class="ar" style="color:var(--night-muted)">${MONTHS_AR[i]}</span>${MONTH_NOTES[i]?` <span class="note">· ${MONTH_NOTES[i]}</span>`:""}</li>`).join("");
+
+/* ---------- render: fasting list ---------- */
+function renderFasts(){
+  const list=upcoming(60).slice(0,12);
+  $("#fastList").innerHTML=list.map(({d,items})=>{
+    const h=hijri(d),main=items[0];
+    const rel=(d-today)/864e5===0?"Heute":(d-today)/864e5===1?"Morgen":d.toLocaleDateString("de-DE",{weekday:"short"});
+    return `<li><div class="d">${d.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit"})}<small>${rel}</small></div>
+      <div><div class="t">${items.map(i=>i.t).join(" · ")}</div><div class="h">${fmtH(h)}</div></div>
+      <span class="pill ${main.k}">${PILL[main.k]}</span></li>`}).join("")||`<li><div></div><div>Keine Tage für die gewählten Kategorien in den nächsten 60 Tagen.</div></li>`;
+  const nxt=upcoming(120,true)[0];
+  $("#nextFast").innerHTML=nxt?`Nächster Fastentag: <strong>${nxt.d.toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"})}</strong><br><small>${nxt.items.map(i=>i.t).join(" · ")} · ${fmtH(hijri(nxt.d))}</small>`:"Kein Fastentag in den nächsten Monaten gewählt.";
+}
+[["optMonThu","monthu"],["optBid","bid"],["optSpecial","special"],["optRamadan","ramadan"]].forEach(([id,k])=>{
+  const el=document.getElementById(id);el.checked=prefs[k];
+  el.addEventListener("change",()=>{prefs[k]=el.checked;store.set("rh_prefs",prefs);renderFasts();scheduleToday()});
+});
+renderFasts();
+
+/* ---------- reminders ---------- */
+const status=m=>$("#remStatus").textContent=m;
+function tomorrowFast(){const d=addDays(today,1);const it=wanted(classify(d)).filter(x=>x.k!=="no");return it.length?{d,it}:null}
+function notify(title,body){try{new Notification(title,{body,tag:"ruhaniyya-"+today.toDateString()})}catch(e){}}
+let timer=null;
+function scheduleToday(){
+  if(timer)clearTimeout(timer);
+  if(!("Notification" in window)||Notification.permission!=="granted"||!store.get("rh_notify",false))return;
+  const t=tomorrowFast();if(!t)return;
+  const at=new Date(today.getFullYear(),today.getMonth(),today.getDate(),20,0,0),ms=at-new Date();
+  const body=`Morgen: ${t.it.map(i=>i.t).join(" · ")}. Denk an den Suhur.`;
+  const key="rh_last_"+today.toDateString();
+  if(ms<=0){if(!store.get(key,false)){notify("Ruhaniyya · Fastenerinnerung",body);store.set(key,true)}}
+  else timer=setTimeout(()=>{notify("Ruhaniyya · Fastenerinnerung",body);store.set(key,true)},ms);
+}
+$("#notifyBtn").addEventListener("click",async()=>{
+  if(!("Notification" in window)){status("Dieser Browser unterstützt keine Benachrichtigungen. Nutze den Kalender-Export.");return}
+  try{
+    const p=await Notification.requestPermission();
+    if(p==="granted"){store.set("rh_notify",true);status("Aktiviert. Du wirst am Vorabend um 20 Uhr erinnert, solange die Seite geöffnet ist. Für Erinnerungen ohne geöffnete Seite nutze den Kalender-Export.");notify("Ruhaniyya","Benachrichtigungen sind aktiv.");scheduleToday()}
+    else status("Benachrichtigungen wurden nicht erlaubt. In dieser Vorschau sind sie gesperrt; auf der fertigen Webseite funktionieren sie. Der Kalender-Export geht immer.");
+  }catch(e){status("Benachrichtigungen sind hier gesperrt. Nutze den Kalender-Export.")}
+});
+scheduleToday();
+
+function buildICS(){
+  const pad=n=>String(n).padStart(2,"0"),ds=d=>`${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`;
+  const stamp=new Date().toISOString().replace(/[-:]/g,"").slice(0,15)+"Z";
+  const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Ruhaniyya//Fastentage//DE","CALSCALE:GREGORIAN","X-WR-CALNAME:Ruhaniyya Fastentage"];
+  upcoming(365,"remind").forEach(({d,items})=>{
+    const h=hijri(d),title=items.map(i=>i.t).join(" · ");
+    lines.push("BEGIN:VEVENT",`UID:${ds(d)}-fasten@ruhaniyya`,`DTSTAMP:${stamp}`,`DTSTART;VALUE=DATE:${ds(d)}`,`DTEND;VALUE=DATE:${ds(addDays(d,1))}`,
+      `SUMMARY:Fasten: ${title}`,`DESCRIPTION:${fmtH(h)} (Umm al-Qura). Lokale Mondsichtung kann abweichen.`,"TRANSP:TRANSPARENT",
+      "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Morgen ist ein Fastentag – denk an den Suhur","TRIGGER:-PT4H","END:VALARM","END:VEVENT");
+  });
+  lines.push("END:VCALENDAR");return lines.join("\r\n");
+}
+$("#icsBtn").addEventListener("click",()=>{
+  const ics=buildICS();
+  try{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([ics],{type:"text/calendar"}));a.download="ruhaniyya-fasten.ics";document.body.appendChild(a);a.click();a.remove()}catch(e){}
+  $("#icsText").value=ics;$("#icsBox").hidden=false;
+  status(`${(ics.match(/BEGIN:VEVENT/g)||[]).length} Fastentage für die nächsten 12 Monate erstellt, jeweils mit Erinnerung am Vorabend um 20 Uhr.`);
+});
+$("#icsCopy").addEventListener("click",()=>{const t=$("#icsText");navigator.clipboard?.writeText(t.value).then(()=>status("Kalendertext kopiert."),()=>{t.select();status("Text markiert. Mit Strg+C kopieren.")})||(t.select())});
+
+/* ---------- shop ---------- */
+const P=[
+ {id:1,c:"kleidung",n:"Abaya „Sakina“",d:"Fließender Crêpe, weit geschnitten, mit Ärmelbündchen. Farbe Nachtgrün.",p:89,ar:"عباءة",bg:"#0E4B48"},
+ {id:2,c:"kleidung",n:"Qamis aus Leinen",d:"Knöchellanges Gewand für Herren, atmungsaktiv, Naturweiß.",p:69,ar:"قميص",bg:"#7A6A4F"},
+ {id:3,c:"kleidung",n:"Jersey-Hijab",d:"Blickdicht und weich, 180 × 70 cm. Sechs gedeckte Farben.",p:19,ar:"حجاب",bg:"#8C5E58"},
+ {id:4,c:"kleidung",n:"Kufi gehäkelt",d:"Handgearbeitete Gebetsmütze aus Baumwolle.",p:14,ar:"طاقية",bg:"#3D5A6C"},
+ {id:5,c:"accessoires",n:"Misbaha aus Olivenholz",d:"33 Perlen für Tasbih, Quaste aus Seide.",p:24,ar:"مسبحة",bg:"#6B5B3A"},
+ {id:6,c:"accessoires",n:"Gebetsteppich, faltbar",d:"Gepolstert, mit Tragetasche und Qibla-Kompass.",p:39,ar:"سجادة",bg:"#5B2F3A"},
+ {id:7,c:"accessoires",n:"Attar „Oud & Rose“",d:"Alkoholfreies Parfümöl, 6 ml Roll-on.",p:22,ar:"عطر",bg:"#A97A2C"},
+ {id:8,c:"accessoires",n:"Miswak, 3er-Set",d:"Natürliche Zahnpflege nach der Sunna, einzeln vakuumverpackt.",p:7,ar:"سواك",bg:"#4E6B4A"},
+ {id:9,c:"buecher",n:"Der edle Qur'an",d:"Arabisch mit deutscher Übersetzung, Hardcover.",p:29,ar:"القرآن",bg:"#173B39"},
+ {id:10,c:"buecher",n:"Riyad as-Salihin",d:"Die Gärten der Tugendhaften von Imam an-Nawawi, deutsch.",p:34,ar:"رياض الصالحين",bg:"#2F4858"},
+ {id:11,c:"buecher",n:"Hisnul Muslim",d:"Bittgebete aus Qur'an und Sunna für jeden Anlass, Taschenformat.",p:9,ar:"حصن المسلم",bg:"#55423D"},
+ {id:12,c:"buecher",n:"Der versiegelte Nektar",d:"Die Prophetenbiografie (Sira) von al-Mubarakpuri.",p:27,ar:"الرحيق المختوم",bg:"#6C4F2E"}
+];
+let cat="alle";
+function renderProducts(){
+  $("#products").innerHTML=P.filter(x=>cat==="alle"||x.c===cat).map(x=>`<article class="prod">
+    <div class="pic" style="background:linear-gradient(135deg,${x.bg},${x.bg}cc)"><span>${{kleidung:"Kleidung",accessoires:"Accessoire",buecher:"Buch"}[x.c]}</span>${x.ar}</div>
+    <div class="body"><h3>${x.n}</h3><p class="desc">${x.d}</p>
+    <div class="foot"><span class="price">${eur(x.p)}</span><button class="add" type="button" data-id="${x.id}">In den Warenkorb</button></div></div></article>`).join("");
+}
+document.querySelectorAll("[data-cat]").forEach(b=>b.addEventListener("click",()=>{cat=b.dataset.cat;document.querySelectorAll("[data-cat]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderProducts()}));
+renderProducts();
+let cart=store.get("rh_cart",{});
+function renderCart(){
+  const ids=Object.keys(cart).filter(k=>cart[k]>0);
+  $("#cartCount").textContent=ids.reduce((s,k)=>s+cart[k],0);
+  $("#cartItems").innerHTML=ids.map(k=>{const x=P.find(p=>p.id==k);return `<li><div><b>${x.n}</b><br><span class="note">${eur(x.p)}</span></div><div class="qty"><button type="button" data-q="-1" data-id="${k}" aria-label="Weniger">−</button>${cart[k]}<button type="button" data-q="1" data-id="${k}" aria-label="Mehr">+</button></div></li>`}).join("")||`<li class="note">Dein Warenkorb ist leer.</li>`;
+  $("#cartTotal").textContent=eur(ids.reduce((s,k)=>s+cart[k]*P.find(p=>p.id==k).p,0));
+  store.set("rh_cart",cart);
+}
+$("#products").addEventListener("click",e=>{const b=e.target.closest(".add");if(!b)return;cart[b.dataset.id]=(cart[b.dataset.id]||0)+1;renderCart();b.textContent="Hinzugefügt ✓";setTimeout(()=>b.textContent="In den Warenkorb",1200)});
+$("#cartItems").addEventListener("click",e=>{const b=e.target.closest("[data-q]");if(!b)return;cart[b.dataset.id]=Math.max(0,(cart[b.dataset.id]||0)+(+b.dataset.q));renderCart()});
+$("#cartBtn").addEventListener("click",()=>$("#drawer").hidden=false);
+$("#closeCart").addEventListener("click",()=>$("#drawer").hidden=true);
+renderCart();
+
+/* ---------- names ---------- */
+const ALLAH=[
+ ["الرَّحْمَٰن","Ar-Rahman","Der Allerbarmer"],["الرَّحِيم","Ar-Rahim","Der Barmherzige"],["الْمَلِك","Al-Malik","Der König"],["الْقُدُّوس","Al-Quddus","Der Heilige"],
+ ["السَّلَام","As-Salam","Der Frieden, Quelle des Friedens"],["الْمُؤْمِن","Al-Muʾmin","Der Sicherheit Gewährende"],["الْمُهَيْمِن","Al-Muhaymin","Der Wachende"],["الْعَزِيز","Al-ʿAziz","Der Allmächtige"],
+ ["الْخَالِق","Al-Khaliq","Der Schöpfer"],["الْغَفَّار","Al-Ghaffar","Der immer wieder Vergebende"],["الرَّزَّاق","Ar-Razzaq","Der Versorger"],["الْعَلِيم","Al-ʿAlim","Der Allwissende"],
+ ["السَّمِيع","As-Samiʿ","Der Allhörende"],["الْبَصِير","Al-Basir","Der Allsehende"],["الْعَدْل","Al-ʿAdl","Der Gerechte"],["اللَّطِيف","Al-Latif","Der Feinfühlige, Gütige"],
+ ["الْحَلِيم","Al-Halim","Der Nachsichtige"],["الْغَفُور","Al-Ghafur","Der Allverzeihende"],["الشَّكُور","Asch-Schakur","Der Dankbare, Anerkennende"],["الْحَفِيظ","Al-Hafiz","Der Bewahrer"],
+ ["الْحَكِيم","Al-Hakim","Der Allweise"],["الْوَدُود","Al-Wadud","Der Liebevolle"],["الْحَيّ","Al-Hayy","Der Lebendige"],["الْقَيُّوم","Al-Qayyum","Der aus Sich selbst Bestehende"],
+ ["التَّوَّاب","At-Tawwab","Der die Reue Annehmende"],["النُّور","An-Nur","Das Licht"],["الصَّبُور","As-Sabur","Der Geduldige"],["الْوَهَّاب","Al-Wahhab","Der Schenkende"]
+];
+const PROPH=[["آدَم","Adam","Adam"],["إِدْرِيس","Idris","Henoch"],["نُوح","Nuh","Noah"],["هُود","Hud",""],["صَالِح","Salih",""],["إِبْرَاهِيم","Ibrahim","Abraham"],["لُوط","Lut","Lot"],["إِسْمَاعِيل","Ismaʿil","Ismael"],["إِسْحَاق","Ishaq","Isaak"],["يَعْقُوب","Yaʿqub","Jakob"],["يُوسُف","Yusuf","Josef"],["أَيُّوب","Ayyub","Hiob"],["شُعَيْب","Schuʿayb",""],["مُوسَىٰ","Musa","Moses"],["هَارُون","Harun","Aaron"],["ذُو الْكِفْل","Dhu l-Kifl",""],["دَاوُود","Dawud","David"],["سُلَيْمَان","Sulayman","Salomo"],["إِلْيَاس","Ilyas","Elias"],["الْيَسَع","Al-Yasaʿ","Elisa"],["يُونُس","Yunus","Jona"],["زَكَرِيَّا","Zakariyya","Zacharias"],["يَحْيَىٰ","Yahya","Johannes"],["عِيسَىٰ","ʿIsa","Jesus"],["مُحَمَّد ﷺ","Muhammad","Siegel der Propheten"]];
+let nameSet="allah";
+function renderNames(){
+  const q=$("#nameSearch").value.trim().toLowerCase();
+  const src=nameSet==="allah"?ALLAH:PROPH;
+  const rows=src.filter(r=>!q||r.join(" ").toLowerCase().includes(q));
+  $("#names").innerHTML=rows.map(r=>`<div class="name"><div class="ar">${r[0]}</div><b>${r[1]}</b><small>${r[2]||"&nbsp;"}</small></div>`).join("")||`<p class="note">Kein Name gefunden.</p>`;
+}
+document.querySelectorAll("[data-names]").forEach(b=>b.addEventListener("click",()=>{nameSet=b.dataset.names;document.querySelectorAll("[data-names]").forEach(x=>x.setAttribute("aria-pressed",x===b));renderNames()}));
+$("#nameSearch").addEventListener("input",renderNames);
+renderNames();
+
+/* ---------- sources ---------- */
+const SRC=[
+ ["Qur'an","Quran.com","Der Qur'an mit Rezitation, Wort-für-Wort-Analyse und mehreren deutschen Übersetzungen.","https://quran.com/de"],
+ ["Hadith","Sunnah.com","Die großen Hadith-Sammlungen (Bukhari, Muslim, Abu Dawud, Tirmidhi u. a.) mit Quellenangabe und Bewertung.","https://sunnah.com"],
+ ["Hadith","Riyad as-Salihin","Imam an-Nawawis Auswahl an Hadithen zu Charakter und Alltag, ideal als Einstieg.","https://sunnah.com/riyadussalihin"],
+ ["Hadith","Die 40 Hadithe an-Nawawis","Kurze Sammlung grundlegender Hadithe, die viele auswendig lernen.","https://sunnah.com/nawawi40"],
+ ["Tafsir","Tafsir Ibn Kathir","Klassische Qur'an-Erläuterung, auf Quran.com in mehreren Sprachen lesbar.","https://quran.com/1:1/tafsirs/en-tafisr-ibn-kathir"],
+ ["Bittgebete","Hisnul Muslim","Die Festung des Muslims: Duʿa aus Qur'an und Sunna für jeden Anlass.","https://sunnah.com/hisn"]
+];
+$("#sources").innerHTML=SRC.map(s=>`<article class="src"><span class="kind">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p><a href="${s[3]}" target="_blank" rel="noopener">Öffnen ↗</a></article>`).join("");
+
+/* ---------- topics ---------- */
+const nextRam=(()=>{for(let i=0;i<400;i++){const d=addDays(today,i),h=hijri(d);if(h.m===9&&h.d===1)return{d,y:h.y}}})();
+const TOP=[
+ [`Ramadan ${nextRam?nextRam.y:""}`,`Voraussichtlich ab ${nextRam?nextRam.d.toLocaleDateString("de-DE",{day:"numeric",month:"long",year:"numeric"}):"–"}. Wie du dich im Schaʿban mit freiwilligem Fasten und Qur'an-Lesen vorbereitest.`],
+ ["Warum Montag und Donnerstag?","„Die Taten werden am Montag und Donnerstag vorgelegt, und ich möchte, dass meine Taten vorgelegt werden, während ich faste.“ (Tirmidhi)"],
+ ["Das Bittgebet beim Anziehen neuer Kleidung","Was der Prophet ﷺ beim Tragen eines neuen Gewandes sagte, und warum Dankbarkeit beim Kauf zählt."],
+ ["Die weißen Tage verstehen","Warum der 13., 14. und 15. des Mondmonats so heißen und wie man sie im Kalender findet."]
+];
+$("#topics").innerHTML=TOP.map(t=>`<article class="topic"><span class="meta">Journal</span><h3>${t[0]}</h3><p>${t[1]}</p></article>`).join("");
+})();
+</script>
+</body>
+</html>
