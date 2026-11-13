@@ -109,6 +109,9 @@ nav.sub a.on{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 14
 .plain li b{display:block}.plain li small{color:var(--muted)}
 .plain li.today{background:var(--surface-2);box-shadow:inset 3px 0 0 var(--primary)}
 .plain li .tag{float:right;font-size:.75rem;font-weight:700;color:var(--primary)}
+.gtabs{display:flex;gap:6px;margin:0 0 18px}
+.gtabs a{text-decoration:none;font-weight:700;font-size:.92rem;padding:.45em 1.1em;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--bg)}
+.gtabs a.on{background:var(--primary);border-color:var(--primary);color:var(--primary-fg)}
 .gfilter{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
 .gfilter button{font:inherit;font-weight:600;font-size:.9rem;border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:999px;padding:.45em 1em;cursor:pointer}
 .gfilter button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
@@ -350,9 +353,8 @@ html{scroll-padding-top:170px}
   </nav>
   <nav class="sub" id="subnav" aria-label="Shop-Bereiche" hidden>
     <div class="wrap">
-      <a href="#kleidung-frauen">Kleidung Frauen</a>
-      <a href="#kleidung-maenner">Kleidung Männer</a>
-      <a href="#schmuck">Schmuck</a>
+      <a href="#frauen">Für Frauen</a>
+      <a href="#maenner">Für Männer</a>
       <a href="#accessoires">Accessoires</a>
       <a href="#buecher">Bücher &amp; E-Books</a>
     </div>
@@ -490,8 +492,8 @@ html{scroll-padding-top:170px}
       <div class="head"><p class="eyebrow">Entdecken</p><h2>Was suchst du heute?</h2></div>
       <div class="tiles">
         <a class="tile" href="#quellen"><span class="ar">المَصادِر</span><b>Wissensquellen</b><span>Qur'an, Hadith, Tafsir, Dalāʾil, Namen Allahs</span></a>
-        <a class="tile" href="#kleidung-frauen"><span class="ar">لِباس</span><b>Kleidung Frauen</b><span>Von Kopf bis Fuß</span></a>
-        <a class="tile" href="#kleidung-maenner"><span class="ar">لِباس</span><b>Kleidung Männer</b><span>Von Kopf bis Fuß</span></a>
+        <a class="tile" href="#frauen"><span class="ar">لِلنِّساء</span><b>Für Frauen</b><span>Kleidung und Schmuck</span></a>
+        <a class="tile" href="#maenner"><span class="ar">لِلرِّجال</span><b>Für Männer</b><span>Kleidung und Schmuck</span></a>
         <a class="tile" href="#accessoires"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Islamisch und praktisch</span></a>
         <a class="tile" href="#buecher"><span class="ar">الكُتُب</span><b>Bücher &amp; E-Books</b><span>Wissen zum Lesen und Mitnehmen</span></a>
         <a class="tile" href="#geschenke"><span class="ar">هَدِيَّة</span><b>Geschenke</b><span>Ideen für Eid, Hochzeit, Geburt und mehr</span></a>
@@ -575,10 +577,9 @@ html{scroll-padding-top:170px}
       <div class="wrap">
         <div class="head"><p class="eyebrow">Shop</p><h2>Was uns physisch stärkt</h2><p class="lead">Ausgewählte Produkte, die dir das Leben nach der Sunnah erleichtern. Alle Links führen zu Amazon.</p></div>
         <div class="tiles">
-          <a class="tile" href="#kleidung-frauen"><span class="ar">لِباس</span><b>Kleidung Frauen</b><span>Hijab, Abaya, Khimar, nur Baumwolle und Leinen</span></a>
-          <a class="tile" href="#kleidung-maenner"><span class="ar">لِباس</span><b>Kleidung Männer</b><span>Kufi, Qamis, Sirwal, nur Baumwolle und Leinen</span></a>
-          <a class="tile" href="#schmuck"><span class="ar">حِلْيَة</span><b>Schmuck</b><span>Frauen: Gold, Holz, Kristalle, Aqiq · Männer: Silber · Kupfer für alle</span></a>
-          <a class="tile" href="#accessoires"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Für Gebet, Dhikr und den Alltag</span></a>
+          <a class="tile" href="#frauen"><span class="ar">لِلنِّساء</span><b>Für Frauen</b><span>Kleidung aus Baumwolle und Leinen, Schmuck aus Gold, Holz, Kristall und Aqiq</span></a>
+          <a class="tile" href="#maenner"><span class="ar">لِلرِّجال</span><b>Für Männer</b><span>Kleidung aus Baumwolle und Leinen, Schmuck aus Silber</span></a>
+          <a class="tile" href="#accessoires"><span class="ar">الزِّينَة</span><b>Accessoires</b><span>Für Gebet, Dhikr und den Alltag, auch aus Kupfer</span></a>
           <a class="tile" href="#buecher"><span class="ar">الكُتُب</span><b>Bücher &amp; E-Books</b><span>Qur'an, Hadith, Sira, Dalāʾil al-Khayrāt</span></a>
         </div>
       </div>
@@ -596,7 +597,7 @@ html{scroll-padding-top:170px}
         <div class="dots" id="dots" role="group" aria-label="Angebot wählen"></div>
       </div>
       <div class="side-ads">
-        <a class="ad" href="#kleidung-frauen"><b>Kleidung von Kopf bis Fuß</b><span>Nur Baumwolle und Leinen, für Männer und Frauen.</span><em>Zur Kleidung →</em></a>
+        <a class="ad" href="#frauen"><b>Kleidung von Kopf bis Fuß</b><span>Nur Baumwolle und Leinen, für Männer und Frauen.</span><em>Zur Kleidung →</em></a>
         <a class="ad" href="#praktisch" hidden><b>Für unterwegs</b><span>Qibla-Kompass, Reise-Gebetsteppich und Wudu-Flasche: alles, was in die Tasche passt.</span><em>Praktische Accessoires →</em></a>
         <a class="ad green" href="#fasten"><b id="adFastTitle">Nächster Fastentag</b><span id="adFastText">Wird berechnet …</span><em>Erinnerung einrichten →</em></a>
       </div>
@@ -604,9 +605,34 @@ html{scroll-padding-top:170px}
   </div>
   </div>
 
+  <div class="view" data-view id="frauen" hidden>
+    <section style="padding-top:28px">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Shop · Für Frauen</p><h2>Für Frauen</h2><p class="lead">Wähle, was du suchst.</p></div>
+        <div class="tiles">
+          <a class="tile" href="#kleidung-frauen"><span class="ar">لِباس</span><b>Kleidung</b><span>Von Kopf bis Fuß: Hijab, Abaya, Khimar, nur Baumwolle und Leinen</span></a>
+          <a class="tile" href="#schmuck-frauen"><span class="ar">حِلْيَة</span><b>Schmuck</b><span>Gold, Bio-Holz, Kristalle und Aqiq-Steine</span></a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="view" data-view id="maenner" hidden>
+    <section style="padding-top:28px">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Shop · Für Männer</p><h2>Für Männer</h2><p class="lead">Wähle, was du suchst.</p></div>
+        <div class="tiles">
+          <a class="tile" href="#kleidung-maenner"><span class="ar">لِباس</span><b>Kleidung</b><span>Von Kopf bis Fuß: Kufi, Qamis, Sirwal, nur Baumwolle und Leinen</span></a>
+          <a class="tile" href="#schmuck-maenner"><span class="ar">حِلْيَة</span><b>Schmuck</b><span>Nur Silber, auch mit Aqiq-Stein</span></a>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <div class="view" data-view id="kleidung" hidden>
   <section style="padding-top:28px">
     <div class="wrap">
+      <nav class="gtabs" data-gtabs aria-label="Kleidung oder Schmuck"></nav>
       <div class="head">
         <p class="eyebrow">Shop · Kleidung</p>
         <h2>Von Kopf bis Fuß</h2>
@@ -627,12 +653,12 @@ html{scroll-padding-top:170px}
   <div class="view" data-view id="schmuck" hidden>
     <section style="padding-top:28px">
       <div class="wrap">
-        <div class="head"><p class="eyebrow">Shop · Schmuck</p><h2>Schmuck nach der Sunnah</h2><p class="lead">Für Frauen Gold und natürliche Materialien, für Männer Silber, und Kupfer für alle.</p></div>
+        <nav class="gtabs" data-gtabs aria-label="Kleidung oder Schmuck"></nav>
+        <div class="head"><p class="eyebrow" id="schmuckEyebrow">Shop · Schmuck</p><h2>Schmuck nach der Sunnah</h2><p class="lead">Für Frauen Gold und natürliche Materialien, für Männer Silber.</p></div>
         <p class="gift-hadith">„Das Tragen von Seide und Gold ist den Frauen meiner Umma erlaubt und den Männern verboten.“ (at-Tirmidhī 1720) Der Prophet ﷺ selbst trug einen Ring aus Silber (al-Buchārī und Muslim).</p>
-        <div class="cols">
-          <article class="col" id="schmuck-frauen"><div class="col-head"><span class="ar">لِلنِّساء</span><h2>Für Frauen</h2><p class="note">Gold, Bio-Holz, Kristalle und Aqiq-Steine</p></div><ul id="colSF"></ul></article>
-          <article class="col" id="schmuck-maenner"><div class="col-head"><span class="ar">لِلرِّجال</span><h2>Für Männer</h2><p class="note">Nur Silber, auch mit Aqiq</p></div><ul id="colSM"></ul></article>
-          <article class="col" id="schmuck-kupfer"><div class="col-head"><span class="ar">نُحاس</span><h2>Kupfer für alle</h2><p class="note">Allgemeine Accessoires aus Kupfer</p></div><ul id="colSK"></ul></article>
+        <div class="cols two-cols">
+          <article class="col" id="colSchmuckF"><div class="col-head"><span class="ar">لِلنِّساء</span><h2>Für Frauen</h2><p class="note">Gold, Bio-Holz, Kristalle und Aqiq-Steine</p></div><ul id="colSF"></ul></article>
+          <article class="col" id="colSchmuckM"><div class="col-head"><span class="ar">لِلرِّجال</span><h2>Für Männer</h2><p class="note">Nur Silber, auch mit Aqiq</p></div><ul id="colSM"></ul></article>
         </div>
         <p class="disclosure" style="margin-top:16px">Achte beim Kauf auf echte Materialangaben (z. B. 585er oder 750er Gold, 925er Sterlingsilber, reines Kupfer). Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen.</p>
       </div>
@@ -643,7 +669,7 @@ html{scroll-padding-top:170px}
     <section style="padding-top:28px">
       <div class="wrap">
         <div class="head"><p class="eyebrow">Shop · Accessoires</p><h2>Accessoires</h2></div>
-        <div class="cols two-cols">
+        <div class="cols">
           <article class="col" id="islamisch">
             <div class="col-head"><span class="ar">الزِّينَة</span><h2>Islamische Accessoires</h2><p class="note">Für Gebet, Dhikr und schlichte Kleidung.</p></div>
             <ul id="colIslamic"></ul>
@@ -652,6 +678,7 @@ html{scroll-padding-top:170px}
             <div class="col-head"><span class="ar">التَّيْسِير</span><h2>Praktische Accessoires</h2><p class="note">Kleine Helfer, die den Alltag als Muslim leichter machen.</p></div>
             <ul id="colPractical"></ul>
           </article>
+          <article class="col" id="kupfer"><div class="col-head"><span class="ar">نُحاس</span><h2>Aus Kupfer</h2><p class="note">Für alle: Becher, Kannen, Armbänder und mehr</p></div><ul id="colSK"></ul></article>
         </div>
         <p class="disclosure" style="margin-top:16px">Als Amazon-Partner verdient Ruhaniyya an qualifizierten Verkäufen. Für dich ändert sich am Preis nichts. Die Links führen zu passenden Produkten bei Amazon.</p>
       </div>
@@ -1024,7 +1051,7 @@ document.querySelectorAll("#gFilter button").forEach(b=>b.addEventListener("clic
 addEventListener("hashchange",()=>{if(/^g\d+$/.test(location.hash.slice(1)))giftFilter("")});
 
 /* ---------- search ---------- */
-const COL={knowledge:"Bücher",ebook:"E-Books",koran:"Qur'an",sunnah:"Sunnah",dalail:"Dalāʾil al-Khayrāt",food:"Ernährung",sf:"Schmuck · Frauen",sm:"Schmuck · Männer",sk:"Kupfer",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
+const COL={knowledge:"Bücher",ebook:"E-Books",koran:"Qur'an",sunnah:"Sunnah",dalail:"Dalāʾil al-Khayrāt",food:"Ernährung",sf:"Schmuck · Frauen",sm:"Schmuck · Männer",sk:"Accessoires aus Kupfer",islamic:"Islamische Accessoires",practical:"Praktische Accessoires"};
 const ZN=Object.fromEntries(ZONES.map(z=>[z[0],z[1]]));
 const INDEX=[...P.map(x=>({t:x.n,s:COL[x.c],k:(x.n+" "+x.d+" "+COL[x.c]).toLowerCase(),h:"#p"+x.id})),
   ...C.map(c=>({t:c[2]+" ("+c[4]+")",s:"Kleidung · "+(c[0]==="m"?"Männer":"Frauen")+" · "+ZN[c[1]],k:(c.join(" ")+(c[0]==="m"?" männer herren":" frauen damen")+" kleidung").toLowerCase(),h:"#kleidung",g:c[0]})),
@@ -1137,11 +1164,14 @@ showDay(today);
 
 /* ---------- views (router) ---------- */
 const VIEWS=[...document.querySelectorAll("[data-view]")];
-const SHOP=["shop","kleidung","schmuck","accessoires","buecher"],WISSEN=["quellen","koran","sunnah","dalail","ernaehrung"];
+const SHOP=["shop","frauen","maenner","kleidung","schmuck","accessoires","buecher"],WISSEN=["quellen","koran","sunnah","dalail","ernaehrung"];
 function route(){
   let h=decodeURIComponent(location.hash.slice(1))||"start";
-  if(h==="kleidung-frauen"||h==="kleidung-maenner"){gender=h.endsWith("frauen")?"f":"m";store.set("rh_gender",gender);renderZones();h="kleidung"}
+  const setG=g=>{if(g!==gender){gender=g;store.set("rh_gender",g);renderZones()}};
+  if(/^(kleidung|schmuck)-(frauen|maenner)$/.test(h)){setG(h.endsWith("frauen")?"f":"m");h=h.split("-")[0]}
+  else if(h==="frauen"||h==="maenner")setG(h==="frauen"?"f":"m");
   else if(h==="knowledge")h="buecher";
+  {const e0=document.getElementById(h);if(e0&&e0.closest("#colSchmuckF"))setG("f");else if(e0&&e0.closest("#colSchmuckM"))setG("m");}
   let el=document.getElementById(h),v=el&&el.closest("[data-view]");
   if(!v){v=VIEWS[0];el=null}
   const changed=v.hidden;
@@ -1150,14 +1180,18 @@ function route(){
   document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
   $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";
   document.querySelectorAll("#subwissen a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+v.id));
-  const subKey=v.id==="kleidung"?(gender==="f"?"kleidung-frauen":"kleidung-maenner"):v.id;
+  const gk=gender==="f"?"frauen":"maenner";
+  const subKey=["kleidung","schmuck","frauen","maenner"].includes(v.id)?gk:v.id;
+  $("#colSchmuckF").hidden=gender!=="f";$("#colSchmuckM").hidden=gender!=="m";
+  $("#schmuckEyebrow").textContent="Shop · "+(gender==="f"?"Für Frauen":"Für Männer")+" · Schmuck";
+  document.querySelectorAll("[data-gtabs]").forEach(n=>n.innerHTML=`<a href="#kleidung-${gk}"${v.id==="kleidung"?' class="on"':""}>Kleidung</a><a href="#schmuck-${gk}"${v.id==="schmuck"?' class="on"':""}>Schmuck</a>`);
   document.querySelectorAll("#subnav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+subKey));
   document.querySelectorAll("nav.sub a.on").forEach(a=>{const w=a.parentNode;w.scrollLeft=a.offsetLeft-(w.clientWidth-a.offsetWidth)/2});
   if(el&&el!==v)requestAnimationFrame(()=>el.scrollIntoView({block:"start"}));
   else if(changed||el===v)window.scrollTo(0,0);
 }
 addEventListener("hashchange",route);route();
-document.querySelectorAll("[data-g]").forEach(b=>b.addEventListener("click",()=>route()));
+document.querySelectorAll("[data-g]").forEach(b=>b.addEventListener("click",()=>{location.hash="kleidung-"+(b.dataset.g==="f"?"frauen":"maenner")}));
 })();
 </script>
 </body>
