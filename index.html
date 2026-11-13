@@ -6,11 +6,10 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#8B1CF0">
+<link rel="stylesheet" href="fonts.css">
 <title>Ruhaniyya</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Ruhaniyya – Weg des spirituellen Islam. Islamic Knowledge, islamische und praktische Accessoires, Quellen, Mondkalender und Sunnah-Fastentage.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Reem+Kufi:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
 <style>
 /* Layout: sticky header (brand, menu, search, account) → product showcase → three product columns → sources → moon calendar → fasting days */
 :root{
@@ -252,7 +251,6 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
     </div>
     <div class="icons">
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell oder dunkel umschalten"><span id="themeIco">☾</span><span class="lbl" id="themeLbl">Dunkel</span></button>
-      <button class="icon-btn" id="accBtn" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lbl">Konto</span></button>
     </div>
   </div>
   <nav class="main" aria-label="Hauptmenü">
@@ -431,22 +429,9 @@ html{scroll-behavior:smooth;scroll-padding-top:130px}
 <footer>
   <div class="wrap">
     <div><b>Ruhaniyya</b> · Weg des spirituellen Islam</div>
-    <div>Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. · Impressum · Datenschutz <span class="note">(folgen)</span></div>
+    <div>Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. · <a href="impressum.html">Impressum</a> · <a href="datenschutz.html">Datenschutz</a></div>
   </div>
 </footer>
-
-<aside class="drawer" id="account" hidden aria-label="Konto">
-  <button class="close" data-close type="button" aria-label="Schließen">×</button>
-  <h3>Dein Konto</h3>
-  <p class="note">Mit einem Konto speicherst du später deine Merkliste und Fastenerinnerungen.</p>
-  <form id="loginForm">
-    <input id="accEmail" type="email" placeholder="E-Mail" aria-label="E-Mail" required>
-    <input id="accPw" type="password" placeholder="Passwort" aria-label="Passwort" required>
-    <button class="btn" type="submit">Anmelden</button>
-    <button class="btn ghost" type="button" id="regBtn">Konto erstellen</button>
-  </form>
-  <p class="status" id="accStatus" style="color:var(--muted)" role="status"></p>
-</aside>
 
 <script>
 (function(){
@@ -664,14 +649,7 @@ function auto(){clearInterval(sTimer);if(!matchMedia("(prefers-reduced-motion: r
 $("#dots").addEventListener("click",e=>{const b=e.target.closest("[data-s]");if(b){showSlide(+b.dataset.s);auto()}});
 showSlide(0);auto();
 
-/* account */
-const open=id=>{document.querySelectorAll(".drawer").forEach(d=>d.hidden=d.id!==id)};
-$("#accBtn").addEventListener("click",()=>open("account"));
-document.querySelectorAll("[data-close]").forEach(b=>b.addEventListener("click",()=>b.closest(".drawer").hidden=true));
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.querySelectorAll(".drawer").forEach(d=>d.hidden=true);$("#results").hidden=true}});
-const accMsg="Konten werden freigeschaltet, sobald die Merkliste live ist. Deine Daten wurden nicht gespeichert.";
-$("#loginForm").addEventListener("submit",e=>{e.preventDefault();$("#accPw").value="";$("#accStatus").textContent=accMsg});
-$("#regBtn").addEventListener("click",()=>$("#accStatus").textContent=accMsg);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#results").hidden=true});
 
 /* ---------- names (in knowledge column) ---------- */
 const ALLAH=[["الرَّحْمَٰن","Ar-Rahman","Der Allerbarmer"],["الرَّحِيم","Ar-Rahim","Der Barmherzige"],["الْمَلِك","Al-Malik","Der König"],["الْقُدُّوس","Al-Quddus","Der Heilige"],["السَّلَام","As-Salam","Der Frieden"],["الْعَزِيز","Al-ʿAziz","Der Allmächtige"],["الْخَالِق","Al-Khaliq","Der Schöpfer"],["الْغَفَّار","Al-Ghaffar","Der immer wieder Vergebende"],["الرَّزَّاق","Ar-Razzaq","Der Versorger"],["الْعَلِيم","Al-ʿAlim","Der Allwissende"],["اللَّطِيف","Al-Latif","Der Feinfühlige"],["الْحَكِيم","Al-Hakim","Der Allweise"],["الْوَدُود","Al-Wadud","Der Liebevolle"],["النُّور","An-Nur","Das Licht"],["الصَّبُور","As-Sabur","Der Geduldige"]];
