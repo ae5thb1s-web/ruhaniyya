@@ -359,6 +359,12 @@ html{scroll-padding-top:170px}
       <span class="hijri-strip" id="hijriStrip"></span>
     </div>
   </nav>
+  <nav class="sub" id="subspenden" aria-label="Spendenart" hidden>
+    <div class="wrap">
+      <a href="#spenden-geld">Geld · PayPal</a>
+      <a href="#spenden-krypto">Krypto</a>
+    </div>
+  </nav>
   <nav class="sub" id="subgebet" aria-label="Gebet, Fasten, Sadaqa" hidden>
     <div class="wrap">
       <a href="#gebetszeiten">Gebetszeiten</a>
@@ -622,21 +628,21 @@ html{scroll-padding-top:170px}
       <div class="wrap">
         <div class="head"><p class="eyebrow">Spenden · Ṣadaqa</p><h2>Gemeinsam Gutes tun</h2><p class="lead">Mit deiner Spende unterstützt du Ruhaniyya. Die Spenden setzen wir für gemeinnützige Zwecke ein.</p></div>
         <p class="gift-hadith"><span class="ar">مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ</span>„Die Ṣadaqa mindert das Vermögen nicht.“ (Muslim 2588)</p>
-        <div class="tiles">
-          <div class="tile"><span class="ar">المُحْتاج</span><b>Bedürftigen helfen</b><span>Unterstützung für Menschen in Not, zum Beispiel Iftar-Essen im Ramadan</span></div>
-          <div class="tile"><span class="ar">العِلْم</span><b>Wissen weitergeben</b><span>Quellen, Kalender und Gebetszeiten bleiben für alle kostenlos</span></div>
-          <div class="tile"><span class="ar">الخَيْر</span><b>Gemeinnützige Projekte</b><span>Wir berichten hier, wofür die Spenden verwendet wurden</span></div>
-        </div>
-        <div class="donate-box" style="margin-top:22px">
+        <div class="donate-box" id="spGeld" style="margin-top:22px">
           <b style="font-size:1.1rem">Geld spenden</b>
           <span class="note" style="color:var(--muted)">Jeder Betrag hilft, ob einmalig oder regelmäßig. Per PayPal, Kreditkarte oder Lastschrift.</span>
           <div class="row" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" id="donateBtn" href="#" target="_blank" rel="noopener">Mit PayPal spenden ↗</a></div>
           <small id="donateHint" style="color:var(--muted)"></small>
         </div>
-        <div class="donate-box" style="margin-top:16px">
+        <div class="donate-box" id="spKrypto" style="margin-top:22px" hidden>
           <b style="font-size:1.1rem">Mit Krypto spenden</b>
           <span class="note" style="color:var(--muted)">Kopiere die Adresse und sende nur die passende Währung über das genannte Netzwerk. Falsch gesendete Beträge gehen verloren.</span>
           <div id="cryptoList" style="display:grid;gap:10px"></div>
+        </div>
+        <div class="tiles" style="margin-top:26px">
+          <div class="tile"><span class="ar">المُحْتاج</span><b>Bedürftigen helfen</b><span>Unterstützung für Menschen in Not, zum Beispiel Iftar-Essen im Ramadan</span></div>
+          <div class="tile"><span class="ar">العِلْم</span><b>Wissen weitergeben</b><span>Quellen, Kalender und Gebetszeiten bleiben für alle kostenlos</span></div>
+          <div class="tile"><span class="ar">الخَيْر</span><b>Gemeinnützige Projekte</b><span>Wir berichten hier, wofür die Spenden verwendet wurden</span></div>
         </div>
         <div style="max-width:560px;margin-top:12px">
           <small style="color:var(--muted)">Hinweis: Ruhaniyya ist kein eingetragener gemeinnütziger Verein. Deshalb können wir keine steuerlich absetzbare Spendenbescheinigung ausstellen.</small>
@@ -993,6 +999,12 @@ const P=[
  {id:4,c:"knowledge",n:"Der versiegelte Nektar",d:"Prophetenbiografie von al-Mubarakpuri",q:"Der versiegelte Nektar",ar:"الرحيق",bg:"#2E0A52"},
  {id:5,c:"knowledge",n:"Die 40 Hadithe",d:"Imam an-Nawawi, mit Erläuterungen",q:"40 Hadithe Nawawi deutsch",ar:"الأربعين",bg:"#6A24B3"},
  {id:18,c:"knowledge",n:"Dalāʾil al-Khayrāt",d:"Segenswünsche auf den Propheten ﷺ, Imam al-Dschazūlī",q:"Dalail al-Khayrat",ar:"دلائل",bg:"#3B0764"},
+ {id:19,c:"knowledge",n:"Geschichten der Propheten",d:"Qiṣaṣ al-Anbiyāʾ, Ibn Kathīr: das Leben der Propheten",q:"Geschichten der Propheten Ibn Kathir",ar:"قصص",bg:"#4A1580"},
+ {id:20,c:"knowledge",n:"Marifetname",d:"Erzurumlu İbrahim Hakkı, Wissen und Erkenntnis",q:"Marifetname Ibrahim Hakki",ar:"معرفة",bg:"#065F46"},
+ {id:21,c:"knowledge",n:"Iḥyāʾ ʿUlūm ad-Dīn",d:"Die Wiederbelebung der Religionswissenschaften, Imam al-Ghazālī",q:"Ihya Ulum ad-Din Ghazali",ar:"إحياء",bg:"#2E0A52"},
+ {id:35,c:"ebook",n:"Geschichten der Propheten (Kindle)",d:"Das Leben der Propheten nach Ibn Kathīr",q:"Geschichten der Propheten Kindle eBook",ar:"قصص",bg:"#4A1580"},
+ {id:36,c:"ebook",n:"Marifetname (E-Book)",d:"İbrahim Hakkı",q:"Marifetname eBook",ar:"معرفة",bg:"#065F46"},
+ {id:37,c:"ebook",n:"Iḥyāʾ ʿUlūm ad-Dīn (Kindle)",d:"Imam al-Ghazālī",q:"Ihya Ulum ad-Din Ghazali Kindle",ar:"إحياء",bg:"#2E0A52"},
  {id:30,c:"ebook",n:"Der edle Qur'an (Kindle)",d:"Deutsche Übersetzung als E-Book",q:"Koran deutsch Kindle eBook",ar:"القرآن",bg:"#3B0D66"},
  {id:31,c:"ebook",n:"Riyad as-Salihin (Kindle)",d:"Hadith-Sammlung von Imam an-Nawawi",q:"Riyad as-Salihin Kindle",ar:"رياض",bg:"#4A1580"},
  {id:32,c:"ebook",n:"Prophetenbiografie (Kindle)",d:"Das Leben des Propheten ﷺ",q:"Prophet Muhammad Biografie Kindle eBook deutsch",ar:"السيرة",bg:"#5B1E99"},
@@ -1297,6 +1309,8 @@ function route(){
   else if(h==="frauen"||h==="maenner")setG(h==="frauen"?"f":"m");
   else if(/^accessoires-(frauen|maenner|unisex)$/.test(h)){aW={frauen:"f",maenner:"m",unisex:"u"}[h.split("-")[1]];aM="";accFilter();h="accessoires"}
   else if(h==="knowledge")h="buecher";
+  if(h==="spenden")h="spenden-geld";
+  if(h==="spenden-geld"||h==="spenden-krypto"){const k=h.endsWith("krypto");$("#spGeld").hidden=k;$("#spKrypto").hidden=!k;document.querySelectorAll("#subspenden a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+h));h="spenden"}
   {const e0=document.getElementById(h);if(e0&&e0.closest("#colSchmuckF"))setG("f");else if(e0&&e0.closest("#colSchmuckM"))setG("m");}
   let el=document.getElementById(h),v=el&&el.closest("[data-view]");
   if(!v){v=VIEWS[0];el=null}
@@ -1307,7 +1321,7 @@ function route(){
   ["ueber","gebetszeiten","kalender","fasten","entdecken"].forEach(id=>document.getElementById(id).hidden=!!gPart&&!gPart.includes(id));
   const grp=(gPart||v.id==="sadaqa")?"gebet":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
   document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
-  $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";$("#subgebet").hidden=grp!=="gebet";
+  $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";$("#subgebet").hidden=grp!=="gebet";$("#subspenden").hidden=grp!=="spenden";
   document.querySelectorAll("#subgebet a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+(h==="kalender"?"fasten":gPart?h:v.id)));
   document.querySelectorAll("#subwissen a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+v.id));
   const gk=gender==="f"?"frauen":"maenner";
