@@ -1692,7 +1692,7 @@ function renderClock(t,fj2,lt){const el=document.getElementById("ptClock");if(!e
     return `<div class="ts-grp"><h3>${g}</h3>${L.map(d=>{const a=d.ph[0][0].a,t=tot(d);return `<div class="ts-item${d.id===SEL?" on":""}" role="button" tabindex="0" data-ts="${esc(d.id)}">${a?`<span class="ar">${esc(a)}</span>`:""}<span class="tx"><b>${esc(d.n)}</b>${d.w?`<small>${esc(d.w)}</small>`:""}</span><span class="n">${t?(d.ph.length>1?d.ph.map(p=>p[1]).join("·"):t+"×"):"∞"}</span>${d.own?`<button type="button" class="del" data-del="${esc(d.id)}" aria-label="Löschen">✕</button>`:""}</div>`}).join("")}</div>`}).join("")}
   function show(){const d=cur(),s=st(d.id);if(s.i>=d.ph.length)s.i=d.ph.length-1;const [ph,goal]=d.ph[s.i],done=goal&&s.i===d.ph.length-1&&s.c>=goal;
     $("#tsTitle").textContent=d.n;$("#tsWhen").textContent=d.w;
-    $("#tsSteps").innerHTML=d.ph.length>1?d.ph.map((p,i)=>`<span class="${i===s.i?"on":i<s.i?"ok":""}">${esc(p[0].t.split(",")[0].split(" lā scharīka")[0])} ${p[1]}</span>`).join(""):"";
+    $("#tsSteps").innerHTML=d.ph.length>1?d.ph.map((p,i)=>`<span class="${i===s.i?"on":i<s.i?"ok":""}">${esc(p[0].t.split(",")[0].replace(/ waḥdahū.*$/,"llāh …").replace("llāhullāh","llāh"))} ${p[1]}×</span>`).join(""):"";
     $("#tsAr").textContent=ph.a;$("#tsAr").hidden=!ph.a;$("#tsTr").textContent=ph.t;$("#tsTr").hidden=!ph.t;$("#tsMean").textContent=ph.m;$("#tsMean").hidden=!ph.m;
     $("#tsNum").textContent=s.c;$("#tsGoal").textContent=goal?"/ "+goal:"∞";
     $("#tsPrg").style.strokeDashoffset=goal?565.5*(1-Math.min(1,s.c/goal)):565.5;
