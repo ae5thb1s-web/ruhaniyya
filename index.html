@@ -480,6 +480,21 @@ footer b{color:var(--primary);font-family:var(--f-display)}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 html{scroll-padding-top:170px}
+.h2share{display:inline-flex;vertical-align:middle;margin-inline-start:.4em;width:32px;height:32px;align-items:center;justify-content:center;border-radius:50%;border:1px solid var(--line,rgba(127,127,127,.3));background:transparent;color:var(--primary,#a855f7);cursor:pointer;padding:0}
+.h2share svg{width:16px;height:16px}.h2share:hover{background:var(--surface-2,rgba(127,127,127,.12))}
+#shareSheet{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center}
+#shareSheet[hidden]{display:none}
+#shareSheet .sh{background:var(--surface,#fff);color:var(--text,#111);width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:18px 16px 22px;box-shadow:0 -8px 30px rgba(0,0,0,.25)}
+#shareSheet .sh b{display:block;margin-bottom:4px}#shareSheet .sh small{display:block;color:var(--muted);margin-bottom:12px;word-break:break-all}
+#shareSheet .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#shareSheet .grid a,#shareSheet .grid button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;border:1px solid var(--line,rgba(127,127,127,.3));background:transparent;color:inherit;text-decoration:none;font:inherit;font-size:14px;cursor:pointer}
+#shareSheet .grid span{font-size:22px}
+.mq-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 12px}
+.mq-f{margin:8px 0 6px}
+.mq-list{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+.mq-list li{border:1px solid var(--line,rgba(127,127,127,.3));border-radius:16px;padding:12px 14px;background:var(--surface,transparent)}
+.mq-list li b{font-size:1.05em}.mq-list .tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:10px;background:var(--primary,#a855f7);color:#fff;margin-inline-start:6px;vertical-align:middle}
+.mq-list .meta{color:var(--muted);font-size:14px;margin:2px 0 8px}.mq-list .acts{display:flex;flex-wrap:wrap;gap:8px}.mq-list .acts a{font-size:14px;padding:6px 12px;border-radius:10px;border:1px solid var(--line,rgba(127,127,127,.3));text-decoration:none}
 </style>
 </head>
 <body>
@@ -494,6 +509,7 @@ html{scroll-padding-top:170px}
     </div>
     <div class="icons">
       <select id="langSel" class="icon-btn lang" aria-label="Sprache / Language"><option value="de">DE</option><option value="en">EN</option><option value="ar">AR</option><option value="tr">TR</option><option value="fa">FA</option><option value="ku">KU</option></select>
+      <button class="icon-btn" id="shareTop" type="button" aria-label="Seite teilen"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Hell oder dunkel umschalten"><span id="themeIco">☾</span><span class="lbl" id="themeLbl">Dunkel</span></button>
     </div>
   </div>
@@ -518,6 +534,7 @@ html{scroll-padding-top:170px}
     <div class="wrap">
       <a href="#gebetszeiten">Gebetszeiten</a>
       <a href="#tasbih">Tasbīḥ</a>
+      <a href="#moscheen">Moscheen</a>
       <a href="#fasten">Fastenzeiten</a>
       <a href="#erinnerung">Erinnerungen</a>
       <a href="#sadaqa">Ṣadaqa</a>
@@ -620,6 +637,7 @@ html{scroll-padding-top:170px}
             <p class="note">Berechnet nach der Methode der türkischen Religionsbehörde Diyanet, die auch DITIB verwendet (Fadschr 18°, Ischa 17°, mit Diyanet-Zuschlägen). Die offiziellen DITIB-Zeiten können um wenige Minuten abweichen. Im Zweifel gilt der Kalender deiner Moschee.</p>
             <p class="note"><a href="/gebetszeiten/">Gebetszeiten für fast 200 Städte</a> in Deutschland, Österreich, der Schweiz und weltweit.</p>
             <p class="status" id="ptStatus" role="status"></p>
+            <a class="btn ghost" href="#moscheen" style="margin-top:8px">🕌 Moscheen in der Nähe finden</a>
           </div>
         </div>
       </div>
@@ -829,6 +847,21 @@ html{scroll-padding-top:170px}
     <div class="ts-full" id="tsFull" hidden><button type="button" class="ts-x" id="tsFullX" aria-label="Schließen">✕</button><div class="ts-flabel" id="tsFLabel"></div><div class="ts-fnum" id="tsFNum">0</div><div class="ts-fgoal" id="tsFGoal"></div><p>Tippe irgendwo zum Zählen</p></div>
   </div>
 
+  <div class="view" data-view id="moscheen" hidden>
+    <section style="padding-top:28px">
+      <div class="wrap">
+        <div class="head"><p class="eyebrow">Gebet · Moscheen</p><h2>Moscheen in deiner Nähe</h2><p class="lead">Finde Moscheen und Gemeinden rund um deinen Ort, DITIB-Gemeinden zuerst. „Wer für Allah eine Moschee baut, dem baut Allah ein Haus im Paradies.“ (al-Buchārī 450)</p></div>
+        <div class="mq-bar">
+          <button class="btn" type="button" id="mqLocate">📍 Meinen Standort nutzen</button>
+          <span class="note" id="mqPlace"></span>
+        </div>
+        <div class="gfilter mq-f" id="mqFilter"><button type="button" data-f="all" class="on">Alle</button><button type="button" data-f="ditib">Nur DITIB</button><button type="button" data-f="other">Andere Gemeinden</button></div>
+        <p class="status" id="mqStatus" role="status"></p>
+        <ol class="mq-list" id="mqList"></ol>
+        <p class="note" style="margin-top:14px">Daten: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap-Mitwirkende</a>. Die Liste kann unvollständig sein. Fehlt deine Moschee? Du kannst sie kostenlos auf <a href="https://www.openstreetmap.org" target="_blank" rel="noopener">openstreetmap.org</a> eintragen. Gebetszeiten der Gemeinde bitte vor Ort erfragen.</p>
+      </div>
+    </section>
+  </div>
   <div class="view" data-view id="sadaqa" hidden>
     <section style="padding-top:28px">
       <div class="wrap">
@@ -1882,7 +1915,7 @@ function route(){
   const GEBET={erinnerung:["erinnerung"],gebetszeiten:["gebetszeiten"],fasten:["kalender","fasten"],kalender:["kalender","fasten"]};
   const gPart=GEBET[h];
   ["ueber","erinnerung","gebetszeiten","kalender","fasten","entdecken"].forEach(id=>document.getElementById(id).hidden=!!gPart&&!gPart.includes(id));
-  const grp=(gPart||v.id==="sadaqa"||v.id==="tasbih")?"gebet":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
+  const grp=(gPart||v.id==="sadaqa"||v.id==="tasbih"||v.id==="moscheen")?"gebet":SHOP.includes(v.id)?"shop":WISSEN.includes(v.id)?"quellen":v.id;
   document.querySelectorAll("nav.main a[data-grp]").forEach(a=>a.classList.toggle("on",a.dataset.grp===grp));
   $("#subnav").hidden=grp!=="shop";$("#subwissen").hidden=grp!=="quellen";$("#subgebet").hidden=grp!=="gebet";$("#subspenden").hidden=grp!=="spenden";
   document.querySelectorAll("#subgebet a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+(h==="kalender"?"fasten":gPart?h:v.id)));
@@ -1920,6 +1953,69 @@ $("#langSel").addEventListener("change",()=>{LANG=$("#langSel").value;store.set(
 if(LANG!=="de")applyLang();
 
 document.querySelectorAll("[data-g]").forEach(b=>b.addEventListener("click",()=>{location.hash="kleidung-"+(b.dataset.g==="f"?"frauen":"maenner")}));
+/* ---------- teilen ---------- */
+const SITE="https://ruhaniyya.live/";
+const SHARE_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>';
+const sheet=document.createElement("div");sheet.id="shareSheet";sheet.hidden=true;document.body.appendChild(sheet);
+function openShare(title,url){
+  const t=title+" – Ruhaniyya",e=encodeURIComponent,msg=t+"\n"+url;
+  if(navigator.share&&matchMedia("(pointer:coarse)").matches){navigator.share({title:t,text:t,url}).catch(()=>{});return}
+  sheet.innerHTML=`<div class="sh" role="dialog" aria-label="Teilen"><b>Teilen: ${title.replace(/[<>&]/g,"")}</b><small>${url}</small><div class="grid">
+<a href="https://wa.me/?text=${e(msg)}" target="_blank" rel="noopener"><span>💬</span>WhatsApp</a>
+<a href="https://t.me/share/url?url=${e(url)}&text=${e(t)}" target="_blank" rel="noopener"><span>✈️</span>Telegram</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=${e(url)}" target="_blank" rel="noopener"><span>📘</span>Facebook</a>
+<a href="https://x.com/intent/post?text=${e(t)}&url=${e(url)}" target="_blank" rel="noopener"><span>✖️</span>X</a>
+<a href="mailto:?subject=${e(t)}&body=${e(msg)}"><span>✉️</span>E-Mail</a>
+<button type="button" data-copy><span>🔗</span>Link kopieren</button></div>
+<p class="note" style="margin:12px 0 0">Für Instagram und TikTok: Link kopieren und in deine Story oder Bio einfügen.</p></div>`;
+  sheet.hidden=false;
+  sheet.querySelector("[data-copy]").onclick=ev=>{const btn=ev.currentTarget;(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>{btn.lastChild.textContent="Kopiert ✓"},()=>{prompt("Link kopieren:",url)})};
+}
+sheet.addEventListener("click",e=>{if(e.target===sheet||e.target.closest("a"))sheet.hidden=true});
+addEventListener("keydown",e=>{if(e.key==="Escape")sheet.hidden=true});
+$("#shareTop").addEventListener("click",()=>{const h=location.hash.slice(1);openShare(document.querySelector("[data-view]:not([hidden]) h2")?.textContent.trim()||"Weg des spirituellen Islam",SITE+(h&&h!=="start"?"#"+h:""))});
+document.querySelectorAll("[data-view] h2").forEach(h=>{
+  const host=h.closest("[id]");if(!host||host.id==="start"&&!h.closest("section[id]"))return;
+  const id=(h.closest("section[id]")||host).id;if(h.closest(".col-head")||h.closest("article"))return;
+  const b=document.createElement("button");b.type="button";b.className="h2share";b.setAttribute("aria-label","Teilen");b.innerHTML=SHARE_SVG;
+  b.addEventListener("click",ev=>{ev.preventDefault();ev.stopPropagation();openShare([...h.childNodes].filter(n=>n.nodeType===3||n.tagName!=="BUTTON").map(n=>n.textContent).join("").trim(),SITE+"#"+id)});
+  h.appendChild(b)});
+
+/* ---------- moscheen in der naehe (OpenStreetMap / Overpass) ---------- */
+let mqF="all",mqData=[],mqFor="";
+const isDitib=t=>/ditib|diyanet|türkisch[- ]islamische union|turkish[- ]islamic union/i.test([t.name,t.operator,t.brand,t["name:de"],t.official_name,t.description].join(" "));
+const kmTo=(a,b,c,d)=>{const R=6371,p=Math.PI/180,x=Math.sin((c-a)*p/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin((d-b)*p/2)**2;return 2*R*Math.asin(Math.sqrt(x))};
+function mqRender(){
+  const L=mqData.filter(m=>mqF==="all"||(mqF==="ditib"?m.d:!m.d));
+  $("#mqList").innerHTML=L.slice(0,40).map(m=>{const t=m.t,adr=[[t["addr:street"],t["addr:housenumber"]].filter(Boolean).join(" "),[t["addr:postcode"],t["addr:city"]].filter(Boolean).join(" ")].filter(Boolean).join(", ");
+    const web=t.website||t["contact:website"],tel=t.phone||t["contact:phone"];
+    return `<li><b>${(t.name||t["name:de"]||"Moschee (ohne Namen)").replace(/[<>&]/g,"")}</b>${m.d?'<span class="tag">DITIB</span>':""}
+<div class="meta">${m.km.toLocaleString("de-DE",{maximumFractionDigits:1})} km${adr?" · "+adr.replace(/[<>&]/g,""):""}</div>
+<div class="acts"><a href="https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lon}" target="_blank" rel="noopener">🧭 Route</a><a href="https://www.openstreetmap.org/${m.type}/${m.id}" target="_blank" rel="noopener">🗺 Karte</a>${web?`<a href="${/^https?:/.test(web)?web:"https://"+web}" target="_blank" rel="noopener nofollow">🌐 Webseite</a>`:""}${tel?`<a href="tel:${tel.replace(/[^+\d]/g,"")}">📞 Anrufen</a>`:""}</div></li>`}).join("");
+  $("#mqStatus").textContent=mqData.length?`${L.length} ${L.length===1?"Moschee":"Moscheen"} gefunden${mqF==="all"?`, davon ${mqData.filter(m=>m.d).length} DITIB`:""}.`:$("#mqStatus").textContent;
+}
+async function mqLoad(lat,lng,label){
+  const key=lat.toFixed(2)+","+lng.toFixed(2);if(key===mqFor&&mqData.length){mqRender();return}mqFor=key;
+  $("#mqPlace").textContent="Suche um: "+label;$("#mqStatus").textContent="Moscheen werden gesucht …";$("#mqList").innerHTML="";mqData=[];
+  for(const r of [15000,40000]){
+    const q=`[out:json][timeout:25];nwr["amenity"="place_of_worship"]["religion"="muslim"](around:${r},${lat.toFixed(3)},${lng.toFixed(3)});out center tags 200;`;
+    try{const res=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"}});
+      if(!res.ok)throw 0;const j=await res.json();
+      mqData=j.elements.map(e=>{const la=e.lat??e.center?.lat,lo=e.lon??e.center?.lon;return{t:e.tags||{},type:e.type,id:e.id,lat:la,lon:lo,km:kmTo(lat,lng,la,lo),d:isDitib(e.tags||{})}}).filter(m=>m.lat!=null);
+      mqData.sort((a,b)=>(b.d-a.d)||a.km-b.km);
+      if(mqData.length>=3||r===40000)break;
+    }catch(e){$("#mqStatus").textContent="Die Moschee-Suche ist gerade nicht erreichbar. Bitte versuche es in ein paar Minuten noch einmal.";mqFor="";return}
+  }
+  if(!mqData.length){$("#mqStatus").textContent="Im Umkreis von 40 km wurde keine Moschee gefunden.";return}
+  mqRender();
+}
+const mqFromPlace=()=>mqLoad(place.lat,place.lng,place.n+(place.c?", "+place.c:""));
+$("#mqFilter").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;mqF=b.dataset.f;$("#mqFilter").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));mqRender()});
+$("#mqLocate").addEventListener("click",()=>{if(!navigator.geolocation){$("#mqStatus").textContent="Dein Browser gibt keinen Standort frei.";return}
+  $("#mqStatus").textContent="Standort wird abgefragt …";
+  navigator.geolocation.getCurrentPosition(p=>{mqFor="";mqLoad(p.coords.latitude,p.coords.longitude,"deinem Standort")},()=>{$("#mqStatus").textContent="Standort nicht verfügbar. Es wird um "+place.n+" gesucht.";mqFromPlace()},{timeout:10000,maximumAge:600000})});
+const mqCheck=()=>{if(location.hash==="#moscheen")mqFromPlace()};addEventListener("hashchange",mqCheck);mqCheck();
+
 })();
 </script>
 </body>
