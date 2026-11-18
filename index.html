@@ -491,7 +491,9 @@ html{scroll-padding-top:170px}
 #shareSheet .grid span{font-size:22px}
 .mq-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 12px}
 .mq-f{margin:8px 0 6px}
-.mq-list{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+.mq-search{display:flex;gap:8px;flex:1 1 300px;min-width:0}.mq-search input{flex:1;min-width:0;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font:1rem var(--f-body)}
+.mq-near{display:grid;grid-template-columns:1fr 1.3fr;gap:16px;margin:18px 0;padding:16px;border-radius:18px;border:2px solid #8f3fe0;background:rgba(143,63,224,.08)}.mq-near b{font-size:1.25em}.mq-near .acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}.mq-near iframe{width:100%;min-height:230px;border:0;border-radius:12px}@media(max-width:700px){.mq-near{grid-template-columns:1fr}}
+.mq-listlist-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
 .mq-list li{border:1px solid var(--line,rgba(127,127,127,.3));border-radius:16px;padding:12px 14px;background:var(--surface,transparent)}
 .mq-list li b{font-size:1.05em}.mq-list .tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 8px;border-radius:10px;background:var(--primary,#a855f7);color:#fff;margin-inline-start:6px;vertical-align:middle}
 .mq-list .meta{color:var(--muted);font-size:14px;margin:2px 0 8px}.mq-list .acts{display:flex;flex-wrap:wrap;gap:8px}.mq-list .acts a{font-size:14px;padding:6px 12px;border-radius:10px;border:1px solid var(--line,rgba(127,127,127,.3));text-decoration:none}
@@ -863,8 +865,10 @@ html{scroll-padding-top:170px}
         <div class="head"><p class="eyebrow">Gebet · Moscheen</p><h2>Moscheen in deiner Nähe</h2><p class="lead">Finde Moscheen und Gemeinden rund um deinen Ort, DITIB-Gemeinden zuerst. „Wer für Allah eine Moschee baut, dem baut Allah ein Haus im Paradies.“ (al-Buchārī 450)</p></div>
         <div class="mq-bar">
           <button class="btn" type="button" id="mqLocate">📍 Meinen Standort nutzen</button>
+          <form class="mq-search" id="mqSearch" role="search"><input type="search" id="mqQ" placeholder="Ort, PLZ oder Adresse eingeben" aria-label="Ort, PLZ oder Adresse" autocomplete="off"><button class="btn ghost" type="submit">🔍 Suchen</button></form>
           <span class="note" id="mqPlace"></span>
         </div>
+        <div class="mq-near" id="mqNear" hidden></div>
         <div class="gfilter mq-f" id="mqFilter"><button type="button" data-f="all" class="on">Alle</button><button type="button" data-f="ditib">Nur DITIB</button><button type="button" data-f="other">Andere Gemeinden</button></div>
         <p class="status" id="mqStatus" role="status"></p>
         <ol class="mq-list" id="mqList"></ol>
@@ -2008,18 +2012,28 @@ document.querySelectorAll("[data-view] h2").forEach(h=>{
 let mqF="all",mqData=[],mqFor="";
 const isDitib=t=>/ditib|diyanet|türkisch[- ]islamische union|turkish[- ]islamic union/i.test([t.name,t.operator,t.brand,t["name:de"],t.official_name,t.description].join(" "));
 const kmTo=(a,b,c,d)=>{const R=6371,p=Math.PI/180,x=Math.sin((c-a)*p/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin((d-b)*p/2)**2;return 2*R*Math.asin(Math.sqrt(x))};
+function mqNearest(){
+  const box=$("#mqNear");if(!mqData.length){box.hidden=true;return}
+  const n=mqData.reduce((a,b)=>b.km<a.km?b:a),t=n.t,nm=(t.name||t["name:de"]||"Moschee").replace(/[<>&"]/g,""),d=.006;
+  const km=n.km<1?Math.max(10,Math.round(n.km*100)*10)+" m":n.km.toLocaleString("de-DE",{maximumFractionDigits:1})+" km";
+  box.innerHTML=`<div class="mq-near-txt"><p class="eyebrow">Nächste Moschee</p><b>${nm}</b>${n.d?'<span class="tag">DITIB</span>':""}<div class="meta">${km} entfernt${t["addr:street"]?" · "+[t["addr:street"],t["addr:housenumber"]].filter(Boolean).join(" ").replace(/[<>&]/g,""):""}</div>
+<div class="acts"><a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=${n.lat},${n.lon}" target="_blank" rel="noopener">🧭 Route starten</a><a href="https://www.openstreetmap.org/?mlat=${n.lat}&mlon=${n.lon}#map=17/${n.lat}/${n.lon}" target="_blank" rel="noopener">🗺 Große Karte</a></div></div>
+<iframe title="Karte: ${nm}" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=${n.lon-d},${n.lat-d*.6},${n.lon+d},${n.lat+d*.6}&layer=mapnik&marker=${n.lat},${n.lon}"></iframe>`;
+  box.hidden=false;
+}
 function mqRender(){
+  mqNearest();
   const L=mqData.filter(m=>mqF==="all"||(mqF==="ditib"?m.d:!m.d));
   $("#mqList").innerHTML=L.slice(0,40).map(m=>{const t=m.t,adr=[[t["addr:street"],t["addr:housenumber"]].filter(Boolean).join(" "),[t["addr:postcode"],t["addr:city"]].filter(Boolean).join(" ")].filter(Boolean).join(", ");
     const web=t.website||t["contact:website"],tel=t.phone||t["contact:phone"];
     return `<li><b>${(t.name||t["name:de"]||"Moschee (ohne Namen)").replace(/[<>&]/g,"")}</b>${m.d?'<span class="tag">DITIB</span>':""}
-<div class="meta">${m.km.toLocaleString("de-DE",{maximumFractionDigits:1})} km${adr?" · "+adr.replace(/[<>&]/g,""):""}</div>
+<div class="meta">${m.km<1?Math.max(10,Math.round(m.km*100)*10)+" m":m.km.toLocaleString("de-DE",{maximumFractionDigits:1})+" km"}${adr?" · "+adr.replace(/[<>&]/g,""):""}</div>
 <div class="acts"><a href="https://www.google.com/maps/dir/?api=1&destination=${m.lat},${m.lon}" target="_blank" rel="noopener">🧭 Route</a><a href="https://www.openstreetmap.org/${m.type}/${m.id}" target="_blank" rel="noopener">🗺 Karte</a>${web?`<a href="${/^https?:/.test(web)?web:"https://"+web}" target="_blank" rel="noopener nofollow">🌐 Webseite</a>`:""}${tel?`<a href="tel:${tel.replace(/[^+\d]/g,"")}">📞 Anrufen</a>`:""}</div></li>`}).join("");
   $("#mqStatus").textContent=mqData.length?`${L.length} ${L.length===1?"Moschee":"Moscheen"} gefunden${mqF==="all"?`, davon ${mqData.filter(m=>m.d).length} DITIB`:""}.`:$("#mqStatus").textContent;
 }
 async function mqLoad(lat,lng,label){
   const key=lat.toFixed(2)+","+lng.toFixed(2);if(key===mqFor&&mqData.length){mqRender();return}mqFor=key;
-  $("#mqPlace").textContent="Suche um: "+label;$("#mqStatus").textContent="Moscheen werden gesucht …";$("#mqList").innerHTML="";mqData=[];
+  $("#mqPlace").textContent="Suche um: "+label;$("#mqStatus").textContent="Moscheen werden gesucht …";$("#mqList").innerHTML="";mqData=[];$("#mqNear").hidden=true;
   for(const r of [15000,40000]){
     const q=`[out:json][timeout:25];nwr["amenity"="place_of_worship"]["religion"="muslim"](around:${r},${lat.toFixed(3)},${lng.toFixed(3)});out center tags 200;`;
     try{const res=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"}});
@@ -2037,6 +2051,12 @@ $("#mqFilter").addEventListener("click",e=>{const b=e.target.closest("button");i
 $("#mqLocate").addEventListener("click",()=>{if(!navigator.geolocation){$("#mqStatus").textContent="Dein Browser gibt keinen Standort frei.";return}
   $("#mqStatus").textContent="Standort wird abgefragt …";
   navigator.geolocation.getCurrentPosition(p=>{mqFor="";mqLoad(p.coords.latitude,p.coords.longitude,"deinem Standort")},()=>{$("#mqStatus").textContent="Standort nicht verfügbar. Es wird um "+place.n+" gesucht.";mqFromPlace()},{timeout:10000,maximumAge:600000})});
+$("#mqSearch").addEventListener("submit",async e=>{e.preventDefault();const q=$("#mqQ").value.trim();if(q.length<2)return;
+  $("#mqStatus").textContent="Ort wird gesucht …";
+  try{const r=await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=${LANG}&q=${encodeURIComponent(q)}`);const j=await r.json();
+    if(!j.length){$("#mqStatus").textContent="Diesen Ort habe ich nicht gefunden. Versuche es mit Stadt oder Postleitzahl.";return}
+    mqFor="";mqLoad(+j[0].lat,+j[0].lon,j[0].display_name.split(",").slice(0,2).join(","));
+  }catch(_){$("#mqStatus").textContent="Die Ortssuche ist gerade nicht erreichbar. Bitte versuche es gleich noch einmal."}});
 const mqCheck=()=>{if(location.hash==="#moscheen")mqFromPlace()};addEventListener("hashchange",mqCheck);mqCheck();
 
 $("#cmShare").addEventListener("click",()=>openShare("Weg des spirituellen Islam",SITE));
