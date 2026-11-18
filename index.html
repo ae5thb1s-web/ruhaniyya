@@ -2009,7 +2009,7 @@ document.querySelectorAll("[data-view] h2").forEach(h=>{
   h.appendChild(b)});
 
 /* ---------- moscheen in der naehe (OpenStreetMap / Overpass) ---------- */
-let mqF="all",mqData=[],mqFor="";
+let mqF="all",mqData=[],mqFor="",mqTok=0;
 const isDitib=t=>/ditib|diyanet|türkisch[- ]islamische union|turkish[- ]islamic union/i.test([t.name,t.operator,t.brand,t["name:de"],t.official_name,t.description].join(" "));
 const kmTo=(a,b,c,d)=>{const R=6371,p=Math.PI/180,x=Math.sin((c-a)*p/2)**2+Math.cos(a*p)*Math.cos(c*p)*Math.sin((d-b)*p/2)**2;return 2*R*Math.asin(Math.sqrt(x))};
 function mqNearest(){
@@ -2032,16 +2032,16 @@ function mqRender(){
   $("#mqStatus").textContent=mqData.length?`${L.length} ${L.length===1?"Moschee":"Moscheen"} gefunden${mqF==="all"?`, davon ${mqData.filter(m=>m.d).length} DITIB`:""}.`:$("#mqStatus").textContent;
 }
 async function mqLoad(lat,lng,label){
-  const key=lat.toFixed(2)+","+lng.toFixed(2);if(key===mqFor&&mqData.length){mqRender();return}mqFor=key;
+  const key=lat.toFixed(2)+","+lng.toFixed(2);if(key===mqFor&&mqData.length){mqRender();return}mqFor=key;const tok=++mqTok;
   $("#mqPlace").textContent="Suche um: "+label;$("#mqStatus").textContent="Moscheen werden gesucht …";$("#mqList").innerHTML="";mqData=[];$("#mqNear").hidden=true;
   for(const r of [15000,40000]){
     const q=`[out:json][timeout:25];nwr["amenity"="place_of_worship"]["religion"="muslim"](around:${r},${lat.toFixed(3)},${lng.toFixed(3)});out center tags 200;`;
     try{const res=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",body:"data="+encodeURIComponent(q),headers:{"Content-Type":"application/x-www-form-urlencoded"}});
-      if(!res.ok)throw 0;const j=await res.json();
+      if(!res.ok)throw 0;const j=await res.json();if(tok!==mqTok)return;
       mqData=j.elements.map(e=>{const la=e.lat??e.center?.lat,lo=e.lon??e.center?.lon;return{t:e.tags||{},type:e.type,id:e.id,lat:la,lon:lo,km:kmTo(lat,lng,la,lo),d:isDitib(e.tags||{})}}).filter(m=>m.lat!=null);
-      mqData.sort((a,b)=>(b.d-a.d)||a.km-b.km);
+      const pr=m=>m.d&&m.km<=10?1:0;mqData.sort((a,b)=>(pr(b)-pr(a))||a.km-b.km);
       if(mqData.length>=3||r===40000)break;
-    }catch(e){$("#mqStatus").textContent="Die Moschee-Suche ist gerade nicht erreichbar. Bitte versuche es in ein paar Minuten noch einmal.";mqFor="";return}
+    }catch(e){if(tok!==mqTok)return;$("#mqStatus").textContent="Die Moschee-Suche ist gerade nicht erreichbar. Bitte versuche es in ein paar Minuten noch einmal.";mqFor="";return}
   }
   if(!mqData.length){$("#mqStatus").textContent="Im Umkreis von 40 km wurde keine Moschee gefunden.";return}
   mqRender();
