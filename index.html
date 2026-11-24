@@ -520,7 +520,8 @@ html{scroll-padding-top:170px}
 .hs-g{font-family:"Segoe UI Symbol","Noto Sans Symbols 2","DejaVu Sans",sans-serif;font-size:1.1em}.hs-r{color:#ef4444}
 .hs-moon{padding:10px 12px;border-radius:12px;background:var(--surface-2);margin-bottom:10px}
 .hs-h{margin:22px 0 8px}.hs-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}.hs-list li{display:flex;gap:8px;align-items:baseline;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.hs-list small{display:block;color:var(--muted)}
-.hs-big3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0 18px}.hs-card{padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.hs-card h3{margin:2px 0 6px}.hs-card small{color:var(--muted)}.hs-card p{margin:0}
+.hs-big3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0 18px}.hs-retro{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}.hs-rc header{display:flex;gap:10px;align-items:center}.hs-rc .hs-big{font-size:30px;line-height:1}.hs-rc h3{margin:0}.hs-bar{height:6px;border-radius:3px;background:var(--surface-2);margin:10px 0 6px;overflow:hidden}.hs-bar i{display:block;height:100%;background:var(--primary)}.hs-card p+p{margin-top:6px}
+.hs-card{padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.hs-card h3{margin:2px 0 6px}.hs-card small{color:var(--muted)}.hs-card p{margin:0}
 </style>
 </head>
 <body>
@@ -858,6 +859,11 @@ html{scroll-padding-top:170px}
             <p class="note" style="margin-top:6px">℞ = rückläufig (scheinbar rückwärts, von der Erde aus gesehen). Haus nach Placidus für den gewählten Ort. Sternbild = das Sternbild, vor dem der Planet tatsächlich am Himmel steht (IAU-Grenzen).</p>
           </div>
         </div>
+        <h3 class="hs-h">Rückläufige Planeten ℞</h3>
+        <div class="hs-retro" id="hsRetroNow"></div>
+        <p class="note">Rückläufig heißt: Von der Erde aus scheint der Planet eine Zeit lang rückwärts durch den Tierkreis zu wandern, weil die Erde ihn auf ihrer Bahn überholt oder von ihm überholt wird. Die Schattenphase ist der Abschnitt davor und danach, in dem der Planet dieselben Grade durchläuft.</p>
+        <h3 class="hs-h">Rückläufigkeiten der nächsten zwölf Monate</h3>
+        <div class="hs-tbl"><table><thead><tr><th>Planet</th><th>rückläufig ab</th><th>direktläufig ab</th><th>Bereich</th></tr></thead><tbody id="hsRetroNext"></tbody></table></div>
         <h3 class="hs-h">Aspekte</h3><ul class="hs-list" id="hsAspects"></ul>
         <h3 class="hs-h">Nächste Zeichenwechsel und Richtungswechsel</h3><ul class="hs-list" id="hsIngress"></ul>
       </div>
@@ -2500,6 +2506,39 @@ function events(from,days){const out=[];const t0=from.getTime(),H=36e5;
   {let pl=lonOf(1,new Date(t0)),n=0;for(let t=t0+H;t<=t0+4*864e5&&n<2;t+=H){const l=lonOf(1,new Date(t));if(Math.floor(l/30)!==Math.floor(pl/30)){let a=t-H,b=t;for(let k=0;k<16;k++){const m=(a+b)/2;if(Math.floor(lonOf(1,new Date(m))/30)===Math.floor(pl/30))a=m;else b=m}out.push({t:new Date(b),i:1,txt:`Mond wechselt in ${SGN[Math.floor(l/30)]} ${SG[Math.floor(l/30)]}`});n++}pl=l}}
   return out.sort((a,b)=>a.t-b.t)}
 
+
+/* Rückläufigkeit: Stationen, Zeiträume, Schattenphasen */
+const RETRO_TXT={2:["Kommunikation, Technik, Verträge und Reisen","Nachrichten, Termine und Technik können haken. Nach traditioneller Deutung eine Zeit zum Überprüfen, Nachbessern und Wiederaufnehmen alter Kontakte, weniger zum Unterschreiben und Neuanfangen."],
+ 3:["Liebe, Beziehungen, Schönheit und Geld","Alte Gefühle und Menschen aus der Vergangenheit tauchen wieder auf. Man überdenkt, was einem wirklich wertvoll ist. Große Anschaffungen und Veränderungen am Aussehen verschiebt man traditionell besser."],
+ 4:["Tatkraft, Mut und Durchsetzung","Die Energie richtet sich nach innen. Begonnenes wird überdacht statt Neues zu erzwingen. Ärger und Ungeduld kommen leichter hoch, Geduld hilft."],
+ 5:["Wachstum, Glaube und Zuversicht","Wachstum geschieht eher innerlich. Pläne, Überzeugungen und Ziele werden überprüft, bevor es nach außen weitergeht."],
+ 6:["Pflichten, Verantwortung und Strukturen","Aufgaben aus der Vergangenheit melden sich zurück. Eine Zeit, um Grundlagen zu festigen und Liegengebliebenes zu ordnen."],
+ 7:["Wandel, Freiheit und Überraschungen","Veränderungen reifen im Inneren. Was man ändern möchte, wird erst innerlich klar, bevor es sichtbar wird."],
+ 8:["Sehnsucht, Träume und Mitgefühl","Schleier lichten sich: Man erkennt Illusionen leichter und sieht klarer, was echt ist."],
+ 9:["tiefe Wandlung und Macht","Ein Rückblick auf das, was losgelassen werden muss. Wandlung geschieht still und von innen."]};
+function stationsOf(i,from,to){const D=864e5,sp=t=>((lonOf(i,new Date(t+D/4))-lonOf(i,new Date(t))+540)%360)-180,out=[];let ps=sp(from);
+  for(let t=from+D;t<=to;t+=D){const s=sp(t);if((s<0)!==(ps<0)){let a=t-D,b=t;for(let k=0;k<14;k++){const m=(a+b)/2;if((sp(m)<0)===(ps<0))a=m;else b=m}out.push({t:b,retro:s<0,lon:lonOf(i,new Date(b))})}ps=s}return out}
+function retroPeriods(now,ahead){const D=864e5,t0=now.getTime(),R=[];
+  for(let i=2;i<10;i++){const st=stationsOf(i,t0-400*D,t0+ahead*D);
+    for(let k=0;k<st.length;k++){if(!st[k].retro)continue;const e=st[k+1];if(!e)continue;if(e.t<t0)continue;
+      const p={i,a:new Date(st[k].t),b:new Date(e.t),la:st[k].lon,lb:e.lon};
+      /* Schattenphase: vorher ab dem Grad der Direkt-Station, nachher bis zum Grad der Rückläufig-Station */
+      if(i<=4){const cross=(lon,from,dir)=>{for(let t=from;Math.abs(t-from)<120*D;t+=dir*D/4){const l=lonOf(i,new Date(t)),d=((l-lon+540)%360)-180;if(dir<0?d<0:d>0)return new Date(t)}return null};
+        p.pre=cross(p.lb,st[k].t,-1);p.post=cross(p.la,e.t,1)}
+      R.push(p)}}
+  return R.sort((x,y)=>x.a-y.a)}
+const dfmt=(d,tz)=>d.toLocaleDateString("de-DE",{day:"numeric",month:"long",year:"numeric",timeZone:tz});
+const zf=l=>`${Math.floor(l%30)}° ${SGN[Math.floor(l/30)]} ${SG[Math.floor(l/30)]}`;
+function renderRetro(date,tz){const R=retroPeriods(date,370),t=date.getTime(),D=864e5;
+  const cur=R.filter(p=>p.a<=date&&p.b>date),next=R.filter(p=>p.a>date);
+  const shadow=R.filter(p=>!(p.a<=date&&p.b>date)&&((p.pre&&p.pre<=date&&p.a>date)||(p.post&&p.b<=date&&p.post>date)));
+  const card=p=>{const tot=p.b-p.a,done=Math.max(0,Math.min(1,(t-p.a)/tot)),left=Math.ceil((p.b-t)/D);
+    return `<article class="hs-card hs-rc"><header><span class="hs-g hs-big">${G(p.i)}</span><div><h3>${PL[p.i][0]} rückläufig ℞</h3><small>${dfmt(p.a,tz)} bis ${dfmt(p.b,tz)} · noch ${left} ${left===1?"Tag":"Tage"}</small></div></header>
+    <div class="hs-bar"><i style="width:${(done*100).toFixed(0)}%"></i></div><p class="note">Von ${zf(p.la)} zurück bis ${zf(p.lb)}${p.post?`. Schattenphase bis ${dfmt(p.post,tz)}`:""}.</p>
+    <p><b>Thema: ${RETRO_TXT[p.i][0]}.</b> ${RETRO_TXT[p.i][1]}</p></article>`};
+  $("#hsRetroNow").innerHTML=(cur.length?cur.map(card).join(""):'<p class="note">Gerade ist kein Planet rückläufig.</p>')+
+    shadow.map(p=>`<p class="note"><span class="hs-g">${G(p.i)}</span> Schattenphase: ${PL[p.i][0]} ${p.pre&&p.a>date?`wird am ${dfmt(p.a,tz)} rückläufig, die Vor-Schattenphase läuft seit ${dfmt(p.pre,tz)}`:`ist seit ${dfmt(p.b,tz)} wieder direktläufig, die Nach-Schattenphase dauert bis ${dfmt(p.post,tz)}`}.</p>`).join("");
+  $("#hsRetroNext").innerHTML=next.map(p=>`<tr><td><span class="hs-g">${G(p.i)}</span> ${PL[p.i][0]}</td><td>${dfmt(p.a,tz)}</td><td>${dfmt(p.b,tz)}</td><td>${zf(p.la)} → ${zf(p.lb)}</td></tr>`).join("")||'<tr><td colspan="4">Keine weiteren in den nächsten zwölf Monaten.</td></tr>'}
 let HS={tab:"heute"},loaded=false;
 const fmtDT=(d,tz)=>d.toLocaleString("de-DE",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit",timeZone:tz});
 const curPlace=()=>(typeof place!=="undefined"&&place)||{n:"Berlin",lat:52.52,lng:13.405,tz:"Europe/Berlin"};
@@ -2522,6 +2561,7 @@ function renderNow(){const pl=curPlace(),tz=pl.tz||"Europe/Berlin";
   const PHN=ph<22.5||ph>=337.5?"Neumond":ph<67.5?"zunehmende Sichel":ph<112.5?"erstes Viertel":ph<157.5?"zunehmender Mond":ph<202.5?"Vollmond":ph<247.5?"abnehmender Mond":ph<292.5?"letztes Viertel":"abnehmende Sichel";
   $("#hsMoon").innerHTML=`<b>☽︎ Mond in ${SGN[P[1].sign]} ${SG[P[1].sign]}</b> · ${PHN}, ${Math.round(ill*100)} % beleuchtet · nächste Phase: ${["Neumond","erstes Viertel","Vollmond","letztes Viertel"][nm.quarter]} am ${fmtDT(nm.time.date,tz)}`;
   $("#hsAspects").innerHTML=aspectItems(aspects(P,P).filter(x=>x.p.i!==10&&x.q.i!==10),14);
+  renderRetro(date,tz);
   $("#hsIngress").innerHTML=events(date,45).slice(0,14).map(e=>`<li><span class="hs-g">${G(e.i)}</span> <span><b>${e.txt}</b> <small>${e.day?"um den "+e.t.toLocaleDateString("de-DE",{day:"numeric",month:"long",timeZone:tz}):fmtDT(e.t,tz)}</small></span></li>`).join("")}
 
 /* Geburtshoroskop */
@@ -2537,6 +2577,7 @@ function birthRender(){const B=store.get("rh_natal",null);const out=$("#hbOut");
   <div class="hs-grid"><figure class="hs-wheel">${wheel(P,hs)}</figure><div><div class="hs-tbl"><table><thead><tr><th>Planet</th><th>Zeichen</th><th>Grad</th><th>Haus</th><th>Sternbild</th></tr></thead><tbody>${planetRows(P,hs)}</tbody></table></div>
   <p class="note">Elemente: ${ELEM.map((e,k)=>`${e} ${el[k]}`).join(" · ")}${B.nt?" · Ohne Geburtszeit gibt es keine Häuser und keinen Aszendenten.":""}</p></div></div>
   <h3 class="hs-h">Deine Planeten in den Zeichen</h3><ul class="hs-list">${P.slice(2,10).map(p=>`<li><span class="hs-g">${G(p.i)}</span><span><b>${PL[p.i][0]} in ${SGN[p.sign]}${hs?`, ${houseOf(p.lon,hs.H)+1}. Haus`:""}</b><small>${PMEAN[p.i]}: ${SSTYLE[p.sign]}${hs?`, gelebt vor allem über ${HOUSE[houseOf(p.lon,hs.H)]}`:""}.</small></span></li>`).join("")}</ul>
+  ${P.some(p=>p.retro)?`<h3 class="hs-h">Rückläufig bei deiner Geburt</h3><ul class="hs-list">${P.filter(p=>p.retro).map(p=>`<li><span class="hs-g">${G(p.i)}</span><span><b>${PL[p.i][0]} ℞ in ${SGN[p.sign]}</b><small>Nach traditioneller Deutung wird ${RETRO_TXT[p.i][0]} eher nach innen gelebt: nachdenklich, prüfend und auf eigene Weise.</small></span></li>`).join("")}</ul>`:""}
   <h3 class="hs-h">Aspekte in deinem Geburtshoroskop</h3><ul class="hs-list">${(()=>{const N=P.slice(0,10);return aspectItems(aspects(N,N),12)})()}</ul>
   <h3 class="hs-h">Heutige Transite zu deinem Horoskop</h3><ul class="hs-list">${TR.slice(0,10).map(x=>`<li><span class="hs-g">${G(x.p.i)}</span> <b style="color:${ASPC[x.a[0]]}">${x.a[2]}</b> <span class="hs-g">${G(x.q.i)}</span><span><b>${PL[x.p.i][0]} heute ${x.a[1]} zu deinem ${PL[x.q.i][0]}</b><small>Orbis ${x.orb.toFixed(1).replace(".",",")}° · ${x.a[4]}: ${PMEAN[x.p.i].split(",")[0]} trifft auf ${PMEAN[x.q.i]}.</small></span></li>`).join("")||'<li class="note">Heute keine engen Transite (Orbis bis 1,5°).</li>'}</ul>`}
 function birthInit(){const inp=$("#hbPlace"),res=$("#hbRes");
