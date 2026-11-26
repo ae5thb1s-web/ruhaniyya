@@ -1,9 +1,9 @@
-name: Seiten monatlich erneuern
-# Erzeugt am 1. jedes Monats die Städteseiten (de/tr), Themenseiten und die Sitemap neu.
+name: Seiten täglich erneuern
+# Erzeugt jeden Tag um 01:30 Uhr (deutsche Zeit) die Städteseiten (de/tr), Themenseiten und die Sitemap neu.
 # Ein Push auf main wird von Hostinger automatisch veröffentlicht.
 on:
   schedule:
-    - cron: "30 0 1 * *"
+    - cron: "30 0 * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -22,6 +22,6 @@ jobs:
             git config user.name "ruhaniyya-bot"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add -A
-            git commit -m "Seiten für $(date +%Y-%m) neu erzeugt"
+            git commit -m "Seiten für $(date +%Y-%m-%d) neu erzeugt"
             git push
           fi
