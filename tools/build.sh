@@ -6,3 +6,4 @@ export TZ=Europe/Berlin
 node tools/gen_staedte.js .
 node tools/gen_themen.js .
 node tools/gen_tr.js .
+node tools/gen_sprachen.js .

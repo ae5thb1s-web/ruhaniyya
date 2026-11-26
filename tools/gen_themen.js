@@ -277,7 +277,7 @@ function htmlTR(slug,de,title,desc,body,faq){
 <meta property="og:type" content="article"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${u}"><meta property="og:image" content="https://ruhaniyya.live/logo.png"><meta property="og:locale" content="tr_TR">
 <style>${css}</style><script type="application/ld+json">${JSON.stringify(ld)}</script></head><body><header><a href="/"><img src="/logo.png" alt="Ruhaniyya" width="40" height="40"></a><div><b>Ruhaniyya</b><small>Manevi İslam'ın yolu</small></div><a href="/${de}/" hreflang="de" style="margin-inline-start:auto;color:var(--mut);text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:6px 10px">DE</a></header><main>
 ${body}<h2>Sık sorulan sorular</h2>${faq.map(([q,a])=>`<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join('')}
-<h2>Ruhaniyya'da daha fazlası</h2><ul class="links"><li><a href="/tr/namaz-vakitleri/">Namaz vakitleri</a></li><li><a href="/tr/beyaz-gunler/">Beyaz günler</a></li><li><a href="/tr/ramazan-2027/">Ramazan 2027</a></li><li><a href="/#fasten">Oruç takvimi</a></li><li><a href="/#moscheen">Cami bul</a></li></ul>
+<h2>Ruhaniyya'da daha fazlası</h2><ul class="links"><li><a href="/tr/namaz-vakitleri/">Namaz vakitleri</a></li><li><a href="/tr/beyaz-gunler/">Beyaz günler</a></li><li><a href="/tr/ramazan-2027/">Ramazan 2027</a></li><li><a href="/tr/oruc-gunleri/">Oruç günleri</a></li><li><a href="/tr/hicri-takvim/">Hicri takvim</a></li><li><a href="/tr/kible/">Kıble</a></li><li><a href="/tr/namaz-kilmak/">Namaz kılmak</a></li><li><a href="/tr/orucu-bozan-seyler/">Orucu bozanlar</a></li><li><a href="/tr/kadir-gecesi/">Kadir Gecesi</a></li><li><a href="/#moscheen">Cami bul</a></li></ul>
 <p class="mut" style="margin-top:2em">Güncelleme: ${DT(today,{day:'numeric',month:'long',year:'numeric'})}.</p>
 </main><footer><a href="/">ruhaniyya.live</a> · <a href="/tr/namaz-vakitleri/">Namaz vakitleri</a> · <a href="/impressum.html">Künye</a> · <a href="/datenschutz.html">Gizlilik</a></footer></body></html>`}
 const bidTR=bid.slice(0,12).map(b=>`<tr><td><b>${DT(b.a,{day:'numeric',month:'short'})} – ${DT(b.b,{day:'numeric',month:'short',year:'numeric'})}</b></td><td>${AYLAR[b.h.m-1]} ${b.h.y}</td><td>Dolunay ${DT(b.m,{day:'numeric',month:'long',weekday:'short'})}, saat ${TT(b.at)}</td></tr>`).join('');
@@ -311,6 +311,112 @@ write('tr/ramazan-2027',htmlTR('ramazan-2027','ramadan-2027',`Ramazan 2027 ne za
  [['2027 Ramazan ne zaman başlıyor?',`Diyanet'e göre ilk oruç ${DT(R0u)}. Hilal gözlemine göre ${DT(R0s)} olabilir.`],
   ['2027 Ramazan Bayramı ne zaman?',`Ramazan Bayramı ${DT(Eu)} (Diyanet) veya hilal gözlemine göre ${DT(Es)}.`],
   ['2027 Kurban Bayramı ne zaman?',`Kurban Bayramı ${DT(AdhaU)} (Diyanet) veya hilal gözlemine göre ${DT(Adha)}.`]]));
+/* ---------- Türkçe: Oruç günleri, Hicri takvim, Kıble, Makaleler ---------- */
+const TRK=t=>{const m={'Erster Tag des Ramadan':'Ramazan\'ın ilk günü','Ramadan':'Ramazan','Tag von Arafa':'Arefe günü','Erste zehn Tage Dhu l-Hiddscha':'Zilhicce\'nin ilk on günü','Tasuʿa (9. Muharram)':'Tasua (9 Muharrem)','Ashura':'Aşure','Sechs Tage im Schawwal':'Şevval\'in altı günü','Montag':'Pazartesi','Donnerstag':'Perşembe','Weißer Tag (Vollmond)':'Beyaz gün (dolunay)','Weißer Tag (vor Vollmond)':'Beyaz gün (dolunaydan önce)','Weißer Tag (nach Vollmond)':'Beyaz gün (dolunaydan sonra)'};
+ if(m[t])return m[t];let r=t.match(/^Beginn (.+): empfohlener Fastenmonat$/);if(r)return `${AYLAR[S.MONTHS.indexOf(r[1])]||r[1]} başlangıcı: oruç tavsiye edilen ay`;
+ r=t.match(/^Weißer Tag \((\d+)\.\)$/);if(r)return `Beyaz gün (${r[1]}.)`;return t};
+const fhT=h=>`${h.d} ${AYLAR[h.m-1]} ${h.y}`;
+const listTR=N60.map(x=>`<tr><td><b>${DT(x.d,{weekday:'short',day:'numeric',month:'long',year:'numeric'})}</b></td><td>${x.c.filter(c=>c.k!=='no').map(c=>esc(TRK(c.t))).join(', ')}</td><td class="mut">${fhT(x.h)}</td></tr>`).join('');
+const specTR=DAYS.filter(x=>x.c.some(c=>c.g==='special'&&/Arafa|Ashura|Tasuʿa/.test(c.t))).map(x=>`<li><b>${x.c.filter(c=>/Arafa|Ashura|Tasuʿa/.test(c.t)).map(c=>TRK(c.t)).join(', ')}:</b> ${DT(x.d)}</li>`).join('');
+write('tr/oruc-gunleri',htmlTR('oruc-gunleri','fastentage',`Sünnet oruç günleri ${yr}/${yr+1}: tüm tarihler | Ruhaniyya`,
+ `Ne zaman oruç tutulur? Pazartesi ve perşembe, beyaz günler, arefe, aşure, Şevval: önümüzdeki haftaların tüm sünnet oruç günleri tarihleriyle.`,
+ `<h1>Sünnet oruç günleri: tüm tarihler</h1>
+<p class="lead">Ramazan dışında Peygamber Efendimiz <span>ﷺ</span> belirli günlerde oruç tutmuş ve tutmayı teşvik etmiştir. Burada önümüzdeki 60 günün tavsiye edilen oruç günlerini, ay takvimine göre hesaplanmış olarak bulursun.</p>
+<a class="btn" href="/#fasten">Hatırlatmalı oruç takvimini aç</a>
+<h2>Sıradaki oruç günleri</h2><div class="tw"><table><thead><tr><th>Tarih</th><th>Oruç günü</th><th>Hicri</th></tr></thead><tbody>${listTR}</tbody></table></div>
+<h2>Önümüzdeki yılın özel günleri</h2><ul>${specTR}</ul>
+<h2>Hangi oruç günleri var?</h2>
+<h3>Pazartesi ve perşembe</h3><p>„Ameller pazartesi ve perşembe günleri (Allah'a) arz olunur. Amelimin oruçlu iken arz edilmesini isterim.“ (Tirmizî 747)</p>
+<h3>Beyaz günler</h3><p>Dolunay etrafındaki üç gün (kameri ayın 13, 14 ve 15'i). <a href="/tr/beyaz-gunler/">Beyaz günlerin tüm tarihleri</a>.</p>
+<h3>Arefe günü</h3><p>9 Zilhicce. Bu günün orucu geçmiş ve gelecek yılın günahlarına kefarettir (Müslim 1162).</p>
+<h3>Aşure ve Tasua</h3><p>10 Muharrem, en iyisi 9 Muharrem ile birlikte. Aşure orucu geçmiş yılın günahlarına kefarettir (Müslim 1162).</p>
+<h3>Şevval'in altı günü</h3><p>Ramazan orucunu tutup ardından Şevval'den altı gün oruç tutan, bütün yılı oruçlu geçirmiş gibidir (Müslim 1164).</p>
+<h3>Oruç tutulmayan günler</h3><p>Ramazan Bayramı'nın ilk günü, Kurban Bayramı ve ardından gelen üç teşrik gününde oruç tutulmaz.</p>`,
+ [['Müslüman hangi günlerde oruç tutmalı?','Farz olan Ramazan orucudur. Sünnet olanlar arasında pazartesi ve perşembe, dolunay etrafındaki üç beyaz gün, arefe günü, Tasua ile birlikte aşure ve Şevval\'in altı günü vardır.'],
+  ['Cuma günü oruç tutulur mu?','Sadece cuma gününü oruçla tek başına geçirmek mekruhtur (Buhârî 1985). Öncesindeki veya sonrasındaki günle birlikte ya da beyaz güne veya arefeye denk gelirse tutulabilir.'],
+  ['Nasıl hatırlatma alırım?','ruhaniyya.live oruç takviminde hatırlatmaları açabilir veya tüm oruç günlerini telefon takvimine ekleyebilirsin.']]));
+
+const stTR=starts.slice(0,13).map(s=>`<tr><td><b>${AYLAR[s.m-1]} ${s.y}</b>${S.REC_M[s.m]?' ⭐':''}${s.m===9?' 🌙':''}</td><td>${s.u?DT(s.u,{weekday:'short',day:'numeric',month:'long',year:'numeric'}):'–'}</td><td>${DT(s.s,{weekday:'short',day:'numeric',month:'long',year:'numeric'})}</td></tr>`).join('');
+write('tr/hicri-takvim',htmlTR('hicri-takvim','islamischer-kalender',`Hicri takvim ${yr}/${yr+1}: bugün hicri kaçı, ay başları | Ruhaniyya`,
+ `Bugün ${fhT(thu)} (Diyanet). Önümüzdeki 12 ayın başlangıçları, Ramazan, bayramlar ve haram aylarla hicri takvim.`,
+ `<h1>Hicri takvim</h1>
+<div class="box"><span class="mut">Bugün, ${DT(today)}</span><b class="big">${fhT(thu)}</b>Diyanet / Ümmü'l-Kura'ya göre · hilal gözlemine göre: ${fhT(th)}</div>
+<p class="lead">Hicri takvim tamamen ay takvimidir. Her ay ilk görülen hilal ile başlar ve 29 ya da 30 gün sürer, bu yüzden yıl güneş yılından yaklaşık 11 gün kısadır. Takvimin başlangıcı, Peygamber Efendimiz <span>ﷺ</span>'in 622 yılında Medine'ye hicretidir.</p>
+<a class="btn" href="/#kalender">Ay evreleriyle takvimi aç</a>
+<h2>Önümüzdeki 12 ayın başlangıçları</h2>
+<div class="tw"><table><thead><tr><th>Ay</th><th>Diyanet / Ümmü'l-Kura</th><th>Hilal gözlemi</th></tr></thead><tbody>${stTR}</tbody></table></div>
+<p class="mut">⭐ oruç tavsiye edilen ay veya haram ay · 🌙 Ramazan. Ayrıca: <a href="/tr/ramazan-2027/">Ramazan 2027</a>, <a href="/tr/oruc-gunleri/">oruç günleri</a>, <a href="/tr/beyaz-gunler/">beyaz günler</a>.</p>
+<h2>On iki hicri ay</h2><ol>${AYLAR.map((m,i)=>`<li><b>${m}</b>${[1,7,11,12].includes(i+1)?': haram ay':i===8?': oruç ayı':i===7?': Ramazan\'a hazırlık ayı':''}</li>`).join('')}</ol>`,
+ [['Bugün hicri takvime göre kaçı?',`Bugün, ${DT(today)}, Diyanet'e göre ${fhT(thu)}, hilal gözlemine göre ${fhT(th)}.`],
+  ['Hangi hicri yıldayız?',`Hicretten sonra ${thu.y} yılındayız.`],
+  ['Haram aylar hangileri?','Muharrem, Recep, Zilkade ve Zilhicce (Tevbe 9:36).']]));
+
+const TRC=CJ.WORLD.filter(c=>c[5]==='TR');
+const qTR=list=>list.map(c=>`<tr><td><a href="/tr/namaz-vakitleri/${slug(c[0])}/">${c[0]}</a></td><td><b>${qib(c[1],c[2])}°</b></td><td>${dist(c[1],c[2]).toLocaleString('tr-TR')} km</td></tr>`).join('');
+write('tr/kible',htmlTR('kible','qibla',`Kıble yönü Almanya ve Türkiye: şehrine göre kıble | Ruhaniyya`,
+ `Almanya'da kıble güneydoğudadır (Berlin ${qib(52.52,13.405)}°, Köln ${qib(50.938,6.96)}°, Münih ${qib(48.137,11.575)}°). 60'tan fazla Alman şehri, Avusturya, İsviçre ve Türkiye için kıble yönü, pusulayla.`,
+ `<h1>Kıble yönü: Mekke'ye namaz yönü</h1>
+<p class="lead">Kıble, Müslümanların namazda yöneldiği Mekke'deki Kâbe'nin yönüdür. Almanya'dan kıble <b>güneydoğudadır</b>, şehre göre kuzeyden saat yönünde yaklaşık ${Math.min(...CJ.DE.map(c=>qib(c[1],c[2])))}° ile ${Math.max(...CJ.DE.map(c=>qib(c[1],c[2])))}° arasında.</p>
+<a class="btn" href="/#gebetszeiten">Kıbleyi küre ve telefon pusulasıyla bul</a>
+<h2>Kıble nasıl bulunur?</h2><ol><li>ruhaniyya.live'da namaz vakitlerini aç ve konumunu seç.</li><li>Kürenin altındaki „Yönü kontrol et“ düğmesine dokun ve pusulaya izin ver.</li><li>Ok yeşil olana kadar dön: artık Kâbe'ye bakıyorsun.</li></ol>
+<p>Telefonsuz: aşağıdaki derece kuzeyden itibaren yönü gösterir. 90° doğu, 180° güneydir. Yaklaşık 130° güneydoğu demektir, güneyden biraz daha doğuya.</p>
+<h2>Almanya'da kıble</h2><div class="tw"><table><thead><tr><th>Şehir</th><th>Kıble</th><th>Kâbe'ye uzaklık</th></tr></thead><tbody>${qTR(CJ.DE)}</tbody></table></div>
+<h2>Avusturya ve İsviçre'de kıble</h2><div class="tw"><table><thead><tr><th>Şehir</th><th>Kıble</th><th>Kâbe'ye uzaklık</th></tr></thead><tbody>${qTR([...CJ.AT,...CJ.CH])}</tbody></table></div>
+${TRC.length?`<h2>Türkiye'de kıble</h2><div class="tw"><table><thead><tr><th>Şehir</th><th>Kıble</th><th>Kâbe'ye uzaklık</th></tr></thead><tbody>${qTR(TRC)}</tbody></table></div>`:''}`,
+ [['Almanya\'da kıble hangi yönde?',`Güneydoğuda. Berlin'de kıble ${qib(52.52,13.405)}°, Köln'de ${qib(50.938,6.96)}°, Münih'te ${qib(48.137,11.575)}° (kuzeyden).`],
+  ['Kıble ne kadar tam olmalı?','Elden geldiğince Kâbe yönüne dönmek yeterlidir. Küçük sapmalar namazı bozmaz.'],
+  ['Kıble neden tam güneyi göstermiyor?','Orta Avrupa\'dan Mekke güneydoğudadır. Yön, dünya üzerindeki en kısa yol (büyük daire) ile ölçülür, bu yüzden düz haritadan biraz farklıdır.']]));
+
+write('tr/namaz-kilmak',htmlTR('namaz-kilmak','gebet-lernen','Namaz nasıl kılınır? Adım adım namaz öğren | Ruhaniyya',
+ 'Namaz adım adım: abdest, niyet, tekbir, Fatiha, rükû, secde ve selam, her namazın rekât sayılarıyla.',
+ `<h1>Namaz öğren: adım adım namaz</h1>
+<p class="lead">Namaz İslam'ın ikinci şartıdır. Müslüman günde beş kez Allah'ın huzuruna durur. Peygamber Efendimiz <span>ﷺ</span> „Beni nasıl namaz kılarken görüyorsanız öyle kılın“ buyurdu (Buhârî 631). Bu rehber, mezheplerin ortak öğrettiği sırayı gösterir. Mezhepler arasında küçük farklar vardır, şüphede kaldığında cemaatine sor.</p>
+<a class="btn" href="/tr/namaz-vakitleri/">Şehrinin namaz vakitleri</a>
+<h2>Namazdan önce</h2><ul><li><b>Temizlik:</b> abdest, temiz elbise ve temiz bir yer.</li><li><b>Örtünme:</b> erkekler en az göbekten dizlere kadar, kadınlar yüz ve eller dışında bütün beden.</li><li><b>Kıble:</b> Kâbe yönü, Almanya'da yaklaşık güneydoğu. <a href="/tr/kible/">Şehrine göre kıble</a>.</li><li><b>Vakit:</b> her namazın kendi vakti vardır. <a href="/tr/namaz-vakitleri/">Namaz vakitleri</a>.</li></ul>
+<h2>Abdest</h2><ol><li>Kalben niyet et, „Bismillah“ de.</li><li>Elleri üç kez yıka.</li><li>Ağza ve burna üç kez su ver.</li><li>Yüzü üç kez yıka.</li><li>Kolları dirseklerle birlikte üç kez yıka, önce sağ.</li><li>Islak elle başı mesh et, sonra kulakları.</li><li>Ayakları topuklarla birlikte üç kez yıka, önce sağ.</li></ol>
+<h2>Bir rekâtın kılınışı</h2><ol>
+<li><b>Niyet:</b> kılınacak namaza kalben niyet edilir.</li>
+<li><b>İftitah tekbiri:</b> eller kaldırılır ve „Allahu ekber“ denir.</li>
+<li><b>Kıyam:</b> Fatiha okunur, ilk iki rekâtta ardından bir sure veya birkaç ayet.</li>
+<li><b>Rükû:</b> „Allahu ekber“, eller dizlere, sırt düz, üç kez „Sübhâne rabbiye'l-azîm“.</li>
+<li><b>Doğrulma:</b> „Semiallâhu limen hamideh“, ayakta „Rabbenâ ve leke'l-hamd“.</li>
+<li><b>Secde:</b> „Allahu ekber“, alın, burun, eller, dizler ve ayak parmakları yerde, üç kez „Sübhâne rabbiye'l-a'lâ“.</li>
+<li>İki secde arasında <b>oturuş</b>, ardından <b>ikinci secde</b>.</li></ol>
+<p>Her iki rekâttan sonra ve sonunda oturulur ve <b>Tahiyyat (Ettehiyyâtü)</b> okunur, son oturuşta ayrıca Salli-Barik duaları. Namaz <b>selam</b> ile biter: baş sağa ve sola çevrilerek „Esselâmü aleyküm ve rahmetullah“ denir.</p>
+<h2>Her namaz kaç rekât?</h2><div class="tw"><table><thead><tr><th>Namaz</th><th>Farz</th><th>Vakit</th></tr></thead><tbody>
+<tr><td>Sabah</td><td>2</td><td>tan yerinin ağarmasından güneşin doğuşuna</td></tr><tr><td>Öğle</td><td>4</td><td>zevalden sonra</td></tr><tr><td>İkindi</td><td>4</td><td>öğleden sonra</td></tr><tr><td>Akşam</td><td>3</td><td>güneş battıktan sonra</td></tr><tr><td>Yatsı</td><td>4</td><td>gece</td></tr></tbody></table></div>
+<p>Bunlara sünnet namazlar eklenir, örneğin sabah namazından önce iki rekât. Namazdan sonra: <a href="/#tasbih">namaz sonrası zikir ve tesbih</a>.</p>`,
+ [['Müslümanlar günde kaç kez namaz kılar?','Beş kez: sabah, öğle, ikindi, akşam ve yatsı.'],
+  ['Namaz için Arapça bilmek gerekir mi?','Fatiha ve sabit zikirler Arapça okunur. Başlangıçta birkaç kısa sureyle başlanıp adım adım daha fazlası öğrenilebilir.'],
+  ['Kaçırdığım namazı ne yapmalıyım?','Kaçırılan farz namaz en kısa zamanda kaza edilir.']]));
+
+write('tr/orucu-bozan-seyler',htmlTR('orucu-bozan-seyler','was-bricht-das-fasten','Orucu bozan ve bozmayan şeyler: Ramazan rehberi | Ruhaniyya',
+ 'Ramazan\'da orucu neler bozar, neler bozmaz? Yemek, içmek, diş fırçalamak, iğne, kan aldırmak, duş, parfüm, göz damlası: kaynaklarıyla bir özet.',
+ `<h1>Orucu bozan ve bozmayan şeyler</h1>
+<p class="lead">Oruç imsaktan (tan yerinin ağarması) güneşin batışına (akşam ezanı) kadar tutulur. Burada âlimlerin görüşüne göre orucu neyin bozduğuna ve neyin bozmadığına dair bir özet bulursun. Bazı konularda mezhepler arasında farklar vardır. Hastalık durumunda doktorunla da konuş ve güvendiğin bir hocaya danış.</p>
+<a class="btn" href="/tr/ramazan-2027/">Ramazan 2027: tüm tarihler</a>
+<h2>Orucu bozanlar</h2><ul><li>Bilerek yemek veya içmek, sigara içmek de.</li><li>Oruç vaktinde cinsel ilişki.</li><li>Bilerek kusmak.</li><li>Adet veya lohusalık kanamasının başlaması.</li><li>Yemek yerine geçen besleyici serumlar.</li></ul>
+<h2>Orucu bozmayanlar</h2><ul><li><b>Unutarak yemek veya içmek:</b> „Kim oruçlu olduğunu unutup yer veya içerse orucunu tamamlasın. Çünkü onu Allah yedirmiş ve içirmiştir.“ (Buhârî 1933, Müslim 1155)</li><li>İstemeden kusmak.</li><li>Su yutmadan duş almak, yıkanmak, yüzmek.</li><li>Bir şey yutmadan diş fırçalamak ve misvak.</li><li>Parfüm ve koku sürmek.</li><li>Besleyici olmayan iğneler, aşı.</li><li>Kan tahlili için kan aldırmak.</li></ul>
+<h2>Kimler oruç tutmak zorunda değil?</h2><p>Hastalar, yolcular, kendileri veya çocukları için endişe eden hamile ve emzirenler, gücü yetmeyen yaşlılar ve adet dönemindeki kadınlar. Tutulamayan günler sonra kaza edilir, sürekli tutamayan fidye verir (Bakara 2:184).</p>
+<h2>Sahur ve iftar</h2><p>„Sahur yemeği yiyin, çünkü sahurda bereket vardır.“ (Buhârî 1923) Oruç güneş batınca açılır, en iyisi hurma veya suyla. Şehrinin imsak ve iftar saatleri: <a href="/tr/namaz-vakitleri/">namaz vakitleri</a>.</p>`,
+ [['Diş fırçalamak orucu bozar mı?','Hayır, bir şey yutulmadığı sürece. Birçok hoca, bir şey yutmamak için gündüz diş macunu kullanmamayı tavsiye eder.'],
+  ['Unutarak yersem ne olur?','Oruç geçerlidir. Hatırlayınca bırakılır ve oruca devam edilir (Buhârî 1933).'],
+  ['Kan aldırmak orucu bozar mı?','Birçok âlime göre bozmaz. Büyük kan bağışlarında farklı görüşler vardır.']]));
+
+const kdU=findH(9,27,1448,'u'),kdS=findH(9,27,1448,'s');
+const qdT=[21,23,25,27,29].map(n=>{const d=findH(9,n,1448,'u');return `<li>${n}. gece: ${DT(S.addDays(d,-1))}, akşam${n===27?' (Diyanet\'in Kadir Gecesi olarak kutladığı gece)':''}</li>`}).join('');
+write('tr/kadir-gecesi',htmlTR('kadir-gecesi','laylat-al-qadr',`Kadir Gecesi 2027 ne zaman? Tarih, dua ve anlamı | Ruhaniyya`,
+ `Kadir Gecesi 2027: Diyanet takvimine göre ${DT(S.addDays(kdU,-1),{day:'numeric',month:'long',weekday:'long'})} akşamı. Son on gecenin tek geceleri, Kadir Gecesi duası ve yapılabilecek ibadetler.`,
+ `<h1>Kadir Gecesi 2027</h1>
+<p class="lead">„Kadir gecesi bin aydan daha hayırlıdır.“ (Kadr 97:3) Kur'an bu gecede indirilmiştir. Kim bu geceyi inanarak ve sevabını Allah'tan umarak ibadetle geçirirse geçmiş günahları bağışlanır (Buhârî 1901).</p>
+<div class="box"><span class="mut">Diyanet takvimine göre Kadir Gecesi</span><b class="big">${DT(S.addDays(kdU,-1),{day:'numeric',month:'long',year:'numeric',weekday:'long'})}</b>akşamdan sabaha · hilal gözlemine göre: ${DT(S.addDays(kdS,-1),{day:'numeric',month:'long',weekday:'long'})}</div>
+<h2>Kadir Gecesi hangi gece?</h2><p>Peygamber Efendimiz <span>ﷺ</span> „Onu son on gecenin tek gecelerinde arayın“ buyurdu (Buhârî 2017). Hicri gece, günden önceki akşam başlar. Diyanet takvimine göre Ramazan 1448:</p><ul>${qdT}</ul>
+<p class="mut">Hilal gözlemine göre geceler bir gün sonra olabilir. <a href="/tr/ramazan-2027/">Ramazan 2027'nin tüm tarihleri</a>.</p>
+<h2>Kadir Gecesi duası</h2><p>Hz. Âişe bu gecede ne demesi gerektiğini sordu. Peygamber Efendimiz <span>ﷺ</span> şöyle cevap verdi (Tirmizî 3513):</p>
+<div class="box"><span class="ar">اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي</span><p><b>Allâhümme inneke afüvvün tuhibbü'l-afve fa'fu annî</b><br>Allah'ım, sen affedicisin, affetmeyi seversin, beni affet.</p></div>
+<h2>Son on gecede neler yapılabilir?</h2><ul><li>Gece namazı (teravih, teheccüd)</li><li>Kur'an okumak</li><li>Zikir ve dua, <a href="/#tasbih">sayaçlı tesbih</a></li><li>Sadaka vermek</li><li>Gücü yeten için camide itikâf</li></ul>`,
+ [['2027 Kadir Gecesi ne zaman?',`Diyanet takvimine göre ${DT(S.addDays(kdU,-1))} akşamı (27 Ramazan gecesi). Hilal gözlemine göre ${DT(S.addDays(kdS,-1))} akşamı.`],
+  ['Kadir Gecesi ne dua edilir?','Allâhümme inneke afüvvün tuhibbü\'l-afve fa\'fu annî (Tirmizî 3513).']]));
 {const sm=path.join(OUT,'sitemap.xml');let x=fs.readFileSync(sm,'utf8');const day=new Date().toISOString().slice(0,10);
- for(const s of ['tr/beyaz-gunler','tr/ramazan-2027']){const u=`https://ruhaniyya.live/${s}/`;x=x.replace(new RegExp(`\\s*<url><loc>${u.replace(/[.]/g,'\\.')}</loc>.*?</url>`),'');x=x.replace('</urlset>',`  <url><loc>${u}</loc><lastmod>${day}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n</urlset>`)}
- fs.writeFileSync(sm,x);console.log('2 türkische Themenseiten')}
+ for(const s of ['tr/beyaz-gunler','tr/ramazan-2027','tr/oruc-gunleri','tr/hicri-takvim','tr/kible','tr/namaz-kilmak','tr/orucu-bozan-seyler','tr/kadir-gecesi']){const u=`https://ruhaniyya.live/${s}/`;x=x.replace(new RegExp(`\\s*<url><loc>${u.replace(/[.]/g,'\\.')}</loc>.*?</url>`),'');x=x.replace('</urlset>',`  <url><loc>${u}</loc><lastmod>${day}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n</urlset>`)}
+ fs.writeFileSync(sm,x);console.log('8 türkische Themenseiten')}
