@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://ruhaniyya.live/</loc><lastmod>2026-11-24</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://ruhaniyya.live/fastentage/</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ruhaniyya.live/weisse-tage/</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ruhaniyya.live/ramadan-2027/</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ruhaniyya.live/islamischer-kalender/</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ruhaniyya.live/qibla/</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ruhaniyya.live/tasbih/</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ruhaniyya.live/moscheen/</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ruhaniyya.live/horoskop/</loc><lastmod>2026-11-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ruhaniyya.live/gebetszeiten/</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ruhaniyya.live/gebetszeiten/berlin/</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://ruhaniyya.live/gebetszeiten/hamburg/</loc><lastmod>2026-11-24</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
