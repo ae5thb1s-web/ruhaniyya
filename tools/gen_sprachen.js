@@ -95,7 +95,7 @@ function shell(lg,rel,title,desc,body,faq){const c=L[lg],u=`https://ruhaniyya.li
 <title>${esc(title)}</title><meta name="description" content="${esc(desc)}"><link rel="canonical" href="${u}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/fonts.css"><meta name="theme-color" content="#8B1CF0">
 <meta property="og:type" content="article"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${u}"><meta property="og:image" content="https://ruhaniyya.live/logo.png"><meta property="og:locale" content="${c.og}">
-<style>${css}${c.dir==='rtl'?'th,td{text-align:right}':''}</style>${ld}</head><body><header><a href="/${lg}/"><img src="/logo.png" alt="Ruhaniyya" width="40" height="40"></a><div><b>Ruhaniyya</b><small>${esc(c.tag)}</small></div></header><main>
+<style>${css}${c.dir==='rtl'?'th,td{text-align:right}':''}</style>${ld}</head><body><header><a href="/${lg}/"><img src="/logo-96.png" alt="Ruhaniyya" width="40" height="40"></a><div><b>Ruhaniyya</b><small>${esc(c.tag)}</small></div></header><main>
 ${body}${faq&&faq.length?`<h2>${c.faqH}</h2>`+faq.map(([q,a])=>`<h3>${esc(q)}</h3><p>${esc(a)}</p>`).join(''):''}
 <h2>${c.more}</h2><ul class="links"><li><a href="/${lg}/${c.city}/">${c.nav[0]}</a></li><li><a href="/${lg}/${c.wt}/">${c.nav[1]}</a></li><li><a href="/${lg}/${c.ra}/">${c.nav[2]}</a></li><li><a href="/${lg}/${c.ka}/">${c.nav[3]}</a></li><li><a href="/${lg}/">Ruhaniyya</a></li></ul>
 <p class="mut" style="margin-top:2em">${c.upd}: ${DL(lg,today)}</p>
@@ -194,6 +194,11 @@ for(const lg of Object.keys(HOMES)){let h=page;const [ti,de]=HOMES[lg],u=`https:
  const a='let LANG=store.get("rh_lang","de");';if(!h.includes(a))throw new Error('LANG-Zeile fehlt');h=h.replace(a,'let LANG=window.__LANG||store.get("rh_lang","de");');
  const b='$("#langSel").addEventListener("change",()=>{store.set("rh_lang",$("#langSel").value);location.reload()});';if(!h.includes(b))throw new Error('langSel fehlt');
  h=h.replace(b,`$("#langSel").addEventListener("change",()=>{store.set("rh_lang",$("#langSel").value);location.href=${JSON.stringify(LANGURL)}[$("#langSel").value]||"/"});`);
+ /* Themen-Links im Fuß auf die Seiten der jeweiligen Sprache zeigen lassen */
+ const ft=/<nav class="ftopics" aria-label="Themen">[\s\S]*?<\/nav>/;if(!ft.test(h))throw new Error('ftopics fehlt');
+ const TL=lg==='tr'?[['/tr/namaz-vakitleri/','Namaz vakitleri'],['/tr/beyaz-gunler/','Beyaz günler'],['/tr/ramazan-2027/','Ramazan 2027'],['/tr/hicri-takvim/','Hicri takvim'],['/tr/oruc-gunleri/','Oruç günleri'],['/tr/kible/','Kıble'],['/tr/namaz-kilmak/','Namaz kılmak'],['/tr/orucu-bozan-seyler/','Orucu bozan şeyler'],['/tr/kadir-gecesi/','Kadir Gecesi']]
+  :['city','wt','ra','ka'].map((k,i)=>[`/${lg}/${L[lg][k]}/`,L[lg].nav[i]]);
+ h=h.replace(ft,`<nav class="ftopics" aria-label="${esc(L[lg]?L[lg].more:'Ruhaniyya')}" data-tx>${TL.map(([u,t])=>`<a href="${u}">${esc(t)}</a>`).join(' · ')}</nav>`);
  fs.mkdirSync(path.join(OUT,lg),{recursive:true});fs.writeFileSync(path.join(OUT,lg,'index.html'),h)}
 
 /* ---------- hreflang ---------- */

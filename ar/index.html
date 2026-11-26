@@ -28,7 +28,7 @@
 :root{
   --bg:#FBF9FE; --surface:#FFFFFF; --surface-2:#F3EEFB; --fg:#1A1224; --muted:#5F5470; --line:#E6DEF2;
   --primary:#8B1CF0; --primary-fg:#FFFFFF; --glow:#8B1CF055;
-  --accent:#059669; --accent-fg:#FFFFFF; --accent-soft:#E3F6EF;
+  --accent:#047857; --accent-fg:#FFFFFF; --accent-soft:#E3F6EF;
   --night:#1A0A2C; --night-2:#24113B; --night-fg:#F3ECFC; --night-muted:#B7A6CF; --night-hi:#C77DFF;
   --f-display:"Reem Kufi","Trebuchet MS",sans-serif;
   --f-body:"Source Sans 3","Amiri","Segoe UI",system-ui,sans-serif;
@@ -1182,16 +1182,16 @@ html{scroll-padding-top:170px}
 <footer>
   <div class="wrap">
     <div><b>Ruhaniyya</b> · Weg des spirituellen Islam · Der Weg des Propheten <span class="saw">ﷺ</span>, des Siegels der Propheten (Khātam an-Nabiyyīn, خَاتَمُ النَّبِيِّين)</div>
-    <nav class="ftopics" aria-label="Themen"><a href="/fastentage/">Fastentage</a> · <a href="/weisse-tage/">Weiße Tage</a> · <a href="/ramadan-2027/">Ramadan 2027</a> · <a href="/islamischer-kalender/">Islamischer Kalender</a> · <a href="/qibla/">Qibla</a> · <a href="/gebetszeiten/">Gebetszeiten</a> · <a href="/moscheen/">Moscheen</a> · <a href="/tasbih/">Tasbīḥ</a> · <a href="/horoskop/">Horoskop</a> · <a href="/gebet-lernen/">Beten lernen</a> · <a href="/was-bricht-das-fasten/">Was bricht das Fasten?</a> · <a href="/laylat-al-qadr/">Laylat al-Qadr</a></nav>
+    <nav class="ftopics" aria-label="المزيد على روحانية" data-tx><a href="/ar/mawaqit-salat/">مواقيت الصلاة</a> · <a href="/ar/ayyam-bid/">الأيام البيض</a> · <a href="/ar/ramadan-2027/">رمضان 2027</a> · <a href="/ar/taqwim-hijri/">التقويم الهجري</a></nav>
     <div>Als Amazon-Partner verdienen wir an qualifizierten Verkäufen. · <a href="/impressum.html">Impressum</a> · <a href="/datenschutz.html">Datenschutz</a></div>
   </div>
 </footer>
 
-<script src="/assets/geo.js?v=14521bac"></script>
-<script src="/assets/land.js?v=d27102f5"></script>
-<script src="/assets/astronomy.js?v=10650124"></script>
-<script src="/assets/cities.js?v=cf0fb1c9"></script>
-<script>
+<script defer src="/assets/geo.js?v=14521bac"></script>
+<script defer src="/assets/land.js?v=d27102f5"></script>
+<script defer src="/assets/astronomy.js?v=10650124"></script>
+<script defer src="/assets/cities.js?v=cf0fb1c9"></script>
+<script type="module">
 (function(){
 "use strict";
 const $=s=>document.querySelector(s);
@@ -1813,7 +1813,7 @@ function fillCountries(lg){OLG=OPTL[lg]?lg:"de";let dn=null;try{dn=new Intl.Disp
   regionName=iso=>{try{return (dn&&dn.of(iso))||wc().n[iso]||iso}catch(e){return wc().n[iso]||iso}};
   const countries=Object.keys(wc().c).map(iso=>[iso,regionName(iso)]).sort((a,b)=>a[1].localeCompare(b[1],lg));
   csel.innerHTML=`<optgroup label="${OPTL[OLG][0]}">`+TOP.filter(i=>wc().c[i]).map(i=>`<option value="${i}">${regionName(i)}</option>`).join("")+`</optgroup><optgroup label="${OPTL[OLG][1]}">`+countries.map(c=>`<option value="${c[0]}">${c[1]}</option>`).join("")+"</optgroup>"}
-fillCountries(store.get("rh_lang","de"));
+fillCountries(LANG);
 function cityOpts(iso){const L=(wc().c[iso]||[]).slice().sort((a,b)=>a[0].localeCompare(b[0],"de"));
   sel_.innerHTML=`<option value="" disabled>${OPTL[OLG][2]} (${L.length})</option>`+L.map(c=>`<option value="${iso}|${c[0]}|${c[2]}">${c[0]}${c[1]&&c[1]!==c[0]?" · "+c[1]:""}</option>`).join("")+`<option value="geo" hidden>${OPTL[OLG][3]}</option>`}
 function setPlace(iso,c){place={n:c[0],c:regionName(iso),lat:c[2],lng:c[3],tz:wc().tz[c[4]],iso};store.set("rh_place",place);syncSelect();renderPrayer();showDay(selDay);spinTo(place.lng,place.lat)}
