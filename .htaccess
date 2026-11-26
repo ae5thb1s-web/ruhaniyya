@@ -28,3 +28,5 @@ AddType image/svg+xml .svg
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 </IfModule>
+# Generatoren und Automatik nicht öffentlich ausliefern
+RedirectMatch 404 ^/(tools|\.github)(/|$)
