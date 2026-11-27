@@ -24,7 +24,7 @@ AddType image/svg+xml .svg
 </IfModule>
 # Dateien in /assets/ tragen eine Versionsnummer (?v=...), dürfen also lange im Browser bleiben
 <IfModule mod_headers.c>
-  <FilesMatch "^(geo|land|astronomy|cities)\.js$">
+  <FilesMatch "^(geo|land|astronomy|cities|app)\.js$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 </IfModule>

@@ -1,7 +1,7 @@
 // Türkçe şehir sayfaları: /tr/namaz-vakitleri/<şehir>/ (Diyanet/DİTİB yöntemi, ana sayfadakiyle aynı hesap)
 // Aufruf: node gen_tr.js <repo>   (liest den Rechencode aus <repo>/index.html, schreibt nach <repo>/tr/namaz-vakitleri/ und ergänzt sitemap.xml)
 const fs=require('fs'),path=require('path');const OUT=process.argv[2]||path.join(__dirname,'..');
-const body=fs.readFileSync(OUT+'/index.html','utf8');
+const body=fs.readFileSync(OUT+'/index.html','utf8')+'\n'+fs.readFileSync(OUT+'/assets/app.js','utf8');
 const grab=(a,b)=>{const i=body.indexOf(a),j=body.indexOf(b,i);if(i<0||j<0)throw new Error('fehlt: '+a);return body.slice(i,j)};
 const CALC=grab('const rad=x=>','function moonLon')+grab('/* Methoden.','function asr2');
 eval(CALC.replace(/^const /gm,'var '));

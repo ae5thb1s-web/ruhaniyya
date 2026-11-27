@@ -2,7 +2,7 @@
 // Aufruf: TZ=Europe/Berlin node gen.js <zielordner>   (Zielordner = Repo-Wurzel, dort liegt auch sitemap.xml)
 const fs=require('fs'),path=require('path');
 const OUT=process.argv[2]||path.join(__dirname,'..');
-const page=fs.readFileSync(OUT+'/index.html','utf8');
+const page=fs.readFileSync(OUT+'/index.html','utf8')+'\n'+fs.readFileSync(OUT+'/assets/app.js','utf8');
 const cut=(a,b)=>{const i=page.indexOf(a),j=page.indexOf(b,i);if(i<0||j<0)throw new Error('nicht gefunden: '+a);return page.slice(i,j)};
 // Kalender- und Mondcode der Hauptseite übernehmen (gleiche Berechnung wie auf ruhaniyya.live)
 const store={get:(k,d)=>d},LANG='de',trT=s=>s,trF=(k,v)=>k.replace(/\{(\w+)\}/g,(m,n)=>v[n]),MN=i=>MONTHS[i];

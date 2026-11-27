@@ -1,6 +1,6 @@
 // Erzeugt hosting/gebetszeiten/<stadt>/index.html (Diyanet/DITIB-Methode wie auf der Hauptseite)
 const fs=require('fs'),path=require('path'),H=process.argv[2]||path.join(__dirname,'..');
-const body=fs.readFileSync(H+'/index.html','utf8');
+const body=fs.readFileSync(H+'/index.html','utf8')+'\n'+fs.readFileSync(H+'/assets/app.js','utf8');
 const grab=(a,b)=>{const i=body.indexOf(a),j=body.indexOf(b,i);return body.slice(i,j)};
 const CALC=grab('const rad=x=>','function moonLon')+grab('/* Methoden.','function asr2');
 eval(CALC.replace(/^const /gm,'var '));
