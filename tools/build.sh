@@ -3,6 +3,7 @@
 set -e
 cd "$(dirname "$0")/.."
 export TZ=Europe/Berlin
+node tools/gen_version.js .
 node tools/gen_staedte.js .
 node tools/gen_themen.js .
 node tools/gen_tr.js .

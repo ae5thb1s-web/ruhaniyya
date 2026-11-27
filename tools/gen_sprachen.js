@@ -3,7 +3,8 @@
 // Aufruf: TZ=Europe/Berlin node tools/gen_sprachen.js <repo>
 const fs=require('fs'),path=require('path');const OUT=process.argv[2]||path.join(__dirname,'..');
 const page=fs.readFileSync(OUT+'/index.html','utf8');
-const cut=(a,b)=>{const i=page.indexOf(a),j=page.indexOf(b,i);if(i<0||j<0)throw new Error('fehlt: '+a);return page.slice(i,j)};
+const code=page+'\n'+fs.readFileSync(OUT+'/assets/app.js','utf8');
+const cut=(a,b)=>{const i=code.indexOf(a),j=code.indexOf(b,i);if(i<0||j<0)throw new Error('fehlt: '+a);return code.slice(i,j)};
 // Gebetszeiten
 const CALC=cut('const rad=x=>','function moonLon')+cut('/* Methoden.','function asr2');
 eval(CALC.replace(/^const /gm,'var '));
@@ -179,6 +180,26 @@ var tr=document.querySelector('#tb tr[data-d="'+D+'"]');if(tr&&${Y}===Y&&${M}===
  write(`${lg}/${c.city}`,shell(lg,`${lg}/${c.city}`,`${c.cityIdx[0]} | Ruhaniyya`,c.cityIdx[1],`<h1>${c.cityIdx[0]}</h1><p class="lead">${c.cityIdx[1]}</p>${lists}`,[]));
 }
 
+/* ---------- Startseiten fertig übersetzt ausliefern ----------
+   Übersetzt die festen Texte der Startseite schon beim Erzeugen (wie es sonst das Skript im Browser tut),
+   damit Google und langsame Handys sofort die richtige Sprache sehen und nichts umspringt. */
+const I18N_=(()=>{const i=code.indexOf('I18N={');let k=i+5,d=0,q=null;for(;;k++){const c=code[k];if(q){if(c==='\\'){k++;continue}if(c===q)q=null}else if(c==='"'||c==="'"||c==='`')q=c;else if(c==='{')d++;else if(c==='}'&&--d===0)break}return JSON.parse(code.slice(i+5,k+1))})();
+const LIX={en:0,tr:1,ar:2,fa:3,ku:4};
+const VOID=new Set(['area','base','br','col','embed','hr','img','input','link','meta','source','track','wbr']);
+const dec=s=>s.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ');
+const enc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function pretranslate(h,lg){const ix=LIX[lg];const b=h.indexOf('<body');let out=h.slice(0,b),rest=h.slice(b);
+ const st=[];let skip=0;const re=/<(script|style)\b[\s\S]*?<\/\1>|<!--[\s\S]*?-->|<\/?[a-zA-Z][^>]*>|[^<]+/g;let m,n=0;
+ while(m=re.exec(rest)){const x=m[0];
+  if(x[0]!=='<'){if(!skip){const raw=dec(x),k=raw.trim();const tr=k&&I18N_[k]&&I18N_[k][ix];if(tr){out+=enc(raw.replace(k,()=>tr));n++;continue}}out+=x;continue}
+  if(m[1]||x.startsWith('<!--')){out+=x;continue}
+  if(x[1]==='/'){const e=st.pop();if(e)skip--;out+=x;continue}
+  const tag=x.slice(1).split(/[\s>/]/)[0].toLowerCase();
+  if(!VOID.has(tag)&&!x.endsWith('/>')){const sk=/\bclass="[^"]*\b(ar|saw)\b[^"]*"|\sdata-tx\b/.test(x)||skip>0||tag==='option';st.push(sk);if(sk)skip++}
+  out+=x}
+ if(st.length)throw new Error('pretranslate: Tags nicht ausgeglichen ('+lg+')');
+ return out}
+
 /* ---------- Startseiten je Sprache ---------- */
 const HOMES={tr:['Ruhaniyya – Namaz vakitleri, kıble, hicri takvim ve oruç günleri','Dünya genelinde ücretsiz namaz vakitleri (Diyanet/DİTİB yöntemi), pusulalı kıble yönü, sünnet oruç günleriyle hicri takvim, günün ayeti ve hadisi, tesbih sayacı. Kayıt gerekmez.'],
  en:L.en.home,ar:L.ar.home,fa:L.fa.home,ku:L.ku.home};
@@ -191,9 +212,7 @@ for(const lg of Object.keys(HOMES)){let h=page;const [ti,de]=HOMES[lg],u=`https:
  h=h.replace('<meta property="og:locale" content="de_DE">',`<meta property="og:locale" content="${({tr:'tr_TR',en:'en_GB',ar:'ar_AR',fa:'fa_IR',ku:'ku_TR'})[lg]}">`).replace('"inLanguage":"de"',`"inLanguage":"${lg}"`);
  h=h.replace(/(href|src)="(datenschutz\.html|impressum\.html|favicon\.svg|fonts\.css|manifest\.webmanifest)"/g,'$1="/$2"');
  h=h.replace('<meta charset="utf-8">',`<meta charset="utf-8">\n<script>window.__LANG=${JSON.stringify(lg)}</script>`);
- const a='let LANG=store.get("rh_lang","de");';if(!h.includes(a))throw new Error('LANG-Zeile fehlt');h=h.replace(a,'let LANG=window.__LANG||store.get("rh_lang","de");');
- const b='$("#langSel").addEventListener("change",()=>{store.set("rh_lang",$("#langSel").value);location.reload()});';if(!h.includes(b))throw new Error('langSel fehlt');
- h=h.replace(b,`$("#langSel").addEventListener("change",()=>{store.set("rh_lang",$("#langSel").value);location.href=${JSON.stringify(LANGURL)}[$("#langSel").value]||"/"});`);
+ h=pretranslate(h,lg);
  /* Themen-Links im Fuß auf die Seiten der jeweiligen Sprache zeigen lassen */
  const ft=/<nav class="ftopics" aria-label="Themen">[\s\S]*?<\/nav>/;if(!ft.test(h))throw new Error('ftopics fehlt');
  const TL=lg==='tr'?[['/tr/namaz-vakitleri/','Namaz vakitleri'],['/tr/beyaz-gunler/','Beyaz günler'],['/tr/ramazan-2027/','Ramazan 2027'],['/tr/hicri-takvim/','Hicri takvim'],['/tr/oruc-gunleri/','Oruç günleri'],['/tr/kible/','Kıble'],['/tr/namaz-kilmak/','Namaz kılmak'],['/tr/orucu-bozan-seyler/','Orucu bozan şeyler'],['/tr/kadir-gecesi/','Kadir Gecesi']]
